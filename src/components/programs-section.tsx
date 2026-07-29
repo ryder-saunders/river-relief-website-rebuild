@@ -4,24 +4,32 @@ export function ProgramsSection() {
   const { programs } = siteConfig;
 
   return (
-    <section id="how-it-works" className="bg-brand-tan/40 py-24">
+    <section id="how-it-works" className="bg-brand-grey-dark py-24 text-white">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-brand-grey-dark text-3xl font-bold tracking-tight sm:text-4xl">
-          {programs.heading}
-        </h2>
+        <div className="max-w-3xl">
+          <p className="text-brand-tan mb-4 text-sm font-semibold uppercase">
+            {programs.eyebrow}
+          </p>
+          <h2 className="text-4xl leading-tight font-semibold text-balance">
+            {programs.heading}
+          </h2>
+          <p className="text-brand-grey-light mt-5 text-lg leading-8">
+            {programs.body}
+          </p>
+        </div>
         <div className="mt-12 grid gap-8 sm:grid-cols-3">
           {programs.items.map((program, index) => (
             <div
               key={program.title}
-              className="border-brand-grey-light/30 rounded-2xl border bg-white p-8"
+              className="border-brand-grey-light/20 rounded-lg border bg-white/5 p-6"
             >
-              <div className="bg-brand-blue mb-4 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold text-white">
+              <div className="text-brand-tan mb-10 text-sm font-semibold">
                 {index + 1}
               </div>
-              <h3 className="text-brand-grey-dark text-xl font-semibold">
-                {program.title}
-              </h3>
-              <p className="text-brand-grey-mid mt-3">{program.description}</p>
+              <h3 className="text-xl font-semibold">{program.title}</h3>
+              <p className="text-brand-grey-light mt-3 leading-7">
+                {program.description}
+              </p>
             </div>
           ))}
         </div>

@@ -4,8 +4,8 @@ import { siteConfig } from "@/lib/site-config";
 
 export function SiteHeader() {
   return (
-    <header className="border-brand-grey-light/30 sticky top-0 z-50 border-b bg-white/90 backdrop-blur-sm">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+    <header className="border-brand-grey-light/25 sticky top-0 z-50 border-b bg-white/95 backdrop-blur-sm">
+      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4 px-6">
         <Link href="#top" aria-label={siteConfig.orgName}>
           <Image
             src="/brand/logo-full-color.png"
@@ -13,10 +13,10 @@ export function SiteHeader() {
             width={160}
             height={40}
             priority
-            className="h-9 w-auto"
+            className="h-8 w-auto sm:h-9"
           />
         </Link>
-        <nav className="hidden gap-8 sm:flex">
+        <nav className="hidden gap-7 lg:flex">
           {siteConfig.nav.map((item) => (
             <a
               key={item.href}
@@ -28,10 +28,10 @@ export function SiteHeader() {
           ))}
         </nav>
         <a
-          href={siteConfig.hero.primaryCta.href}
-          className="bg-brand-blue hover:bg-brand-blue/90 rounded-full px-4 py-2 text-sm font-semibold text-white transition-colors"
+          href={siteConfig.hero.headerCta.href}
+          className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-5"
         >
-          {siteConfig.hero.primaryCta.label}
+          {siteConfig.hero.headerCta.label}
         </a>
       </div>
     </header>

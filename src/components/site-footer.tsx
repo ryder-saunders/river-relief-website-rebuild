@@ -8,15 +8,15 @@ export function SiteFooter() {
   );
 
   return (
-    <footer className="bg-brand-blue py-10">
+    <footer className="bg-brand-blue py-12">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <Image
             src="/brand/logo-white.png"
             alt={siteConfig.orgName}
             width={160}
             height={40}
-            className="h-8 w-auto"
+            className="h-9 w-auto"
           />
           {socialLinks.length > 0 && (
             <div className="flex gap-6">
@@ -32,7 +32,7 @@ export function SiteFooter() {
             </div>
           )}
         </div>
-        <p className="text-brand-grey-light mt-8 text-xs leading-relaxed">
+        <p className="text-brand-grey-light mt-10 max-w-5xl text-xs leading-relaxed">
           {siteConfig.legal.disclosure}
         </p>
         <p className="text-brand-grey-light mt-4 text-xs">
