@@ -22,7 +22,7 @@ export function MissionSection() {
             {mission.points.map((point) => (
               <li
                 key={point}
-                className="border-brand-grey-light/30 border-l-brand-blue rounded-lg border-l-4 bg-white px-5 py-4"
+                className="border-brand-grey-light/30 border-l-brand-blue rounded-lg border border-l-4 bg-white px-5 py-4"
               >
                 <p className="text-brand-grey-dark font-medium">{point}</p>
               </li>

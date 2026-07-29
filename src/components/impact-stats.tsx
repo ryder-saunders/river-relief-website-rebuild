@@ -29,6 +29,9 @@ export function ImpactStats() {
             </div>
           ))}
         </dl>
+        <p className="text-brand-grey-mid mt-5 max-w-3xl text-xs leading-6">
+          {impact.note}
+        </p>
       </div>
     </section>
   );

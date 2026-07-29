@@ -1,5 +1,6 @@
 import { Hero } from "@/components/hero";
 import { MissionSection } from "@/components/mission-section";
+import { FitSection } from "@/components/fit-section";
 import { ProgramsSection } from "@/components/programs-section";
 import { ImpactStats } from "@/components/impact-stats";
 import { GetInvolvedSection } from "@/components/get-involved-section";
@@ -10,6 +11,7 @@ export default function Home() {
     <>
       <Hero />
       <MissionSection />
+      <FitSection />
       <ProgramsSection />
       <ImpactStats />
       <GetInvolvedSection />

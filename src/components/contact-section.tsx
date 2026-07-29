@@ -18,9 +18,32 @@ export function ContactSection() {
           </p>
         </div>
         <div className="bg-brand-tan/55 rounded-lg p-6">
+          <h3 className="text-brand-grey-dark text-lg font-semibold">
+            {contact.promptTitle}
+          </h3>
+          <ul className="mt-5 grid gap-3">
+            {contact.prompts.map((prompt) => (
+              <li
+                key={prompt}
+                className="text-brand-grey-mid flex gap-3 text-sm leading-6"
+              >
+                <span
+                  aria-hidden="true"
+                  className="bg-brand-blue mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
+                />
+                {prompt}
+              </li>
+            ))}
+          </ul>
+          <a
+            href={contact.cta.href}
+            className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue mt-6 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-center text-sm font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            {contact.cta.label}
+          </a>
           <div className="text-brand-grey-mid space-y-3 text-base">
             {contact.email && (
-              <p>
+              <p className="mt-5 text-center text-sm">
                 <a
                   href={`mailto:${contact.email}`}
                   className="text-brand-blue font-semibold hover:underline"

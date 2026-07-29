@@ -21,34 +21,47 @@ export const siteConfig = {
 
   nav: [
     { label: "Why River Relief", href: "#about" },
+    { label: "Fit", href: "#fit" },
     { label: "Process", href: "#how-it-works" },
     { label: "Options", href: "#get-started" },
-    { label: "Contact", href: "#contact" },
   ],
 
   hero: {
-    eyebrow: "Personal loan guidance for debt consolidation",
-    heading: "Lower your monthly payments with a clearer way forward.",
+    eyebrow: "Debt consolidation loan guidance",
+    heading: "Trade scattered debt payments for one calmer monthly plan.",
     subheading:
-      "River Relief helps you review personal-loan options built around your budget, your credit profile, and your goal of turning high-interest debt into one more manageable payment.",
+      "River Relief helps borrowers compare personal-loan options that may lower monthly payments, simplify repayment, and create room to breathe without a high-pressure sales process.",
     primaryCta: { label: "Start My Free Review", href: "#get-started" }, // TODO: link to real application flow
     headerCta: { label: "Start Review", href: "#get-started" },
     secondaryCta: { label: "See the Process", href: "#how-it-works" },
     trustLine:
-      "Free consultation. No pressure. Options explained in plain English.",
+      "Free consultation. Human guidance. Clear next steps before you decide.",
     highlights: [
-      "Debt consolidation loans",
-      "Options for a range of credit profiles",
-      "One-on-one lending support",
+      "Consolidate credit card balances",
+      "Compare options without pressure",
+      "Get guidance from a lending manager",
+    ],
+    intent: {
+      label: "Most borrowers come to us when they want to:",
+      items: [
+        "Lower the monthly pressure",
+        "Replace multiple due dates",
+        "Understand realistic loan options",
+      ],
+    },
+    proof: [
+      "Personal loan options through affiliates",
+      "Support for a range of credit profiles",
+      "Clear rate, term, and fee explanations",
     ],
     preview: {
-      label: "Estimated relief potential",
+      label: "Relief potential",
       stat: "Up to 40%",
-      caption: "Lower monthly payments on average for eligible clients",
+      caption: "Lower monthly payments on average for eligible clients.",
       items: [
+        { label: "Review cost", value: "$0" },
         { label: "Loan range", value: "$1K-$100K+" },
-        { label: "Typical terms", value: "4-84 mo." },
-        { label: "First step", value: "Free review" },
+        { label: "Term options", value: "4-84 mo." },
       ],
     },
   },
@@ -59,16 +72,45 @@ export const siteConfig = {
       "A premium, personal experience for borrowers who want breathing room.",
     body: "Debt can feel loud. River Relief keeps the process calm, direct, and human by helping you understand loan options that may replace scattered high-interest payments with a clearer monthly plan.",
     points: [
-      "Guidance built around your actual budget, not a generic offer.",
-      "Plain-language answers before you make a decision.",
-      "A focus on lower payments, simpler repayment, and long-term confidence.",
+      "Guidance built around your actual monthly payment target.",
+      "Plain-language explanations of APR, fees, term length, and total cost.",
+      "A calmer process for borrowers who want options, not pressure.",
+      "A focus on simpler repayment and long-term confidence.",
     ],
+  },
+
+  fit: {
+    eyebrow: "Is this for you?",
+    heading:
+      "A strong fit when debt is manageable, but the payment structure is not.",
+    body: "River Relief is built for people who want to compare a personal-loan path before choosing how to handle credit card balances or other unsecured debt.",
+    cards: [
+      {
+        title: "You may be a fit if",
+        items: [
+          "Your monthly payments feel too high.",
+          "You have multiple balances with different due dates.",
+          "You want to understand loan options before committing.",
+          "You value a guided, private review.",
+        ],
+      },
+      {
+        title: "We will help you clarify",
+        items: [
+          "Whether consolidation could lower your payment.",
+          "How the rate, term, and fees affect the real cost.",
+          "Which option fits your budget instead of stretching it.",
+          "What the next step should be if a loan is not the right fit.",
+        ],
+      },
+    ],
+    cta: { label: "Check My Options", href: "#get-started" },
   },
 
   programs: {
     eyebrow: "How it works",
-    heading: "Three steps from uncertainty to a plan.",
-    body: "The process is designed to be simple, private, and efficient, with a lending manager helping you understand each option before you move forward.",
+    heading: "A simple review designed to remove guesswork.",
+    body: "The process is private, efficient, and guided by a lending manager who helps you compare the details that determine whether an option actually makes sense.",
     items: [
       {
         title: "Share your goals",
@@ -90,14 +132,15 @@ export const siteConfig = {
 
   impact: {
     eyebrow: "Built for confidence",
-    heading: "The numbers borrowers ask about first.",
-    body: "Every situation is different, but these are the practical details River Relief helps you evaluate before choosing a loan option.",
+    heading: "Proof points that make the decision easier.",
+    body: "A better borrower experience starts with specifics. River Relief helps you evaluate payment relief, loan size, APR, fees, and term length before you move forward.",
     items: [
       { stat: "Up to 40%", label: "Lower monthly payments on average" },
       { stat: "$1K–$100K+", label: "Personal loan amounts available" },
       { stat: "4.9%-35.99%", label: "APR range through affiliates" },
       { stat: "4-84 mo.", label: "Available repayment terms" },
     ],
+    note: "Eligibility, final rates, fees, and loan terms vary by borrower, affiliate, and state availability.",
   },
 
   getInvolved: {
@@ -106,10 +149,10 @@ export const siteConfig = {
     body: "Whether you are ready to compare offers or still sorting through your options, River Relief can help you understand what a more manageable payment path could look like.",
     actions: [
       {
-        title: "Start a free review",
+        title: "Start a free option review",
         description:
           "Begin with a simple intake so we can understand your debt, income, and payment goals.",
-        cta: { label: "Begin Review", href: "#" }, // TODO: link to application flow
+        cta: { label: "Begin Review", href: "#contact" }, // TODO: link to application flow
       },
       {
         title: "Talk it through",
@@ -124,12 +167,26 @@ export const siteConfig = {
         cta: { label: "Contact Us", href: "#contact" },
       },
     ],
+    checklistTitle: "What we will help you review",
+    checklist: [
+      "Current balances and payment pressure",
+      "Monthly payment target",
+      "Potential rate, term, fees, and total cost",
+      "Whether consolidation is the right next move",
+    ],
   },
 
   contact: {
     eyebrow: "Contact",
-    heading: "Ready for a calmer conversation about your options?",
-    body: "Send us a message and a River Relief lending manager will follow up with next steps.",
+    heading: "Start with the facts. Decide with confidence.",
+    body: "Send a note with what you are hoping to improve. A River Relief lending manager will follow up with a clear next step.",
+    promptTitle: "Helpful details to include",
+    prompts: [
+      "Approximate debt amount",
+      "Current monthly payment pressure",
+      "Primary goal: lower payment, consolidate, or compare options",
+    ],
+    cta: { label: "Email River Relief", href: "mailto:info@example.com" }, // TODO: replace with real contact email
     email: "info@example.com", // TODO: replace with real contact email
     phone: "", // TODO: add real phone number
     address: "", // TODO: add mailing address if applicable

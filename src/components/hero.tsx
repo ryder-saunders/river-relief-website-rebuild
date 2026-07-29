@@ -31,7 +31,19 @@ export function Hero() {
             </a>
           </div>
           <p className="text-brand-grey-mid mt-5 text-sm">{hero.trustLine}</p>
-          <ul className="mt-8 grid gap-3 sm:grid-cols-3">
+          <div className="border-brand-grey-light/30 mt-8 rounded-lg border bg-white p-5">
+            <p className="text-brand-grey-dark text-sm font-semibold">
+              {hero.intent.label}
+            </p>
+            <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+              {hero.intent.items.map((item) => (
+                <li key={item} className="text-brand-grey-mid text-sm">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <ul className="mt-5 grid gap-3 sm:grid-cols-3">
             {hero.highlights.map((highlight) => (
               <li
                 key={highlight}
@@ -68,6 +80,20 @@ export function Hero() {
               </div>
             ))}
           </dl>
+          <ul className="mt-5 grid gap-3">
+            {hero.proof.map((item) => (
+              <li
+                key={item}
+                className="text-brand-grey-mid border-brand-grey-light/30 flex items-start gap-3 border-t pt-3 text-sm leading-6"
+              >
+                <span
+                  aria-hidden="true"
+                  className="bg-brand-blue mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
+                />
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
