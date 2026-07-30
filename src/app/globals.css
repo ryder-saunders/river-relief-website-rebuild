@@ -31,4 +31,34 @@ body {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 112px;
+}
+
+.hero-field {
+  --hero-image: url("/brand/generated/v006/debt-relief-budget-couple-v006.png");
+
+  background:
+    linear-gradient(
+      90deg,
+      rgb(15 29 41 / 92%) 0%,
+      rgb(21 37 52 / 84%) 45%,
+      rgb(21 37 52 / 62%) 100%
+    ),
+    radial-gradient(circle at 20% 10%, rgb(255 255 255 / 10%), transparent 28%),
+    linear-gradient(
+      135deg,
+      var(--color-brand-blue) 0%,
+      color-mix(in srgb, var(--color-brand-blue) 76%, black) 54%,
+      color-mix(in srgb, var(--color-brand-blue) 58%, black) 100%
+    ),
+    var(--hero-image);
+  background-position: center;
+  background-size: auto, auto, auto, cover;
+}
+
+.glow-cta {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 16%),
+    0 0 28px rgb(255 255 255 / 34%),
+    0 14px 34px rgb(0 0 0 / 18%);
 }

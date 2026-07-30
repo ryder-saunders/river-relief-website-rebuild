@@ -59,6 +59,15 @@ confirm current wording with the client before changing or removing it).
 - Dark mode is **not** implemented — the site is single-theme (light) by
   design, matching the client's existing brand. Don't add
   `dark:` variants without a reason.
+- Before generating, editing, selecting, or placing any site imagery, read
+  `docs/image-generation-guide.md` and follow its prompt, storage, and
+  versioning rules. Generated site assets must be saved under
+  `public/brand/generated/vXXX/` so the Next.js site can reference them and
+  deploy them with the project. Update the version folder's `manifest.md`
+  whenever an image is added or used.
+- Before building or changing pages, read `docs/design-standards.md` and
+  follow the River Relief conversion, mobile, CTA, copy, and visual standards
+  captured from the homepage approval process.
 
 ## Repo conventions
 
@@ -80,6 +89,32 @@ confirm current wording with the client before changing or removing it).
   flow link, phone number, social links, contact email/address, production
   domain). Don't invent real-looking values for these — leave the TODOs
   until the client provides real content, or ask.
+- Additional navbar and legal pages were authorized after the homepage design
+  standards were established. Future net-new pages should reuse the shared
+  standards and components unless the user explicitly changes direction.
+
+## Mobile CRO preferences
+
+- Keep the header non-sticky at every viewport. On mobile, keep it compact
+  but conversion-forward: larger white logo, a visible CTA immediately left
+  of the hamburger, and a borderless hamburger icon that opens a right-side
+  drawer.
+- Prefer compact horizontal mobile card layouts where possible: icons sit on
+  the same row as the heading/supporting copy so repeated cards do not consume
+  excessive vertical space.
+- Hero trust items should feel full on mobile as a 2-column by 3-row grid.
+  The fit cards should also stay side by side on mobile unless content becomes
+  unreadable.
+- Survey panels should use tighter horizontal padding on mobile, keep the
+  safety icon aligned with the question label, and end each step with a
+  reassuring SCAB-style affirmation.
+- For split content/image sections, avoid letting a mobile image dominate the
+  section by default. Keep image + headline/CTA compact side by side when the
+  image supports the copy; place the image below the survey when the survey is
+  the primary conversion object.
+- Contact mobile layout should keep the advisor image, online indicator, name,
+  and role in a short horizontal profile container. Phone and debt-relief CTA
+  buttons sit below that profile.
 
 ## Before committing
 

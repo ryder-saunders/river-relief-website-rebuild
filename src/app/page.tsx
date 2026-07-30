@@ -4,6 +4,7 @@ import { FitSection } from "@/components/fit-section";
 import { ProgramsSection } from "@/components/programs-section";
 import { ImpactStats } from "@/components/impact-stats";
 import { GetInvolvedSection } from "@/components/get-involved-section";
+import { IntakeForm } from "@/components/intake-form";
 import { ContactSection } from "@/components/contact-section";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <ProgramsSection />
       <ImpactStats />
       <GetInvolvedSection />
+      <IntakeForm />
       <ContactSection />
     </>
   );
