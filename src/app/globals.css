@@ -113,6 +113,17 @@ html {
   .demo-components-hero {
     background-position: 58% center;
   }
+
+  .demo-score-ring {
+    font-size: 0.65rem;
+    gap: 0.25rem;
+    height: 6.5rem;
+    width: 6.5rem;
+  }
+
+  .demo-score-ring::before {
+    inset: 0.5rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -83,7 +83,7 @@ export function SpecialistChatDemo() {
       id="specialist-chat"
       className="bg-brand-grey-dark scroll-mt-8 py-12 text-white sm:py-16"
     >
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[0.68fr_1.32fr] lg:items-start">
+      <div className="mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-[0.68fr_1.32fr] lg:items-start lg:gap-10">
         <div className="max-w-xl lg:pt-8">
           <div className="flex items-center gap-3 text-xs font-bold tracking-[0.16em] text-white/65 uppercase">
             <span className="font-mono">{chatContent.number}</span>
@@ -143,13 +143,13 @@ export function SpecialistChatDemo() {
                 <p className="text-brand-grey-mid text-xs font-bold uppercase">
                   {chatContent.issueLabel}
                 </p>
-                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <div className="mt-3 grid grid-cols-2 gap-2">
                   {chatContent.issues.map((issue) => (
                     <button
                       key={issue.id}
                       type="button"
                       onClick={() => chooseIssue(issue.id)}
-                      className="border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue hover:bg-brand-blue/5 group flex min-h-14 items-center justify-between gap-3 rounded-md border bg-white px-4 text-left text-sm font-bold transition"
+                      className="border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue hover:bg-brand-blue/5 group flex min-h-20 items-center justify-between gap-2 rounded-md border bg-white px-3 text-left text-xs leading-5 font-bold transition sm:min-h-14 sm:px-4 sm:text-sm"
                     >
                       {issue.label}
                       <ArrowRightIcon className="text-brand-blue h-4 w-4 shrink-0 transition group-hover:translate-x-0.5" />
@@ -207,11 +207,11 @@ export function SpecialistChatDemo() {
                     <p className="text-brand-blue text-xs font-bold uppercase">
                       {selectedIssue.takeawayTitle}
                     </p>
-                    <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                    <div className="mt-3 grid grid-cols-3 gap-2">
                       {selectedIssue.takeaways.map((takeaway) => (
                         <p
                           key={takeaway}
-                          className="text-brand-grey-dark flex gap-2 text-xs leading-5 font-semibold"
+                          className="text-brand-grey-dark flex flex-col gap-1.5 text-[11px] leading-4 font-semibold sm:flex-row sm:gap-2 sm:text-xs sm:leading-5"
                         >
                           <CheckIcon className="text-brand-blue mt-0.5 h-4 w-4 shrink-0" />
                           {takeaway}

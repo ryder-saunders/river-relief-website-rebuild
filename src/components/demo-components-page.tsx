@@ -101,7 +101,7 @@ function HeroSection() {
   return (
     <section className="demo-components-hero relative isolate overflow-hidden text-white">
       <div className="absolute inset-0 -z-10 bg-black/20" />
-      <div className="mx-auto grid min-h-[620px] max-w-6xl content-end px-6 py-12 sm:min-h-[660px] sm:py-16 lg:grid-cols-[1fr_0.62fr] lg:items-end lg:gap-12">
+      <div className="mx-auto grid min-h-[540px] max-w-6xl content-end px-6 py-10 sm:min-h-[660px] sm:py-16 lg:grid-cols-[1fr_0.62fr] lg:items-end lg:gap-12">
         <div>
           <p className="text-sm font-bold text-white/70 uppercase">
             {hero.eyebrow}
@@ -170,19 +170,19 @@ function ComponentsTableOfContents() {
           </div>
           <nav
             aria-label={section.title}
-            className="grid grid-cols-2 gap-x-5 gap-y-1 sm:grid-cols-3 lg:grid-cols-4"
+            className="grid grid-cols-3 gap-x-3 gap-y-1 lg:grid-cols-4"
           >
             {section.items.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="border-brand-grey-light/25 text-brand-grey-dark hover:border-brand-blue hover:text-brand-blue group flex min-h-12 items-center gap-3 border-b py-3 text-sm font-bold transition"
+                className="border-brand-grey-light/25 text-brand-grey-dark hover:border-brand-blue hover:text-brand-blue group flex min-h-12 items-center gap-2 border-b py-3 text-xs font-bold transition sm:gap-3 sm:text-sm"
               >
                 <span className="text-brand-blue/45 font-mono text-xs">
                   {item.number}
                 </span>
                 <span className="min-w-0 flex-1">{item.label}</span>
-                <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 opacity-35 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
+                <ArrowRightIcon className="hidden h-3.5 w-3.5 shrink-0 opacity-35 transition group-hover:translate-x-0.5 group-hover:opacity-100 sm:block" />
               </a>
             ))}
           </nav>
@@ -205,7 +205,7 @@ function PaymentClaritySection() {
       id="payment-clarity"
       className="scroll-mt-8 bg-white py-12 sm:py-16"
     >
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
+      <div className="mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-10">
         <div>
           <SectionHeading {...section} />
           <div className="mt-7 hidden lg:block">
@@ -213,7 +213,7 @@ function PaymentClaritySection() {
           </div>
         </div>
         <div className="border-brand-grey-light/30 rounded-lg border bg-white p-5 shadow-2xl shadow-black/8 sm:p-7">
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6">
             <RangeControl
               label={section.debtLabel}
               value={debt}
@@ -233,7 +233,7 @@ function PaymentClaritySection() {
               onChange={setPayment}
             />
           </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8">
             <PaymentBar
               label={section.currentLabel}
               amount={payment}
@@ -296,7 +296,7 @@ function RangeControl({
       <span className="text-brand-grey-mid text-xs font-bold uppercase">
         {label}
       </span>
-      <span className="text-brand-grey-dark mt-2 block text-2xl font-semibold">
+      <span className="text-brand-grey-dark mt-2 block text-xl font-semibold sm:text-2xl">
         {formattedValue}
       </span>
       <input
@@ -325,17 +325,17 @@ function PaymentBar({
 }) {
   return (
     <div
-      className={`rounded-md p-4 ${tone === "possible" ? "border border-emerald-600/20 bg-emerald-50" : "bg-brand-blue/5"}`}
+      className={`rounded-md p-3 sm:p-4 ${tone === "possible" ? "border border-emerald-600/20 bg-emerald-50" : "bg-brand-blue/5"}`}
     >
       <div className="flex items-end justify-between gap-3">
-        <p className="text-brand-grey-mid text-xs font-bold uppercase">
+        <p className="text-brand-grey-mid text-[10px] leading-4 font-bold uppercase sm:text-xs">
           {label}
         </p>
-        <p className="text-brand-grey-dark text-xl font-semibold">
+        <p className="text-brand-grey-dark text-lg font-semibold sm:text-xl">
           {currency.format(amount)}
         </p>
       </div>
-      <div className="bg-brand-grey-light/20 mt-5 h-2 overflow-hidden rounded-sm">
+      <div className="bg-brand-grey-light/20 mt-3 h-2 overflow-hidden rounded-sm sm:mt-5">
         <div
           className={`h-full transition-[width] duration-500 ${tone === "possible" ? "bg-emerald-600" : "bg-brand-blue"}`}
           style={{ width: `${width}%` }}
@@ -372,7 +372,7 @@ function DebtLoadSection() {
     <section id="debt-load" className="bg-brand-blue/5 py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading {...section} />
-        <div className="mt-10 grid overflow-hidden rounded-lg border border-white bg-white shadow-2xl shadow-black/8 lg:grid-cols-[1.18fr_0.82fr]">
+        <div className="mt-8 grid overflow-hidden rounded-lg border border-white bg-white shadow-2xl shadow-black/8 sm:mt-10 lg:grid-cols-[1.18fr_0.82fr]">
           <div className="p-5 sm:p-7">
             <div className="flex items-center justify-between gap-4">
               <p className="text-brand-grey-dark font-semibold">
@@ -386,31 +386,31 @@ function DebtLoadSection() {
                 {section.selectAllLabel}
               </button>
             </div>
-            <div className="divide-brand-grey-light/25 mt-4 divide-y">
+            <div className="sm:divide-brand-grey-light/25 mt-4 grid grid-cols-2 gap-2 sm:block sm:divide-y">
               {section.accounts.map((account, index) => (
                 <button
                   key={account.name}
                   type="button"
                   aria-pressed={selected[index]}
                   onClick={() => toggleAccount(index)}
-                  className="hover:bg-brand-blue/5 flex w-full items-center gap-4 px-2 py-4 text-left transition"
+                  className="border-brand-grey-light/25 hover:bg-brand-blue/5 grid min-h-[108px] w-full grid-cols-[20px_1fr] items-start gap-x-2 gap-y-2 rounded-md border p-3 text-left transition sm:flex sm:min-h-0 sm:items-center sm:gap-4 sm:rounded-none sm:border-0 sm:px-2 sm:py-4"
                 >
                   <span
-                    className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-sm border ${selected[index] ? "border-brand-blue bg-brand-blue text-white" : "border-brand-grey-light/60 text-transparent"}`}
+                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-sm border sm:h-6 sm:w-6 ${selected[index] ? "border-brand-blue bg-brand-blue text-white" : "border-brand-grey-light/60 text-transparent"}`}
                   >
                     <CheckIcon className="h-4 w-4" />
                   </span>
-                  <CreditCardIcon className="text-brand-blue h-6 w-6 shrink-0" />
+                  <CreditCardIcon className="text-brand-blue hidden h-6 w-6 shrink-0 sm:block" />
                   <span className="min-w-0 flex-1">
-                    <span className="text-brand-grey-dark block truncate text-sm font-bold">
+                    <span className="text-brand-grey-dark block text-xs leading-4 font-bold sm:truncate sm:text-sm">
                       {account.name}
                     </span>
-                    <span className="text-brand-grey-mid mt-1 block text-xs">
+                    <span className="text-brand-grey-mid mt-1 block text-[10px] leading-4 sm:text-xs">
                       {account.apr}% {section.aprLabel} ·{" "}
                       {currency.format(account.payment)}/mo
                     </span>
                   </span>
-                  <span className="text-brand-grey-dark text-sm font-semibold">
+                  <span className="text-brand-grey-dark col-span-2 text-sm font-semibold sm:col-span-1">
                     {currency.format(account.balance)}
                   </span>
                 </button>
@@ -422,7 +422,7 @@ function DebtLoadSection() {
               <p className="text-xs font-bold text-white/55 uppercase">
                 {section.summaryLabel}
               </p>
-              <div className="mt-7 grid grid-cols-2 gap-x-5 gap-y-7">
+              <div className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 sm:mt-7 sm:gap-y-7">
                 <SummaryMetric
                   label={section.balanceLabel}
                   value={currency.format(totals.balance)}
@@ -444,11 +444,11 @@ function DebtLoadSection() {
                   }
                 />
               </div>
-              <p className="mt-8 border-t border-white/15 pt-6 text-sm leading-6 text-white/70">
+              <p className="mt-5 border-t border-white/15 pt-5 text-sm leading-6 text-white/70 sm:mt-8 sm:pt-6">
                 {section.insight}
               </p>
             </div>
-            <div className="mt-8">
+            <div className="mt-6 sm:mt-8">
               <LightCta {...section.cta} />
             </div>
           </div>
@@ -462,7 +462,7 @@ function SummaryMetric({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <p className="text-xs font-bold text-white/50 uppercase">{label}</p>
-      <p className="mt-2 text-2xl font-semibold">{value}</p>
+      <p className="mt-2 text-xl font-semibold sm:text-2xl">{value}</p>
     </div>
   );
 }
@@ -479,7 +479,7 @@ function ReliefFinderSection() {
 
   return (
     <section id="relief-finder" className="bg-white py-12 sm:py-16">
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
+      <div className="mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-10">
         <SectionHeading {...section} />
         <div className="border-brand-grey-light/30 overflow-hidden rounded-lg border bg-white shadow-2xl shadow-black/8">
           <div className="bg-brand-blue flex items-center justify-between px-5 py-4 text-white sm:px-7">
@@ -512,13 +512,13 @@ function ReliefFinderSection() {
                 <h3 className="text-brand-grey-dark mt-4 text-2xl font-semibold sm:text-3xl">
                   {section.questions[step].prompt}
                 </h3>
-                <div className="mt-7 grid gap-3">
+                <div className="mt-6 grid grid-cols-2 gap-2 sm:mt-7 sm:gap-3">
                   {section.questions[step].options.map((option) => (
                     <button
                       key={option}
                       type="button"
                       onClick={() => chooseAnswer(option)}
-                      className="border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue hover:bg-brand-blue/5 group flex min-h-14 items-center justify-between rounded-md border px-4 text-left text-sm font-bold transition"
+                      className="border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue hover:bg-brand-blue/5 group flex min-h-16 items-center justify-between gap-2 rounded-md border px-3 text-left text-xs leading-5 font-bold transition sm:min-h-14 sm:px-4 sm:text-sm"
                     >
                       {option}
                       <ArrowRightIcon className="text-brand-blue h-4 w-4 transition group-hover:translate-x-0.5" />
@@ -545,11 +545,11 @@ function ReliefFinderSection() {
                 <p className="text-brand-grey-mid mt-4 max-w-2xl leading-7">
                   {section.result.body}
                 </p>
-                <div className="mt-6 grid gap-2 sm:grid-cols-3">
+                <div className="mt-6 grid grid-cols-3 gap-2">
                   {section.result.points.map((point) => (
                     <p
                       key={point}
-                      className="flex items-center gap-2 text-sm font-semibold"
+                      className="flex items-start gap-1.5 text-xs leading-5 font-semibold sm:items-center sm:gap-2 sm:text-sm"
                     >
                       <CheckIcon className="text-brand-blue h-4 w-4" />
                       {point}
@@ -736,20 +736,20 @@ function CreditConfidenceSection() {
 
   return (
     <section id="credit-confidence" className="bg-white py-12 sm:py-16">
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
+      <div className="mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-10">
         <SectionHeading {...section} />
         <div className="border-brand-grey-light/30 rounded-lg border bg-white p-5 shadow-2xl shadow-black/8 sm:p-7">
           <p className="text-brand-grey-mid text-xs font-bold uppercase">
             {section.rangeLabel}
           </p>
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
+          <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-5">
             {section.ranges.map((range, index) => (
               <button
                 key={range.label}
                 type="button"
                 aria-pressed={selectedIndex === index}
                 onClick={() => setSelectedIndex(index)}
-                className={`min-h-14 rounded-md border px-3 text-left transition ${selectedIndex === index ? "border-brand-blue bg-brand-blue text-white shadow-md" : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
+                className={`min-h-14 rounded-md border px-2.5 text-left transition sm:px-3 ${selectedIndex === index ? "border-brand-blue bg-brand-blue text-white shadow-md" : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
               >
                 <span className="block text-sm font-bold">{range.label}</span>
                 <span
@@ -761,7 +761,7 @@ function CreditConfidenceSection() {
             ))}
           </div>
           <div className="border-brand-grey-light/25 mt-7 border-t pt-6">
-            <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
+            <div className="flex items-end justify-between gap-3">
               <div>
                 <p className="text-brand-grey-dark text-sm font-bold">
                   {section.contextLabel}
@@ -775,14 +775,14 @@ function CreditConfidenceSection() {
                 {section.contextProgressLabel}
               </p>
             </div>
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <div className="mt-4 grid grid-cols-2 gap-2">
               {section.reviewSignals.map((signal, index) => (
                 <button
                   key={signal}
                   type="button"
                   aria-pressed={reviewSignals[index]}
                   onClick={() => toggleReviewSignal(index)}
-                  className={`flex min-h-12 items-center gap-3 rounded-md border px-4 text-left text-sm font-semibold transition ${reviewSignals[index] ? "border-brand-blue bg-brand-blue/5 text-brand-blue" : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
+                  className={`flex min-h-14 items-center gap-2 rounded-md border px-3 text-left text-xs leading-4 font-semibold transition sm:min-h-12 sm:gap-3 sm:px-4 sm:text-sm ${reviewSignals[index] ? "border-brand-blue bg-brand-blue/5 text-brand-blue" : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
                 >
                   <span
                     className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-sm border ${reviewSignals[index] ? "border-brand-blue bg-brand-blue text-white" : "border-brand-grey-light/60"}`}
@@ -814,7 +814,7 @@ function CreditConfidenceSection() {
               </p>
             </div>
           </div>
-          <div className="mt-8 grid gap-6 sm:grid-cols-[auto_1fr] sm:items-center">
+          <div className="mt-7 grid grid-cols-[auto_1fr] items-center gap-4 sm:mt-8 sm:gap-6">
             <div
               className="demo-score-ring"
               style={
@@ -828,10 +828,10 @@ function CreditConfidenceSection() {
               <span>{selectedRange.label}</span>
             </div>
             <div aria-live="polite">
-              <h3 className="text-brand-grey-dark text-2xl font-semibold">
+              <h3 className="text-brand-grey-dark text-xl font-semibold sm:text-2xl">
                 {section.responseTitle}
               </h3>
-              <p className="text-brand-grey-mid mt-3 leading-7">
+              <p className="text-brand-grey-mid mt-2 text-sm leading-6 sm:mt-3 sm:text-base sm:leading-7">
                 {section.responseBody}
               </p>
             </div>
@@ -876,7 +876,7 @@ function BreathingRoomSection() {
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading {...section} />
         <div className="mt-10 grid overflow-hidden rounded-lg bg-white shadow-2xl shadow-black/8 lg:grid-cols-[0.92fr_1.08fr]">
-          <div className="grid gap-5 p-5 sm:grid-cols-2 sm:p-7 lg:grid-cols-1">
+          <div className="grid grid-cols-2 gap-3 p-5 sm:gap-5 sm:p-7 lg:grid-cols-1">
             <NumberField
               label={section.incomeLabel}
               value={income}
@@ -957,10 +957,10 @@ function NumberField({
 }) {
   return (
     <label className="block">
-      <span className="text-brand-grey-mid text-xs font-bold uppercase">
+      <span className="text-brand-grey-mid text-[10px] leading-4 font-bold uppercase sm:text-xs">
         {label}
       </span>
-      <span className="border-brand-grey-light/40 focus-within:border-brand-blue mt-2 flex min-h-12 items-center rounded-md border px-4 transition">
+      <span className="border-brand-grey-light/40 focus-within:border-brand-blue mt-2 flex min-h-12 items-center rounded-md border px-3 transition sm:px-4">
         <span className="text-brand-grey-mid mr-2">$</span>
         <input
           type="number"
@@ -970,7 +970,7 @@ function NumberField({
           onChange={(event) =>
             onChange(Math.max(0, Number(event.target.value)))
           }
-          className="text-brand-grey-dark min-w-0 flex-1 bg-transparent text-lg font-semibold outline-none"
+          className="text-brand-grey-dark min-w-0 flex-1 bg-transparent text-base font-semibold outline-none sm:text-lg"
         />
       </span>
     </label>
@@ -986,37 +986,37 @@ function TimelineSection() {
     <section id="relief-timeline" className="bg-white py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading {...section} />
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
-          <div className="before:bg-brand-grey-light/35 relative grid gap-2 before:absolute before:top-6 before:bottom-6 before:left-[23px] before:w-px">
+        <div className="mt-8 grid gap-6 sm:mt-10 sm:gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
+          <div className="before:bg-brand-grey-light/35 relative grid grid-cols-2 gap-2 before:absolute before:top-6 before:bottom-6 before:left-[23px] before:hidden before:w-px sm:grid-cols-1 sm:before:block">
             {section.steps.map((step, index) => (
               <button
                 key={step.title}
                 type="button"
                 onClick={() => setActiveStep(index)}
                 aria-pressed={activeStep === index}
-                className={`relative z-10 grid min-h-20 grid-cols-[48px_1fr_auto] items-center gap-3 rounded-md px-0 py-3 text-left transition sm:px-3 ${activeStep === index ? "bg-brand-blue/5" : "hover:bg-brand-blue/[0.025]"}`}
+                className={`relative z-10 grid min-h-[78px] grid-cols-[36px_1fr] items-center gap-2 rounded-md p-2 text-left transition sm:min-h-20 sm:grid-cols-[48px_1fr_auto] sm:gap-3 sm:px-3 sm:py-3 ${activeStep === index ? "bg-brand-blue/5" : "hover:bg-brand-blue/[0.025]"}`}
               >
                 <span
-                  className={`flex h-12 w-12 items-center justify-center rounded-full border text-sm font-bold transition ${activeStep === index ? "border-brand-blue bg-brand-blue text-white" : "border-brand-grey-light/40 text-brand-grey-mid bg-white"}`}
+                  className={`flex h-9 w-9 items-center justify-center rounded-full border text-xs font-bold transition sm:h-12 sm:w-12 sm:text-sm ${activeStep === index ? "border-brand-blue bg-brand-blue text-white" : "border-brand-grey-light/40 text-brand-grey-mid bg-white"}`}
                 >
                   {index + 1}
                 </span>
                 <span>
-                  <span className="text-brand-grey-dark block font-bold">
+                  <span className="text-brand-grey-dark block text-xs leading-4 font-bold sm:text-base sm:leading-normal">
                     {step.title}
                   </span>
-                  <span className="text-brand-grey-mid mt-1 block text-sm">
+                  <span className="text-brand-grey-mid mt-1 block text-[10px] sm:text-sm">
                     {step.time}
                   </span>
                 </span>
                 <ArrowRightIcon
-                  className={`h-4 w-4 transition ${activeStep === index ? "text-brand-blue translate-x-0.5" : "text-brand-grey-light"}`}
+                  className={`hidden h-4 w-4 transition sm:block ${activeStep === index ? "text-brand-blue translate-x-0.5" : "text-brand-grey-light"}`}
                 />
               </button>
             ))}
           </div>
           <div
-            className="bg-brand-grey-dark flex min-h-[470px] flex-col justify-between rounded-lg p-6 text-white shadow-2xl sm:p-8"
+            className="bg-brand-grey-dark flex flex-col justify-between rounded-lg p-5 text-white shadow-2xl sm:p-8 lg:min-h-[470px]"
             aria-live="polite"
           >
             <div>
@@ -1034,14 +1034,16 @@ function TimelineSection() {
                   />
                 ))}
               </div>
-              <h3 className="mt-8 text-3xl font-semibold">{active.title}</h3>
-              <p className="mt-4 text-lg leading-8 text-white/70">
+              <h3 className="mt-5 text-2xl font-semibold sm:mt-8 sm:text-3xl">
+                {active.title}
+              </h3>
+              <p className="mt-3 text-base leading-7 text-white/70 sm:mt-4 sm:text-lg sm:leading-8">
                 {active.body}
               </p>
-              <p className="mt-7 border-l-2 border-emerald-400 pl-4 text-sm leading-6 text-white/75">
+              <p className="mt-4 border-l-2 border-emerald-400 pl-4 text-sm leading-6 text-white/75 sm:mt-7">
                 {active.note}
               </p>
-              <div className="mt-7 divide-y divide-white/10 border-y border-white/10">
+              <div className="mt-5 divide-y divide-white/10 border-y border-white/10 sm:mt-7">
                 <TimelineDetail
                   label={section.youShareLabel}
                   body={active.youShare}
@@ -1056,12 +1058,12 @@ function TimelineSection() {
                 />
               </div>
             </div>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-6 flex gap-2 sm:mt-8 sm:gap-3">
               {activeStep > 0 ? (
                 <button
                   type="button"
                   onClick={() => setActiveStep((current) => current - 1)}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-white/20 px-5 text-sm font-bold text-white transition hover:bg-white/8"
+                  className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-md border border-white/20 px-3 text-sm font-bold text-white transition hover:bg-white/8 sm:flex-none sm:px-5"
                 >
                   <ArrowRightIcon className="h-4 w-4 rotate-180" />
                   {section.previousLabel}
@@ -1071,7 +1073,7 @@ function TimelineSection() {
                 <button
                   type="button"
                   onClick={() => setActiveStep((current) => current + 1)}
-                  className="text-brand-grey-dark inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-bold shadow-lg"
+                  className="text-brand-grey-dark inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-md bg-white px-3 text-sm font-bold shadow-lg sm:flex-none sm:px-5"
                 >
                   {section.nextLabel}
                   <ArrowRightIcon className="h-4 w-4" />
@@ -1089,7 +1091,7 @@ function TimelineSection() {
 
 function TimelineDetail({ label, body }: { label: string; body: string }) {
   return (
-    <div className="grid gap-1 py-3 sm:grid-cols-[0.34fr_0.66fr] sm:gap-4">
+    <div className="grid grid-cols-[0.34fr_0.66fr] gap-3 py-3 sm:gap-4">
       <p className="text-xs font-bold text-white/45 uppercase">{label}</p>
       <p className="text-sm leading-6 text-white/72">{body}</p>
     </div>
@@ -1117,14 +1119,14 @@ function TrustArchitectureSection() {
     >
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading {...section} inverse />
-        <div className="mt-10 grid gap-3 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-2 sm:mt-10 sm:gap-3 lg:grid-cols-4">
           {section.principles.map((principle, index) => (
             <button
               key={principle.title}
               type="button"
               aria-expanded={activeIndex === index}
               onClick={() => setActiveIndex(index)}
-              className={`min-h-28 rounded-md border p-5 text-left transition ${activeIndex === index ? "text-brand-grey-dark border-white bg-white shadow-xl" : "border-white/15 bg-white/[0.04] text-white hover:bg-white/[0.08]"}`}
+              className={`min-h-28 rounded-md border p-4 text-left transition sm:p-5 ${activeIndex === index ? "text-brand-grey-dark border-white bg-white shadow-xl" : "border-white/15 bg-white/[0.04] text-white hover:bg-white/[0.08]"}`}
             >
               <span className="flex items-start justify-between gap-4">
                 <LockIcon
@@ -1136,11 +1138,11 @@ function TrustArchitectureSection() {
                   0{index + 1}
                 </span>
               </span>
-              <span className="mt-6 block text-base font-bold">
+              <span className="mt-4 block text-sm font-bold sm:mt-6 sm:text-base">
                 {principle.title}
               </span>
               <span
-                className={`mt-2 block text-sm leading-6 ${activeIndex === index ? "text-brand-grey-mid" : "text-white/55"}`}
+                className={`mt-2 block text-xs leading-5 sm:text-sm sm:leading-6 ${activeIndex === index ? "text-brand-grey-mid" : "text-white/55"}`}
               >
                 {principle.short}
               </span>
@@ -1171,14 +1173,14 @@ function TrustArchitectureSection() {
                   {selectedPreferenceCount}/{section.preferences.length}
                 </p>
               </div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              <div className="mt-3 grid grid-cols-2 gap-2">
                 {section.preferences.map((preference, index) => (
                   <button
                     key={preference}
                     type="button"
                     aria-pressed={preferences[index]}
                     onClick={() => togglePreference(index)}
-                    className={`flex min-h-12 items-center gap-3 rounded-md border px-4 text-left text-sm font-semibold transition ${preferences[index] ? "text-brand-grey-dark border-white bg-white" : "border-white/15 bg-white/[0.03] text-white/68 hover:bg-white/[0.08]"}`}
+                    className={`flex min-h-14 items-center gap-2 rounded-md border px-3 text-left text-xs leading-4 font-semibold transition sm:min-h-12 sm:gap-3 sm:px-4 sm:text-sm ${preferences[index] ? "text-brand-grey-dark border-white bg-white" : "border-white/15 bg-white/[0.03] text-white/68 hover:bg-white/[0.08]"}`}
                   >
                     <span
                       className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-sm border ${preferences[index] ? "border-brand-blue bg-brand-blue text-white" : "border-white/25"}`}
@@ -1218,21 +1220,23 @@ function ScenariosSection() {
     <section id="scenarios" className="bg-white py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading {...section} />
-        <p className="text-brand-grey-mid mt-9 text-xs font-bold uppercase">
+        <p className="text-brand-grey-mid mt-7 text-xs font-bold uppercase sm:mt-9">
           {section.chooseLabel}
         </p>
-        <div className="mt-4 grid gap-3 md:grid-cols-3">
+        <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3">
           {section.scenarios.map((item, index) => (
             <button
               key={item.title}
               type="button"
               aria-pressed={activeIndex === index}
               onClick={() => setActiveIndex(index)}
-              className={`min-h-32 rounded-md border p-5 text-left transition ${activeIndex === index ? "border-brand-blue bg-brand-blue text-white shadow-xl" : "border-brand-grey-light/30 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
+              className={`min-h-24 rounded-md border p-3 text-left transition sm:min-h-32 sm:p-5 ${activeIndex === index ? "border-brand-blue bg-brand-blue text-white shadow-xl" : "border-brand-grey-light/30 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
             >
-              <span className="block text-lg font-bold">{item.title}</span>
+              <span className="block text-xs leading-4 font-bold sm:text-lg sm:leading-normal">
+                {item.title}
+              </span>
               <span
-                className={`mt-3 block text-sm leading-6 ${activeIndex === index ? "text-white/65" : "text-brand-grey-mid"}`}
+                className={`mt-3 hidden text-sm leading-6 sm:block ${activeIndex === index ? "text-white/65" : "text-brand-grey-mid"}`}
               >
                 {item.short}
               </span>
@@ -1240,34 +1244,34 @@ function ScenariosSection() {
           ))}
         </div>
         <div
-          className="bg-brand-blue/5 mt-4 grid gap-8 rounded-lg p-6 sm:p-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-center"
+          className="bg-brand-blue/5 mt-4 grid gap-6 rounded-lg p-5 sm:gap-8 sm:p-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-center"
           aria-live="polite"
         >
           <div>
             <p className="text-brand-blue text-xs font-bold uppercase">
               {section.outcomeLabel}
             </p>
-            <p className="text-brand-grey-dark mt-3 text-3xl font-semibold">
+            <p className="text-brand-grey-dark mt-3 text-2xl font-semibold sm:text-3xl">
               {scenario.focus}
             </p>
             <p className="text-brand-grey-mid mt-4 leading-7">
               {scenario.body}
             </p>
-            <p className="text-brand-grey-mid mt-7 text-xs font-bold uppercase">
+            <p className="text-brand-grey-mid mt-5 text-xs font-bold uppercase sm:mt-7">
               {section.priorityLabel}
             </p>
-            <div className="mt-3 grid gap-2">
+            <div className="mt-3 grid grid-cols-3 gap-2">
               {section.priorities.map((item, index) => (
                 <button
                   key={item.label}
                   type="button"
                   aria-pressed={priorityIndex === index}
                   onClick={() => setPriorityIndex(index)}
-                  className={`flex min-h-11 items-center justify-between gap-3 rounded-md border px-4 text-left text-sm font-bold transition ${priorityIndex === index ? "border-brand-blue bg-brand-blue text-white" : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
+                  className={`flex min-h-16 items-center justify-center gap-2 rounded-md border px-2 text-center text-xs leading-4 font-bold transition sm:min-h-11 sm:justify-between sm:px-4 sm:text-left sm:text-sm ${priorityIndex === index ? "border-brand-blue bg-brand-blue text-white" : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
                 >
                   {item.label}
                   {priorityIndex === index ? (
-                    <CheckIcon className="h-4 w-4 shrink-0" />
+                    <CheckIcon className="hidden h-4 w-4 shrink-0 sm:block" />
                   ) : null}
                 </button>
               ))}
@@ -1329,8 +1333,8 @@ function AdvisorSection() {
     <section id="advisor" className="bg-brand-blue/5 py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading {...section} />
-        <div className="mt-10 grid overflow-hidden rounded-lg bg-white shadow-2xl shadow-black/10 lg:grid-cols-[0.72fr_1.28fr]">
-          <div className="bg-brand-grey-dark flex flex-col justify-between p-6 text-white sm:p-8">
+        <div className="mt-8 grid overflow-hidden rounded-lg bg-white shadow-2xl shadow-black/10 sm:mt-10 lg:grid-cols-[0.72fr_1.28fr]">
+          <div className="bg-brand-grey-dark flex flex-col justify-between p-5 text-white sm:p-8">
             <div>
               <div className="flex items-center gap-4">
                 <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-white/10">
@@ -1344,14 +1348,14 @@ function AdvisorSection() {
                   </p>
                 </div>
               </div>
-              <p className="mt-7 flex items-center gap-2 text-sm font-semibold text-emerald-300">
+              <p className="mt-2 ml-[72px] flex items-center gap-2 text-xs font-semibold text-emerald-300 sm:text-sm">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
                 {section.status}
               </p>
             </div>
-            <div className="mt-12 border-t border-white/12 pt-6">
-              <HandHeartIcon className="h-7 w-7 text-white/55" />
-              <p className="mt-4 text-sm leading-6 text-white/65">
+            <div className="mt-5 flex items-center gap-3 border-t border-white/12 pt-4 sm:mt-8 sm:pt-6 lg:mt-12 lg:block">
+              <HandHeartIcon className="h-6 w-6 shrink-0 text-white/55 sm:h-7 sm:w-7" />
+              <p className="text-xs leading-5 text-white/65 sm:text-sm sm:leading-6 lg:mt-4">
                 {section.reassurance}
               </p>
             </div>
@@ -1364,7 +1368,7 @@ function AdvisorSection() {
               onSelect={setTopic}
               icon="message"
             />
-            <div className="mt-8">
+            <div className="mt-6 sm:mt-8">
               <ChoiceGroup
                 label={section.channelLabel}
                 options={section.channels}
@@ -1374,7 +1378,7 @@ function AdvisorSection() {
               />
             </div>
             <div
-              className="border-brand-grey-light/30 bg-brand-blue/5 mt-8 rounded-md border p-5"
+              className="border-brand-grey-light/30 bg-brand-blue/5 mt-6 rounded-md border p-5 sm:mt-8"
               aria-live="polite"
             >
               <p className="text-brand-blue text-xs font-bold uppercase">
@@ -1415,7 +1419,7 @@ function ChoiceGroup({
       <legend className="text-brand-grey-dark text-sm font-bold">
         {label}
       </legend>
-      <div className="mt-3 grid gap-2 sm:grid-cols-3">
+      <div className="mt-3 grid grid-cols-3 gap-2">
         {options.map((option, index) => {
           const Icon =
             icon === "message"
@@ -1427,10 +1431,12 @@ function ChoiceGroup({
               type="button"
               aria-pressed={selected === option}
               onClick={() => onSelect(option)}
-              className={`min-h-24 rounded-md border p-4 text-left transition ${selected === option ? "border-brand-blue bg-brand-blue text-white shadow-md" : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
+              className={`min-h-24 min-w-0 rounded-md border p-2 text-center transition sm:p-4 sm:text-left ${selected === option ? "border-brand-blue bg-brand-blue text-white shadow-md" : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
             >
-              <Icon className="h-5 w-5" />
-              <span className="mt-3 block text-sm font-bold">{option}</span>
+              <Icon className="mx-auto h-5 w-5 sm:mx-0" />
+              <span className="mt-3 block text-[11px] leading-4 font-bold break-words sm:text-sm">
+                {option}
+              </span>
             </button>
           );
         })}
