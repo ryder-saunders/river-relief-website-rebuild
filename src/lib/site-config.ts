@@ -950,16 +950,42 @@ export const siteConfig = {
   demoComponents: {
     title: "Debt Relief Experience Lab",
     description:
-      "Explore ten interactive River Relief concepts designed to make debt options feel clear, private, and human.",
+      "Explore eleven interactive River Relief concepts designed to make debt options feel clear, private, and human.",
     hero: {
       eyebrow: "River Relief Experience Lab",
       heading: "Debt relief should feel clear before it feels urgent.",
-      body: "Explore ten calm, interactive ways to understand the numbers, compare a path forward, and decide what feels right.",
+      body: "Explore eleven calm, interactive ways to understand the numbers, compare a path forward, and decide what feels right.",
       privacyNote:
         "Your selections stay on this page and are not submitted to River Relief.",
       primaryCta: { label: "Start With My Payment", href: "#payment-clarity" },
       secondaryCta: { label: "Qualify For Debt Relief", href: "/qualify" },
       proof: ["Illustrative estimates", "No hard credit pull", "No judgement"],
+    },
+    tableOfContents: {
+      eyebrow: "Explore the experience lab",
+      title: "Jump to any component.",
+      body: "Start with the question that feels most useful today, or move through all eleven in order.",
+      items: [
+        { number: "01", label: "Payment clarity", href: "#payment-clarity" },
+        { number: "02", label: "Debt load", href: "#debt-load" },
+        { number: "03", label: "Relief finder", href: "#relief-finder" },
+        { number: "04", label: "One payment", href: "#one-payment" },
+        {
+          number: "05",
+          label: "Credit confidence",
+          href: "#credit-confidence",
+        },
+        { number: "06", label: "Breathing room", href: "#breathing-room" },
+        { number: "07", label: "Relief timeline", href: "#relief-timeline" },
+        {
+          number: "08",
+          label: "Privacy controls",
+          href: "#trust-architecture",
+        },
+        { number: "09", label: "Your scenario", href: "#scenarios" },
+        { number: "10", label: "Advisor handoff", href: "#advisor" },
+        { number: "11", label: "Specialist chat", href: "#specialist-chat" },
+      ],
     },
     paymentClarity: {
       number: "01",
@@ -1061,6 +1087,10 @@ export const siteConfig = {
       monthLabel: "A month at a glance",
       currentTotal: 1240,
       possibleTotal: 790,
+      targetLabel: "Adjust an illustrative payment target",
+      targetRange: { min: 650, max: 1050, step: 25 },
+      targetHelp:
+        "Move the target to compare monthly breathing room. A lower payment can mean a longer term or higher total cost.",
       payments: [
         { day: 3, amount: 210, label: "Card 1" },
         { day: 8, amount: 325, label: "Card 2" },
@@ -1069,8 +1099,8 @@ export const siteConfig = {
         { day: 26, amount: 230, label: "Card 4" },
       ],
       simplifiedPayment: { day: 12, amount: 790, label: "One payment" },
-      benefit:
-        "One date. One amount to plan around. $450 less in this illustration.",
+      benefitPrefix: "One date. One amount to plan around.",
+      differenceLabel: "Illustrative monthly difference",
       currentBenefit:
         "5 reminders competing for attention throughout the month.",
       paymentDateLabel: "payment date",
@@ -1095,6 +1125,19 @@ export const siteConfig = {
       responseTitle: "There may still be a useful next step.",
       responseBody:
         "Credit is one part of the picture. Debt amount, income, payment history, state, and affiliate availability may also matter.",
+      contextLabel: "Add context beyond the score",
+      contextBody:
+        "Select the signals you could discuss in a private review. These do not determine approval; they help make the conversation more useful.",
+      reviewSignals: [
+        "Income has been steady",
+        "Recent payments are on time",
+        "I know my debt range",
+        "I know the payment I need",
+      ],
+      contextStart: "Choose any signals that feel true for you.",
+      contextReady:
+        "You have enough context to begin a more focused debt review.",
+      contextProgressLabel: "Review context",
       factors: [
         "Debt-to-income",
         "Payment history",
@@ -1133,30 +1176,50 @@ export const siteConfig = {
       title: "Know what happens before you share anything sensitive.",
       body: "Explore each stage of the River Relief path, including what you do and what River Relief does.",
       stepLabel: "Step",
+      youShareLabel: "You share",
+      riverReliefLabel: "River Relief does",
+      yourControlLabel: "You keep control",
+      previousLabel: "Previous step",
+      nextLabel: "Next step",
       steps: [
         {
           title: "Name the pressure",
           time: "About 1 minute",
           body: "Choose a debt range, the payment pressure, and what you want to make easier.",
           note: "No exact account numbers are needed to start.",
+          youShare: "A broad debt range and what feels hardest this month.",
+          riverRelief:
+            "Organizes the starting point without asking for account numbers.",
+          yourControl: "Skip the online review and call first at any time.",
         },
         {
           title: "Build the picture",
           time: "About 2 minutes",
           body: "Add your credit range and preferred next step so the review has useful context.",
           note: "Contact details come after the fit questions.",
+          youShare: "An estimated credit range, your goal, and preferred pace.",
+          riverRelief:
+            "Builds a short profile so a person can begin with context.",
+          yourControl: "Choose whether and how River Relief should follow up.",
         },
         {
           title: "Review the options",
           time: "Human follow-up",
           body: "A River Relief advisor can look at the profile before beginning the conversation.",
           note: "Ask about payment, APR, fees, term, and total repayment.",
+          youShare: "The questions and tradeoffs that matter most to you.",
+          riverRelief: "Explains available paths, terms, fees, and next steps.",
+          yourControl: "Compare the full cost before making any decision.",
         },
         {
           title: "Choose your pace",
           time: "You decide",
           body: "Continue, compare, call back later, or decide that the path is not right for you.",
           note: "Clarity comes before commitment.",
+          youShare: "Whether you want to continue, pause, or keep comparing.",
+          riverRelief:
+            "Respects the pace you choose and answers follow-up questions.",
+          yourControl: "A review never obligates you to accept an option.",
         },
       ],
       cta: { label: "Take Step One", href: "/qualify" },
@@ -1190,6 +1253,18 @@ export const siteConfig = {
       ],
       trustLine:
         "Your information should support the conversation, not replace your choice.",
+      preferencesLabel: "Build your comfort settings",
+      preferences: [
+        "Use broad ranges first",
+        "Ask contact details last",
+        "Let me choose the channel",
+        "Keep the review non-binding",
+      ],
+      preferencesStart:
+        "Select the controls that would make the process feel comfortable.",
+      preferencesReady:
+        "Your preferences create a clear boundary for the first conversation.",
+      preferencesCountLabel: "comfort settings selected",
       cta: { label: "Start Privately", href: "/qualify" },
     },
     scenarios: {
@@ -1199,6 +1274,25 @@ export const siteConfig = {
       body: "Different kinds of pressure call for different first conversations.",
       chooseLabel: "Choose a scenario",
       outcomeLabel: "A useful first focus",
+      priorityLabel: "What matters most in the comparison?",
+      priorityResultLabel: "Your comparison lens",
+      priorities: [
+        {
+          label: "Lower monthly pressure",
+          guidance:
+            "Lead with payment fit, then check whether the term and total repayment still make sense.",
+        },
+        {
+          label: "Fewer due dates",
+          guidance:
+            "Lead with structure and simplicity, then confirm that consolidation truly improves the month.",
+        },
+        {
+          label: "Understand total cost",
+          guidance:
+            "Lead with APR, fees, term length, and total repayment before comparing the monthly amount.",
+        },
+      ],
       scenarios: [
         {
           title: "Payments feel too high",
@@ -1264,6 +1358,84 @@ export const siteConfig = {
       readingCta: { label: "Explore From The Top", href: "#payment-clarity" },
       reassurance:
         "No judgement. No pressure to decide on the first conversation.",
+    },
+    specialistChat: {
+      number: "11",
+      eyebrow: "Debt specialist chat",
+      title: "Talk through what feels hardest.",
+      body: "Choose the issue on your mind and see how a River Relief debt specialist could help frame the next step.",
+      previewBadge: "Guided chat preview",
+      specialistName: "Maya",
+      specialistRole: "River Relief Debt Specialist",
+      specialistStatus: "Ready to help",
+      welcome:
+        "Hi, I’m Maya. Debt can feel like a lot of separate problems at once. What would be most helpful to talk through first?",
+      issueLabel: "Choose what you are dealing with",
+      issues: [
+        {
+          id: "payment-pressure",
+          label: "My payments are too high",
+          userMessage: "My card payments are taking up too much of the month.",
+          response:
+            "That pressure is worth looking at without judgement. A useful first step is to total the monthly payments, name the amount that would create real breathing room, and then compare any alternative by payment, term, fees, and total repayment. River Relief can organize those numbers with you before you decide whether a different structure makes sense.",
+          takeawayTitle: "Bring these three numbers",
+          takeaways: [
+            "Your total card balances",
+            "What you pay each month now",
+            "A payment that would feel manageable",
+          ],
+        },
+        {
+          id: "due-dates",
+          label: "I have too many due dates",
+          userMessage:
+            "I am tired of juggling so many cards and payment dates.",
+          response:
+            "The number of reminders can create pressure even when every payment is technically manageable. Start by mapping each balance, minimum payment, APR, and due date in one place. Then you can compare whether a one-payment path would simplify the month without overlooking the term, fees, or total cost.",
+          takeawayTitle: "Map these details first",
+          takeaways: [
+            "Each balance and minimum payment",
+            "Every APR and due date",
+            "Which accounts you want to simplify",
+          ],
+        },
+        {
+          id: "rates-fees",
+          label: "I do not understand rates and fees",
+          userMessage:
+            "I need help understanding what a debt relief option would really cost.",
+          response:
+            "You are asking exactly the right question. A lower monthly payment is only one part of the picture. Ask for the APR, origination fee, term length, monthly payment, and total repayment together. River Relief can help you compare those figures in plain language so the true cost is visible before any decision.",
+          takeawayTitle: "Compare the whole offer",
+          takeaways: [
+            "APR and origination fee",
+            "Term length and monthly payment",
+            "Total amount repaid",
+          ],
+        },
+        {
+          id: "credit-concern",
+          label: "I am worried about my credit",
+          userMessage:
+            "I am not sure my credit is good enough to ask for help.",
+          response:
+            "You do not need a perfect score to begin an honest conversation. Credit is one part of a broader review that may also include income, debt amount, payment history, state, and affiliate availability. An estimated range is enough to start, and a River Relief specialist can help clarify what information matters next.",
+          takeawayTitle: "Start with estimates",
+          takeaways: [
+            "Your estimated credit range",
+            "Your debt and income ranges",
+            "Your main payment goal",
+          ],
+        },
+      ],
+      typingLabel: "Maya is responding",
+      nextStepTitle: "Ready to make the conversation personal?",
+      nextStepBody:
+        "Complete the private qualification review so a River Relief specialist can begin with your actual goals and context.",
+      qualifyCta: { label: "Qualify And Set An Appointment", href: "/qualify" },
+      anotherTopicLabel: "Ask about another issue",
+      disclosure:
+        "This is an automated educational preview, not a live advisor or financial advice. Your selections are not submitted.",
     },
   },
 

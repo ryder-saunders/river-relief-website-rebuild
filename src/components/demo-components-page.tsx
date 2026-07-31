@@ -19,6 +19,7 @@ import {
   UserIcon,
   WalletCardsIcon,
 } from "@/components/icons";
+import { SpecialistChatDemo } from "@/components/specialist-chat-demo";
 import { siteConfig } from "@/lib/site-config";
 
 const content = siteConfig.demoComponents;
@@ -137,6 +138,54 @@ function HeroSection() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ComponentsTableOfContents() {
+  const section = content.tableOfContents;
+
+  return (
+    <section
+      aria-labelledby="component-directory-title"
+      className="border-brand-grey-light/20 border-b bg-white py-10"
+    >
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid gap-7 lg:grid-cols-[0.42fr_1.58fr] lg:items-end">
+          <div>
+            <p className="text-brand-blue/65 text-xs font-bold tracking-[0.16em] uppercase">
+              {section.eyebrow}
+            </p>
+            <h2
+              id="component-directory-title"
+              className="text-brand-grey-dark mt-3 text-2xl font-semibold"
+            >
+              {section.title}
+            </h2>
+            <p className="text-brand-grey-mid mt-3 text-sm leading-6">
+              {section.body}
+            </p>
+          </div>
+          <nav
+            aria-label={section.title}
+            className="grid grid-cols-2 gap-x-5 gap-y-1 sm:grid-cols-3 lg:grid-cols-4"
+          >
+            {section.items.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="border-brand-grey-light/25 text-brand-grey-dark hover:border-brand-blue hover:text-brand-blue group flex min-h-12 items-center gap-3 border-b py-3 text-sm font-bold transition"
+              >
+                <span className="text-brand-blue/45 font-mono text-xs">
+                  {item.number}
+                </span>
+                <span className="min-w-0 flex-1">{item.label}</span>
+                <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 opacity-35 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
+              </a>
+            ))}
+          </nav>
         </div>
       </div>
     </section>
@@ -529,10 +578,16 @@ function ReliefFinderSection() {
 function OnePaymentSection() {
   const section = content.onePayment;
   const [simplified, setSimplified] = useState(false);
-  const visiblePayments = simplified
-    ? [section.simplifiedPayment]
-    : section.payments;
-  const total = simplified ? section.possibleTotal : section.currentTotal;
+  const [targetPayment, setTargetPayment] = useState<number>(
+    section.possibleTotal,
+  );
+  const simplifiedPayment = {
+    ...section.simplifiedPayment,
+    amount: targetPayment,
+  };
+  const visiblePayments = simplified ? [simplifiedPayment] : section.payments;
+  const total = simplified ? targetPayment : section.currentTotal;
+  const monthlyDifference = section.currentTotal - targetPayment;
 
   return (
     <section
@@ -592,6 +647,31 @@ function OnePaymentSection() {
                 );
               })}
             </div>
+            <label className="mt-7 block border-t border-white/12 pt-6">
+              <span className="flex items-center justify-between gap-4">
+                <span className="text-xs font-bold text-white/58 uppercase">
+                  {section.targetLabel}
+                </span>
+                <span className="text-lg font-semibold">
+                  {currency.format(targetPayment)}
+                </span>
+              </span>
+              <input
+                type="range"
+                min={section.targetRange.min}
+                max={section.targetRange.max}
+                step={section.targetRange.step}
+                value={targetPayment}
+                onChange={(event) => {
+                  setTargetPayment(Number(event.target.value));
+                  setSimplified(true);
+                }}
+                className="mt-3 h-6 w-full cursor-pointer accent-emerald-400"
+              />
+              <span className="mt-2 block text-xs leading-5 text-white/48">
+                {section.targetHelp}
+              </span>
+            </label>
           </div>
           <div
             className={`flex flex-col justify-between rounded-lg p-6 transition-colors duration-500 sm:p-8 ${simplified ? "text-brand-grey-dark bg-emerald-50" : "text-brand-grey-dark bg-white"}`}
@@ -612,8 +692,19 @@ function OnePaymentSection() {
                   : section.paymentDatesLabel}
               </p>
               <p className="mt-6 text-lg leading-7 font-semibold">
-                {simplified ? section.benefit : section.currentBenefit}
+                {simplified ? section.benefitPrefix : section.currentBenefit}
               </p>
+              {simplified ? (
+                <div className="mt-6 border-t border-emerald-700/15 pt-5">
+                  <p className="text-xs font-bold text-emerald-800 uppercase">
+                    {section.differenceLabel}
+                  </p>
+                  <p className="mt-2 text-3xl font-semibold text-emerald-800">
+                    {currency.format(monthlyDifference)}
+                    <span className="text-sm font-medium">/mo</span>
+                  </p>
+                </div>
+              ) : null}
             </div>
             <div className="mt-8">
               <PrimaryCta {...section.cta} />
@@ -631,7 +722,17 @@ function OnePaymentSection() {
 function CreditConfidenceSection() {
   const section = content.creditConfidence;
   const [selectedIndex, setSelectedIndex] = useState(1);
+  const [reviewSignals, setReviewSignals] = useState(() =>
+    section.reviewSignals.map(() => false),
+  );
   const selectedRange = section.ranges[selectedIndex];
+  const selectedSignalCount = reviewSignals.filter(Boolean).length;
+
+  function toggleReviewSignal(index: number) {
+    setReviewSignals((current) =>
+      current.map((value, itemIndex) => (itemIndex === index ? !value : value)),
+    );
+  }
 
   return (
     <section id="credit-confidence" className="bg-white py-12 sm:py-16">
@@ -658,6 +759,60 @@ function CreditConfidenceSection() {
                 </span>
               </button>
             ))}
+          </div>
+          <div className="border-brand-grey-light/25 mt-7 border-t pt-6">
+            <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
+              <div>
+                <p className="text-brand-grey-dark text-sm font-bold">
+                  {section.contextLabel}
+                </p>
+                <p className="text-brand-grey-mid mt-1 max-w-2xl text-xs leading-5">
+                  {section.contextBody}
+                </p>
+              </div>
+              <p className="text-brand-blue shrink-0 text-xs font-bold">
+                {selectedSignalCount}/{section.reviewSignals.length}{" "}
+                {section.contextProgressLabel}
+              </p>
+            </div>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              {section.reviewSignals.map((signal, index) => (
+                <button
+                  key={signal}
+                  type="button"
+                  aria-pressed={reviewSignals[index]}
+                  onClick={() => toggleReviewSignal(index)}
+                  className={`flex min-h-12 items-center gap-3 rounded-md border px-4 text-left text-sm font-semibold transition ${reviewSignals[index] ? "border-brand-blue bg-brand-blue/5 text-brand-blue" : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
+                >
+                  <span
+                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-sm border ${reviewSignals[index] ? "border-brand-blue bg-brand-blue text-white" : "border-brand-grey-light/60"}`}
+                  >
+                    {reviewSignals[index] ? (
+                      <CheckIcon className="h-3.5 w-3.5" />
+                    ) : null}
+                  </span>
+                  {signal}
+                </button>
+              ))}
+            </div>
+            <div
+              className="bg-brand-blue/5 mt-3 rounded-md px-4 py-3"
+              aria-live="polite"
+            >
+              <div className="bg-brand-blue/10 h-1.5 overflow-hidden rounded-sm">
+                <div
+                  className="bg-brand-blue h-full transition-[width] duration-300"
+                  style={{
+                    width: `${(selectedSignalCount / section.reviewSignals.length) * 100}%`,
+                  }}
+                />
+              </div>
+              <p className="text-brand-grey-mid mt-2 text-xs leading-5 font-semibold">
+                {selectedSignalCount >= 2
+                  ? section.contextReady
+                  : section.contextStart}
+              </p>
+            </div>
           </div>
           <div className="mt-8 grid gap-6 sm:grid-cols-[auto_1fr] sm:items-center">
             <div
@@ -861,7 +1016,7 @@ function TimelineSection() {
             ))}
           </div>
           <div
-            className="bg-brand-grey-dark flex min-h-[360px] flex-col justify-between rounded-lg p-6 text-white shadow-2xl sm:p-8"
+            className="bg-brand-grey-dark flex min-h-[470px] flex-col justify-between rounded-lg p-6 text-white shadow-2xl sm:p-8"
             aria-live="polite"
           >
             <div>
@@ -871,6 +1026,14 @@ function TimelineSection() {
                 </p>
                 <ClockIcon className="h-6 w-6 text-white/60" />
               </div>
+              <div className="mt-4 grid grid-cols-4 gap-2">
+                {section.steps.map((step, index) => (
+                  <span
+                    key={step.title}
+                    className={`h-1.5 rounded-sm transition ${index <= activeStep ? "bg-white" : "bg-white/15"}`}
+                  />
+                ))}
+              </div>
               <h3 className="mt-8 text-3xl font-semibold">{active.title}</h3>
               <p className="mt-4 text-lg leading-8 text-white/70">
                 {active.body}
@@ -878,9 +1041,44 @@ function TimelineSection() {
               <p className="mt-7 border-l-2 border-emerald-400 pl-4 text-sm leading-6 text-white/75">
                 {active.note}
               </p>
+              <div className="mt-7 divide-y divide-white/10 border-y border-white/10">
+                <TimelineDetail
+                  label={section.youShareLabel}
+                  body={active.youShare}
+                />
+                <TimelineDetail
+                  label={section.riverReliefLabel}
+                  body={active.riverRelief}
+                />
+                <TimelineDetail
+                  label={section.yourControlLabel}
+                  body={active.yourControl}
+                />
+              </div>
             </div>
-            <div className="mt-8">
-              <LightCta {...section.cta} />
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              {activeStep > 0 ? (
+                <button
+                  type="button"
+                  onClick={() => setActiveStep((current) => current - 1)}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-white/20 px-5 text-sm font-bold text-white transition hover:bg-white/8"
+                >
+                  <ArrowRightIcon className="h-4 w-4 rotate-180" />
+                  {section.previousLabel}
+                </button>
+              ) : null}
+              {activeStep < section.steps.length - 1 ? (
+                <button
+                  type="button"
+                  onClick={() => setActiveStep((current) => current + 1)}
+                  className="text-brand-grey-dark inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-white px-5 text-sm font-bold shadow-lg"
+                >
+                  {section.nextLabel}
+                  <ArrowRightIcon className="h-4 w-4" />
+                </button>
+              ) : (
+                <LightCta {...section.cta} />
+              )}
             </div>
           </div>
         </div>
@@ -889,9 +1087,28 @@ function TimelineSection() {
   );
 }
 
+function TimelineDetail({ label, body }: { label: string; body: string }) {
+  return (
+    <div className="grid gap-1 py-3 sm:grid-cols-[0.34fr_0.66fr] sm:gap-4">
+      <p className="text-xs font-bold text-white/45 uppercase">{label}</p>
+      <p className="text-sm leading-6 text-white/72">{body}</p>
+    </div>
+  );
+}
+
 function TrustArchitectureSection() {
   const section = content.trustArchitecture;
   const [activeIndex, setActiveIndex] = useState(0);
+  const [preferences, setPreferences] = useState(() =>
+    section.preferences.map((_, index) => index < 2),
+  );
+  const selectedPreferenceCount = preferences.filter(Boolean).length;
+
+  function togglePreference(index: number) {
+    setPreferences((current) =>
+      current.map((value, itemIndex) => (itemIndex === index ? !value : value)),
+    );
+  }
 
   return (
     <section
@@ -931,19 +1148,59 @@ function TrustArchitectureSection() {
           ))}
         </div>
         <div
-          className="mt-4 grid gap-6 rounded-lg border border-white/15 bg-white/[0.04] p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center"
+          className="mt-4 rounded-lg border border-white/15 bg-white/[0.04] p-6 sm:p-8"
           aria-live="polite"
         >
-          <div>
-            <p className="text-xl leading-8 font-semibold">
-              {section.principles[activeIndex].body}
-            </p>
-            <p className="mt-4 flex items-center gap-3 text-sm text-white/62">
-              <ShieldCheckIcon className="h-5 w-5 shrink-0" />
-              {section.trustLine}
-            </p>
+          <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+            <div>
+              <p className="text-xl leading-8 font-semibold">
+                {section.principles[activeIndex].body}
+              </p>
+              <p className="mt-4 flex items-center gap-3 text-sm text-white/62">
+                <ShieldCheckIcon className="h-5 w-5 shrink-0" />
+                {section.trustLine}
+              </p>
+              <div className="mt-7">
+                <LightCta {...section.cta} />
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between gap-4">
+                <p className="text-sm font-bold">{section.preferencesLabel}</p>
+                <p className="text-xs font-bold text-white/48">
+                  {selectedPreferenceCount}/{section.preferences.length}
+                </p>
+              </div>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {section.preferences.map((preference, index) => (
+                  <button
+                    key={preference}
+                    type="button"
+                    aria-pressed={preferences[index]}
+                    onClick={() => togglePreference(index)}
+                    className={`flex min-h-12 items-center gap-3 rounded-md border px-4 text-left text-sm font-semibold transition ${preferences[index] ? "text-brand-grey-dark border-white bg-white" : "border-white/15 bg-white/[0.03] text-white/68 hover:bg-white/[0.08]"}`}
+                  >
+                    <span
+                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-sm border ${preferences[index] ? "border-brand-blue bg-brand-blue text-white" : "border-white/25"}`}
+                    >
+                      {preferences[index] ? (
+                        <CheckIcon className="h-3.5 w-3.5" />
+                      ) : null}
+                    </span>
+                    {preference}
+                  </button>
+                ))}
+              </div>
+              <p className="mt-4 text-sm leading-6 text-white/62">
+                {selectedPreferenceCount >= 3
+                  ? section.preferencesReady
+                  : section.preferencesStart}
+              </p>
+              <p className="mt-2 text-xs font-bold text-emerald-300">
+                {selectedPreferenceCount} {section.preferencesCountLabel}
+              </p>
+            </div>
           </div>
-          <LightCta {...section.cta} />
         </div>
       </div>
     </section>
@@ -953,7 +1210,9 @@ function TrustArchitectureSection() {
 function ScenariosSection() {
   const section = content.scenarios;
   const [activeIndex, setActiveIndex] = useState(0);
+  const [priorityIndex, setPriorityIndex] = useState(0);
   const scenario = section.scenarios[activeIndex];
+  const priority = section.priorities[priorityIndex];
 
   return (
     <section id="scenarios" className="bg-white py-12 sm:py-16">
@@ -994,8 +1253,38 @@ function ScenariosSection() {
             <p className="text-brand-grey-mid mt-4 leading-7">
               {scenario.body}
             </p>
+            <p className="text-brand-grey-mid mt-7 text-xs font-bold uppercase">
+              {section.priorityLabel}
+            </p>
+            <div className="mt-3 grid gap-2">
+              {section.priorities.map((item, index) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  aria-pressed={priorityIndex === index}
+                  onClick={() => setPriorityIndex(index)}
+                  className={`flex min-h-11 items-center justify-between gap-3 rounded-md border px-4 text-left text-sm font-bold transition ${priorityIndex === index ? "border-brand-blue bg-brand-blue text-white" : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue bg-white"}`}
+                >
+                  {item.label}
+                  {priorityIndex === index ? (
+                    <CheckIcon className="h-4 w-4 shrink-0" />
+                  ) : null}
+                </button>
+              ))}
+            </div>
           </div>
           <div>
+            <div className="border-brand-blue/15 mb-4 rounded-md border bg-white p-5">
+              <p className="text-brand-blue text-xs font-bold uppercase">
+                {section.priorityResultLabel}
+              </p>
+              <p className="text-brand-grey-dark mt-2 font-bold">
+                {priority.label}
+              </p>
+              <p className="text-brand-grey-mid mt-2 text-sm leading-6">
+                {priority.guidance}
+              </p>
+            </div>
             <div className="grid gap-3">
               {scenario.questions.map((question, index) => (
                 <p
@@ -1154,6 +1443,7 @@ export function DemoComponentsPage() {
   return (
     <>
       <HeroSection />
+      <ComponentsTableOfContents />
       <PaymentClaritySection />
       <DebtLoadSection />
       <ReliefFinderSection />
@@ -1164,6 +1454,7 @@ export function DemoComponentsPage() {
       <TrustArchitectureSection />
       <ScenariosSection />
       <AdvisorSection />
+      <SpecialistChatDemo />
     </>
   );
 }
