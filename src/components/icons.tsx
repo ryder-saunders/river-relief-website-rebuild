@@ -140,3 +140,106 @@ export function UserIcon(props: IconProps) {
     </SvgIcon>
   );
 }
+
+export function CreditCardIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <rect width="20" height="14" x="2" y="5" rx="2" />
+      <path d="M2 10h20" />
+      <path d="M6 15h2" />
+    </SvgIcon>
+  );
+}
+
+export function GaugeIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="m12 14 4-4" />
+      <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+    </SvgIcon>
+  );
+}
+
+export function WalletCardsIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M10 14a2 2 0 0 0 0 4h8v-4Z" />
+      <path d="M18 6V4a2 2 0 0 0-2-2H5a3 3 0 0 0 0 6h13v4" />
+      <path d="M18 18v2a2 2 0 0 1-2 2H5a3 3 0 0 1-3-3V5" />
+    </SvgIcon>
+  );
+}
+
+export function CalendarIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M8 2v4" />
+      <path d="M16 2v4" />
+      <rect width="18" height="18" x="3" y="4" rx="2" />
+      <path d="M3 10h18" />
+    </SvgIcon>
+  );
+}
+
+export function ClockIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </SvgIcon>
+  );
+}
+
+export function LockIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <rect width="18" height="12" x="3" y="10" rx="2" />
+      <path d="M7 10V7a5 5 0 0 1 10 0v3" />
+    </SvgIcon>
+  );
+}
+
+export function MessageCircleIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" />
+    </SvgIcon>
+  );
+}
+
+export function RotateCcwIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+      <path d="M3 3v5h5" />
+    </SvgIcon>
+  );
+}
+
+export function SlidersHorizontalIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M21 4h-7" />
+      <path d="M10 4H3" />
+      <path d="M21 12h-9" />
+      <path d="M8 12H3" />
+      <path d="M21 20h-5" />
+      <path d="M12 20H3" />
+      <path d="M14 2v4" />
+      <path d="M8 10v4" />
+      <path d="M16 18v4" />
+    </SvgIcon>
+  );
+}
+
+export function SparklesIcon(props: IconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="m12 3-1.9 4.8a2 2 0 0 1-1.1 1.1L4 11l5 2.1a2 2 0 0 1 1.1 1.1L12 19l1.9-4.8a2 2 0 0 1 1.1-1.1L20 11l-5-2.1a2 2 0 0 1-1.1-1.1Z" />
+      <path d="M5 3v4" />
+      <path d="M3 5h4" />
+      <path d="M19 17v4" />
+      <path d="M17 19h4" />
+    </SvgIcon>
+  );
+}

@@ -4,7 +4,8 @@
 
 - Source: User-generated River Relief asset, 2026-07-30.
 - Intended use: primary debt relief and faith-based guidance imagery, including replacing the retired illustrated faith/river background.
-- Used in site: `src/lib/site-config.ts`, `src/app/globals.css`.
+- Used in site: `src/lib/site-config.ts`, `src/app/globals.css`, including the
+  `/demo-components` experience-lab hero.
 - File: `public/brand/generated/v006/debt-relief-budget-couple-v006.png`
 - Public path: `/brand/generated/v006/debt-relief-budget-couple-v006.png`
 - Dimensions: 1402 x 1122 PNG.

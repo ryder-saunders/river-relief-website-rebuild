@@ -27,6 +27,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  overflow-x: clip;
 }
 
 html {
@@ -61,4 +62,68 @@ html {
     0 0 0 1px rgb(255 255 255 / 16%),
     0 0 28px rgb(255 255 255 / 34%),
     0 14px 34px rgb(0 0 0 / 18%);
+}
+
+.demo-components-hero {
+  background:
+    linear-gradient(
+      90deg,
+      rgb(13 26 37 / 96%) 0%,
+      rgb(20 37 51 / 88%) 48%,
+      rgb(20 37 51 / 45%) 100%
+    ),
+    url("/brand/generated/v006/debt-relief-budget-couple-v006.png");
+  background-position: center;
+  background-size: cover;
+}
+
+.demo-score-ring {
+  --score-progress: 50%;
+
+  background: conic-gradient(
+    var(--color-brand-blue) var(--score-progress),
+    color-mix(in srgb, var(--color-brand-blue) 10%, white) 0
+  );
+  border-radius: 50%;
+  color: var(--color-brand-blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 9rem;
+  width: 9rem;
+  position: relative;
+  isolation: isolate;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.demo-score-ring::before {
+  background: white;
+  border-radius: 50%;
+  content: "";
+  inset: 0.65rem;
+  position: absolute;
+  z-index: -1;
+}
+
+@media (max-width: 640px) {
+  .demo-components-hero {
+    background-position: 58% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

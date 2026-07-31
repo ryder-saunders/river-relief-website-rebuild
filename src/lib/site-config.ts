@@ -947,6 +947,326 @@ export const siteConfig = {
     },
   },
 
+  demoComponents: {
+    title: "Debt Relief Experience Lab",
+    description:
+      "Explore ten interactive River Relief concepts designed to make debt options feel clear, private, and human.",
+    hero: {
+      eyebrow: "River Relief Experience Lab",
+      heading: "Debt relief should feel clear before it feels urgent.",
+      body: "Explore ten calm, interactive ways to understand the numbers, compare a path forward, and decide what feels right.",
+      privacyNote:
+        "Your selections stay on this page and are not submitted to River Relief.",
+      primaryCta: { label: "Start With My Payment", href: "#payment-clarity" },
+      secondaryCta: { label: "Qualify For Debt Relief", href: "/qualify" },
+      proof: ["Illustrative estimates", "No hard credit pull", "No judgement"],
+    },
+    paymentClarity: {
+      number: "01",
+      eyebrow: "Payment clarity",
+      title: "See what breathing room could look like.",
+      body: "Adjust the numbers for a simple, side-by-side view of today and an illustrative alternative.",
+      debtLabel: "Estimated card debt",
+      paymentLabel: "Current monthly payments",
+      currentLabel: "Today",
+      possibleLabel: "Illustrative path",
+      reliefLabel: "Potential monthly breathing room",
+      defaults: { debt: 32000, payment: 1120 },
+      ranges: {
+        debt: { min: 5000, max: 80000, step: 1000 },
+        payment: { min: 250, max: 3000, step: 5 },
+      },
+      disclaimer:
+        "Illustration only. This is not an offer or approval. Actual rates, terms, fees, and payments vary.",
+      cta: { label: "Review My Real Numbers", href: "/qualify" },
+    },
+    debtLoad: {
+      number: "02",
+      eyebrow: "Debt load visualizer",
+      title: "Turn scattered balances into one clear picture.",
+      body: "Select the accounts you want to understand together. The summary updates instantly.",
+      accountsLabel: "Accounts in your view",
+      summaryLabel: "Selected debt snapshot",
+      balanceLabel: "Total balance",
+      paymentLabel: "Monthly payments",
+      datesLabel: "Due dates",
+      averageAprLabel: "Average APR",
+      aprLabel: "APR",
+      selectAllLabel: "Select all accounts",
+      accounts: [
+        { name: "Everyday card", balance: 8400, payment: 310, apr: 24.9 },
+        { name: "Rewards card", balance: 12600, payment: 420, apr: 27.4 },
+        { name: "Store card", balance: 3900, payment: 165, apr: 29.9 },
+        { name: "Personal card", balance: 7100, payment: 250, apr: 21.8 },
+      ],
+      insight:
+        "Seeing the full structure is often the first step toward simplifying it.",
+      cta: { label: "Organize My Debt Privately", href: "/qualify" },
+    },
+    reliefFinder: {
+      number: "03",
+      eyebrow: "Guided relief finder",
+      title: "Find the right place to begin.",
+      body: "Three private questions shape a practical next step. No contact details needed.",
+      stepLabel: "Question",
+      restartLabel: "Start over",
+      questions: [
+        {
+          prompt: "What would help most right now?",
+          options: [
+            "Lower monthly pressure",
+            "Fewer due dates",
+            "Compare my options",
+          ],
+        },
+        {
+          prompt: "How does this month feel?",
+          options: [
+            "Manageable but tight",
+            "Hard to keep up",
+            "I need a plan soon",
+          ],
+        },
+        {
+          prompt: "How would you rather start?",
+          options: [
+            "Private online review",
+            "Talk with a person",
+            "Keep learning first",
+          ],
+        },
+      ],
+      result: {
+        eyebrow: "Your suggested first step",
+        title: "Begin with a private payment review.",
+        body: "Your answers point toward organizing the numbers first, then choosing whether an online path or a conversation feels better.",
+        points: [
+          "About 3 minutes",
+          "Contact information comes last",
+          "A person reviews the context",
+        ],
+      },
+      cta: { label: "Begin My Private Review", href: "/qualify" },
+      callCta: { label: "Call River Relief", href: "tel:8005201758" },
+    },
+    onePayment: {
+      number: "04",
+      eyebrow: "One-payment transformation",
+      title: "From a month of reminders to one clear rhythm.",
+      body: "Switch views to feel the difference between managing many payments and planning around one.",
+      beforeLabel: "Multiple payments",
+      afterLabel: "One possible payment",
+      toggleBefore: "Current view",
+      toggleAfter: "Simplified view",
+      monthLabel: "A month at a glance",
+      currentTotal: 1240,
+      possibleTotal: 790,
+      payments: [
+        { day: 3, amount: 210, label: "Card 1" },
+        { day: 8, amount: 325, label: "Card 2" },
+        { day: 14, amount: 185, label: "Store" },
+        { day: 19, amount: 290, label: "Card 3" },
+        { day: 26, amount: 230, label: "Card 4" },
+      ],
+      simplifiedPayment: { day: 12, amount: 790, label: "One payment" },
+      benefit:
+        "One date. One amount to plan around. $450 less in this illustration.",
+      currentBenefit:
+        "5 reminders competing for attention throughout the month.",
+      paymentDateLabel: "payment date",
+      paymentDatesLabel: "payment dates",
+      disclaimer:
+        "Example scenario only. Consolidation does not erase debt and may not fit every borrower.",
+      cta: { label: "See If One Payment Fits", href: "/qualify" },
+    },
+    creditConfidence: {
+      number: "05",
+      eyebrow: "Credit confidence meter",
+      title: "You do not need a perfect score to ask a good question.",
+      body: "Choose the range that feels closest. We will show what matters next without turning a score into a verdict.",
+      rangeLabel: "My estimated credit range",
+      ranges: [
+        { label: "Rebuilding", score: "Below 580", progress: 28 },
+        { label: "Fair", score: "580-669", progress: 48 },
+        { label: "Good", score: "670-739", progress: 68 },
+        { label: "Very good", score: "740+", progress: 86 },
+        { label: "Not sure", score: "That is okay", progress: 50 },
+      ],
+      responseTitle: "There may still be a useful next step.",
+      responseBody:
+        "Credit is one part of the picture. Debt amount, income, payment history, state, and affiliate availability may also matter.",
+      factors: [
+        "Debt-to-income",
+        "Payment history",
+        "Loan amount",
+        "State availability",
+      ],
+      cta: { label: "Check My Options", href: "/qualify" },
+    },
+    breathingRoom: {
+      number: "06",
+      eyebrow: "Monthly breathing-room calculator",
+      title: "Give every dollar a little more context.",
+      body: "Estimate what remains after essentials and debt payments, then compare an illustrative lower-payment path.",
+      incomeLabel: "Monthly take-home income",
+      essentialsLabel: "Essential monthly expenses",
+      debtPaymentLabel: "Current debt payments",
+      afterLabel: "Illustrative debt payment",
+      currentLabel: "Remaining today",
+      possibleLabel: "Possible remaining",
+      defaults: {
+        income: 6200,
+        essentials: 3950,
+        payment: 1120,
+        possiblePayment: 790,
+      },
+      statusPositive: "More room for essentials, savings, and the unexpected.",
+      statusTight:
+        "A private review may help make the monthly pressure clearer.",
+      disclaimer:
+        "This planning tool is educational and does not provide financial advice or guarantee savings.",
+      cta: { label: "Build My Real Review", href: "/qualify" },
+    },
+    timeline: {
+      number: "07",
+      eyebrow: "Relief timeline",
+      title: "Know what happens before you share anything sensitive.",
+      body: "Explore each stage of the River Relief path, including what you do and what River Relief does.",
+      stepLabel: "Step",
+      steps: [
+        {
+          title: "Name the pressure",
+          time: "About 1 minute",
+          body: "Choose a debt range, the payment pressure, and what you want to make easier.",
+          note: "No exact account numbers are needed to start.",
+        },
+        {
+          title: "Build the picture",
+          time: "About 2 minutes",
+          body: "Add your credit range and preferred next step so the review has useful context.",
+          note: "Contact details come after the fit questions.",
+        },
+        {
+          title: "Review the options",
+          time: "Human follow-up",
+          body: "A River Relief advisor can look at the profile before beginning the conversation.",
+          note: "Ask about payment, APR, fees, term, and total repayment.",
+        },
+        {
+          title: "Choose your pace",
+          time: "You decide",
+          body: "Continue, compare, call back later, or decide that the path is not right for you.",
+          note: "Clarity comes before commitment.",
+        },
+      ],
+      cta: { label: "Take Step One", href: "/qualify" },
+    },
+    trustArchitecture: {
+      number: "08",
+      eyebrow: "Trust architecture",
+      title: "Privacy should be visible, not buried in fine print.",
+      body: "Open each principle to see how a respectful debt review can be designed around your control.",
+      principles: [
+        {
+          title: "Start with ranges",
+          short: "Share direction before details.",
+          body: "The first questions can use broad debt and credit ranges. Exact account information is not needed to understand the starting point.",
+        },
+        {
+          title: "Contact comes last",
+          short: "Understand the fit before follow-up.",
+          body: "You can work through the core questions before deciding how River Relief should contact you.",
+        },
+        {
+          title: "Choose the channel",
+          short: "Phone, text, or email is your call.",
+          body: "A clear preference helps River Relief respond in the way that feels most comfortable to you.",
+        },
+        {
+          title: "Keep the decision",
+          short: "A review is not a commitment.",
+          body: "You can ask questions and compare terms before deciding whether any available option makes sense.",
+        },
+      ],
+      trustLine:
+        "Your information should support the conversation, not replace your choice.",
+      cta: { label: "Start Privately", href: "/qualify" },
+    },
+    scenarios: {
+      number: "09",
+      eyebrow: "Interactive scenarios",
+      title: "Start with the situation that sounds most like yours.",
+      body: "Different kinds of pressure call for different first conversations.",
+      chooseLabel: "Choose a scenario",
+      outcomeLabel: "A useful first focus",
+      scenarios: [
+        {
+          title: "Payments feel too high",
+          short: "The month works, but barely.",
+          focus: "Monthly payment fit",
+          body: "Start by comparing the current total payment with an illustrative alternative, then review the full cost and term.",
+          questions: [
+            "What payment would create room?",
+            "How long would repayment last?",
+            "What fees affect the total?",
+          ],
+        },
+        {
+          title: "Too many due dates",
+          short: "The juggling is the hardest part.",
+          focus: "Payment structure",
+          body: "Map every balance and due date, then see whether simplifying the structure could make planning easier.",
+          questions: [
+            "Which balances belong together?",
+            "Could one date reduce friction?",
+            "Does the new structure truly fit?",
+          ],
+        },
+        {
+          title: "I need a clear answer",
+          short: "I have researched enough on my own.",
+          focus: "Human guidance",
+          body: "Build a short profile so an advisor can begin with context and answer the questions that matter most.",
+          questions: [
+            "What options may be available?",
+            "What will this cost overall?",
+            "What should I compare next?",
+          ],
+        },
+      ],
+      cta: { label: "Review This Scenario", href: "/qualify" },
+    },
+    advisor: {
+      number: "10",
+      eyebrow: "Advisor presence",
+      title: "A real conversation, on your terms.",
+      body: "Choose what you want to discuss and how you would rather begin. The next step updates around your comfort level.",
+      status: "Available for questions",
+      advisorName: "River Relief Advisor",
+      advisorRole: "Debt relief support",
+      topicLabel: "What would you like to discuss?",
+      topics: [
+        "Lowering payment pressure",
+        "Consolidating due dates",
+        "Understanding rates and fees",
+      ],
+      channelLabel: "How would you rather start?",
+      channels: ["Phone call", "Private online review", "Keep reading"],
+      nextStepLabel: "Your selected next step",
+      callSummary:
+        "Call now and begin with your selected question. You decide how much to share.",
+      onlineSummary:
+        "Start with private fit questions. Contact information comes at the end.",
+      readingSummary:
+        "Keep exploring the tools on this page, then return when you feel ready.",
+      callCta: { label: "Call (800) 520-1758", href: "tel:8005201758" },
+      onlineCta: { label: "Start Private Review", href: "/qualify" },
+      readingCta: { label: "Explore From The Top", href: "#payment-clarity" },
+      reassurance:
+        "No judgement. No pressure to decide on the first conversation.",
+    },
+  },
+
   social: {
     // TODO: fill in real social links; omit/empty hides the link in the footer
     facebook: "",
