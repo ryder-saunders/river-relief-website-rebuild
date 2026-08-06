@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { HandHeartIcon, PhoneIcon, ShieldCheckIcon } from "@/components/icons";
+import { TrustBadges } from "@/components/trust-badges";
 import { siteConfig } from "@/lib/site-config";
 
 const benefitIcons = [ShieldCheckIcon, PhoneIcon, HandHeartIcon];
@@ -21,6 +22,9 @@ export function ContactSection() {
           </h2>
           <p className="text-brand-grey-mid mt-5 text-lg leading-8">
             {contact.body}
+          </p>
+          <p className="text-brand-blue mt-4 text-sm leading-6 font-semibold">
+            {siteConfig.brandPromise.stewardship}
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {contact.callBenefits.map((benefit, index) => {
@@ -87,6 +91,9 @@ export function ContactSection() {
             >
               {contact.cta.label}
             </a>
+          </div>
+          <div className="mt-6">
+            <TrustBadges compact />
           </div>
         </div>
       </div>

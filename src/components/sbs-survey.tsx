@@ -7,68 +7,83 @@ import { ArrowRightIcon, CheckIcon, ShieldCheckIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site-config";
 
 type SurveyData = {
+  debtType: string;
   debtAmount: string;
-  paymentPressure: string;
-  creditRange: string;
-  primaryGoal: string;
-  urgency: string;
+  paymentStruggleDuration: string;
+  stateOfResidence: string;
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
-  preferredContact: string;
   consent: boolean;
 };
 
 type SurveyVariant = "hero" | "section" | "funnel";
 
 const initialData: SurveyData = {
+  debtType: "",
   debtAmount: "",
-  paymentPressure: "",
-  creditRange: "",
-  primaryGoal: "",
-  urgency: "",
+  paymentStruggleDuration: "",
+  stateOfResidence: "",
   firstName: "",
   lastName: "",
   email: "",
-  phone: "",
-  preferredContact: "Phone",
   consent: false,
 };
 
-const questions = [
-  {
-    key: "debtAmount",
-    label: "How much debt are you carrying?",
-    options: ["$5K-$15K", "$15K-$30K", "$30K-$50K", "$50K+"],
-    affirmation: "No judgement here. Everyone is on their own path.",
-  },
-  {
-    key: "paymentPressure",
-    label: "What is the monthly pressure?",
-    options: ["Manageable", "Tight", "Overwhelming", "Behind"],
-    affirmation:
-      "You are not behind for wanting breathing room. This helps us understand what relief could look like.",
-  },
-  {
-    key: "primaryGoal",
-    label: "What do you want most?",
-    options: ["Lower payment", "One due date", "Compare options", "Call first"],
-    affirmation:
-      "There is no wrong answer. Your goal simply helps the conversation start in the right place.",
-  },
-  {
-    key: "creditRange",
-    label: "Credit range",
-    options: ["Excellent", "Good", "Fair", "Rebuilding", "Unsure"],
-    affirmation:
-      "An estimate is enough. This is about direction, not perfection.",
-  },
+const states = [
+  "Alabama",
+  "Alaska",
+  "Arizona",
+  "Arkansas",
+  "California",
+  "Colorado",
+  "Connecticut",
+  "Delaware",
+  "Florida",
+  "Georgia",
+  "Hawaii",
+  "Idaho",
+  "Illinois",
+  "Indiana",
+  "Iowa",
+  "Kansas",
+  "Kentucky",
+  "Louisiana",
+  "Maine",
+  "Maryland",
+  "Massachusetts",
+  "Michigan",
+  "Minnesota",
+  "Mississippi",
+  "Missouri",
+  "Montana",
+  "Nebraska",
+  "Nevada",
+  "New Hampshire",
+  "New Jersey",
+  "New Mexico",
+  "New York",
+  "North Carolina",
+  "North Dakota",
+  "Ohio",
+  "Oklahoma",
+  "Oregon",
+  "Pennsylvania",
+  "Rhode Island",
+  "South Carolina",
+  "South Dakota",
+  "Tennessee",
+  "Texas",
+  "Utah",
+  "Vermont",
+  "Virginia",
+  "Washington",
+  "West Virginia",
+  "Wisconsin",
+  "Wyoming",
 ] as const;
 
-const contactOptions = ["Phone", "Text", "Email"];
-const contactAffirmation =
-  "You have already done the useful sorting. This last step lets a real person follow up.";
+type QuestionKey = (typeof siteConfig)["intake"]["questions"][number]["key"];
 
 export function SbsSurvey({
   variant = "section",
@@ -82,8 +97,11 @@ export function SbsSurvey({
   const [submitted, setSubmitted] = useState(false);
   const [data, setData] = useState<SurveyData>(initialData);
   const { intake } = siteConfig;
-  const isContactStep = step === questions.length;
-  const currentQuestion = questions[step];
+  const stateStepIndex = intake.questions.length;
+  const contactStepIndex = intake.questions.length + 1;
+  const isStateStep = step === stateStepIndex;
+  const isContactStep = step === contactStepIndex;
+  const currentQuestion = intake.questions[step];
 
   const crmPayload = useMemo(
     () => ({
@@ -94,17 +112,12 @@ export function SbsSurvey({
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
-        phone: data.phone,
-        preferredContact: data.preferredContact,
       },
       debtProfile: {
+        debtType: data.debtType,
         debtAmount: data.debtAmount,
-        paymentPressure: data.paymentPressure,
-        creditRange: data.creditRange,
-      },
-      intent: {
-        primaryGoal: data.primaryGoal,
-        urgency: data.urgency,
+        paymentStruggleDuration: data.paymentStruggleDuration,
+        stateOfResidence: data.stateOfResidence,
       },
       consent: data.consent,
     }),
@@ -118,9 +131,9 @@ export function SbsSurvey({
     setData((current) => ({ ...current, [key]: value }));
   }
 
-  function chooseOption(key: (typeof questions)[number]["key"], value: string) {
+  function chooseOption(key: QuestionKey, value: string) {
     updateField(key, value);
-    setStep((current) => Math.min(questions.length, current + 1));
+    setStep((current) => Math.min(contactStepIndex, current + 1));
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -143,25 +156,27 @@ export function SbsSurvey({
       }`}
     >
       <div className="mb-5 grid grid-cols-5 gap-2">
-        {[...questions, { key: "contact", label: "Contact" }].map(
-          (item, index) => (
-            <button
-              key={item.key}
-              type="button"
-              onClick={() => setStep(index)}
-              className={`h-2 rounded-sm transition-colors ${
-                index <= step
-                  ? variant === "hero"
-                    ? "bg-brand-blue"
-                    : "bg-white"
-                  : variant === "hero"
-                    ? "bg-brand-grey-light/35"
-                    : "bg-white/20"
-              }`}
-              aria-label={`Go to ${item.label}`}
-            />
-          ),
-        )}
+        {[
+          ...intake.questions,
+          { key: "stateOfResidence", label: "State" },
+          { key: "contact", label: "Contact" },
+        ].map((item, index) => (
+          <button
+            key={item.key}
+            type="button"
+            onClick={() => setStep(index)}
+            className={`h-2 rounded-sm transition-colors ${
+              index <= step
+                ? variant === "hero"
+                  ? "bg-brand-blue"
+                  : "bg-white"
+                : variant === "hero"
+                  ? "bg-brand-grey-light/35"
+                  : "bg-white/20"
+            }`}
+            aria-label={`Go to ${item.label}`}
+          />
+        ))}
       </div>
 
       <div className="rounded-lg bg-white p-4 sm:p-5">
@@ -178,15 +193,12 @@ export function SbsSurvey({
             </div>
             <div className="mt-5 grid gap-2">
               {currentQuestion.options.map((option) => (
-                <button
+                <SurveyOption
                   key={option}
-                  type="button"
-                  onClick={() => chooseOption(currentQuestion.key, option)}
-                  className="group border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue hover:bg-brand-blue/5 flex w-full items-center justify-between rounded-md border bg-white px-4 py-3 text-left text-sm font-semibold transition-colors"
-                >
-                  {option}
-                  <ArrowRightIcon className="text-brand-blue h-4 w-4 opacity-60 transition-transform group-hover:translate-x-0.5" />
-                </button>
+                  option={option}
+                  selected={data[currentQuestion.key] === option}
+                  onSelect={() => chooseOption(currentQuestion.key, option)}
+                />
               ))}
             </div>
             <p className="border-brand-blue/15 bg-brand-blue/5 text-brand-blue mt-5 flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
@@ -196,13 +208,50 @@ export function SbsSurvey({
           </fieldset>
         )}
 
+        {isStateStep && (
+          <div className="grid gap-4">
+            <div className="text-center">
+              <span className="bg-brand-blue mx-auto flex h-14 w-14 items-center justify-center rounded-full text-white">
+                <CheckIcon className="h-9 w-9" />
+              </span>
+              <h3 className="text-brand-grey-dark mt-5 text-2xl leading-tight font-semibold sm:text-3xl">
+                {intake.stateStep.title}
+              </h3>
+            </div>
+            <label className="text-brand-grey-dark grid gap-2 text-sm font-semibold">
+              <span className="sr-only">{intake.stateStep.label}</span>
+              <select
+                value={data.stateOfResidence}
+                required
+                onChange={(event) =>
+                  updateField("stateOfResidence", event.target.value)
+                }
+                className="border-brand-grey-light/50 text-brand-grey-dark focus:border-brand-blue rounded-md border bg-white px-4 py-3 font-normal transition-colors outline-none"
+              >
+                <option value="">{intake.stateStep.label}</option>
+                {states.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <p className="border-brand-blue/15 bg-brand-blue/5 text-brand-blue flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
+              <CheckIcon className="mt-0.5 h-4 w-4 shrink-0" />
+              {intake.stateStep.affirmation}
+            </p>
+          </div>
+        )}
+
         {isContactStep && (
           <div className="grid gap-4">
-            <div className="flex items-start justify-between gap-4">
+            <div className="text-center">
+              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-600 text-white">
+                <CheckIcon className="h-9 w-9" />
+              </span>
               <h3 className="text-brand-grey-dark text-2xl leading-tight font-semibold sm:text-3xl">
-                Where should we follow up?
+                {intake.contactStep.title}
               </h3>
-              <ShieldCheckIcon className="text-brand-blue mt-1 h-7 w-7 shrink-0" />
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <TextInput
@@ -226,35 +275,10 @@ export function SbsSurvey({
                 onChange={(value) => updateField("email", value)}
                 required
               />
-              <TextInput
-                label="Phone"
-                type="tel"
-                value={data.phone}
-                onChange={(value) => updateField("phone", value)}
-                required
-              />
+              <p className="text-brand-grey-dark flex items-end text-sm leading-6 font-semibold">
+                {intake.contactStep.deliveryQuestion}
+              </p>
             </div>
-            <fieldset>
-              <legend className="text-brand-grey-dark text-sm font-semibold">
-                Preferred contact
-              </legend>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {contactOptions.map((option) => (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() => updateField("preferredContact", option)}
-                    className={`rounded-md border px-4 py-2 text-sm font-semibold transition-colors ${
-                      data.preferredContact === option
-                        ? "border-brand-blue bg-brand-blue text-white"
-                        : "border-brand-grey-light/40 text-brand-grey-mid hover:border-brand-blue hover:text-brand-blue bg-white"
-                    }`}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
             <label className="text-brand-grey-mid flex gap-3 text-sm leading-6">
               <input
                 type="checkbox"
@@ -269,7 +293,7 @@ export function SbsSurvey({
             </label>
             <p className="border-brand-blue/15 bg-brand-blue/5 text-brand-blue flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
               <CheckIcon className="mt-0.5 h-4 w-4 shrink-0" />
-              {contactAffirmation}
+              {intake.contactStep.affirmation}
             </p>
           </div>
         )}
@@ -289,6 +313,21 @@ export function SbsSurvey({
           >
             Back
           </button>
+          {isStateStep ? (
+            <button
+              type="button"
+              onClick={() => {
+                if (data.stateOfResidence) {
+                  setStep(contactStepIndex);
+                }
+              }}
+              className="bg-brand-blue hover:bg-brand-blue/90 inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+              disabled={!data.stateOfResidence}
+            >
+              Next
+              <ArrowRightIcon className="h-4 w-4" />
+            </button>
+          ) : null}
           {isContactStep ? (
             <button
               type="submit"
@@ -312,6 +351,41 @@ export function SbsSurvey({
         )}
       </div>
     </form>
+  );
+}
+
+function SurveyOption({
+  option,
+  selected,
+  onSelect,
+}: {
+  option: string;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`group flex w-full items-center justify-between rounded-md border px-4 py-3 text-left text-sm font-semibold transition-colors ${
+        selected
+          ? "border-brand-blue bg-brand-blue/5 text-brand-blue"
+          : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue hover:bg-brand-blue/5 bg-white"
+      }`}
+      aria-pressed={selected}
+    >
+      <span className="flex items-center gap-3">
+        <span
+          className={`h-4 w-4 rounded-full border ${
+            selected
+              ? "border-brand-blue ring-brand-blue/20 bg-brand-blue ring-4"
+              : "border-brand-grey-mid"
+          }`}
+        />
+        {option}
+      </span>
+      <ArrowRightIcon className="text-brand-blue h-4 w-4 opacity-60 transition-transform group-hover:translate-x-0.5" />
+    </button>
   );
 }
 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { TrustBadges } from "@/components/trust-badges";
 import { siteConfig } from "@/lib/site-config";
 
 export function SiteFooter() {
@@ -31,6 +32,15 @@ export function SiteFooter() {
               ))}
             </div>
           )}
+        </div>
+        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <TrustBadges theme="dark" compact />
+          <p className="max-w-xl text-sm leading-6 font-semibold text-white/68">
+            {siteConfig.scriptureLines.footer.text}{" "}
+            <span className="text-white/80">
+              {siteConfig.scriptureLines.footer.ref}
+            </span>
+          </p>
         </div>
         <p className="text-brand-grey-light mt-10 max-w-5xl text-xs leading-relaxed">
           {siteConfig.legal.disclosure}

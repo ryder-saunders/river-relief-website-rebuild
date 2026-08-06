@@ -15,9 +15,101 @@
 export const siteConfig = {
   orgName: "River Relief",
   tagline: "Faith-guided debt relief conversations",
+  brandPromise: {
+    tagline: "Promise over profit.",
+    stewardship: "Financial Stewardship for the next faithful step.",
+  },
+  scriptureLines: {
+    hero: {
+      text: "Commit your work to the Lord, and your plans will be established.",
+      ref: "Proverbs 16:3",
+    },
+    mission: {
+      text: "The plans of the diligent lead surely to abundance.",
+      ref: "Proverbs 21:5",
+    },
+    programs: {
+      text: "If any of you lacks wisdom, let him ask of God.",
+      ref: "James 1:5",
+    },
+    impact: {
+      text: "Which of you, intending to build, does not first count the cost?",
+      ref: "Luke 14:28",
+    },
+    footer: {
+      text: "Let all that you do be done in love.",
+      ref: "1 Corinthians 16:14",
+    },
+    completion: {
+      text: "The Lord will guide you continually.",
+      ref: "Isaiah 58:11",
+    },
+  },
+  pageScriptures: {
+    debtRelief: {
+      text: "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
+      ref: "Matthew 11:28",
+    },
+    creditCardDebt: {
+      text: "Owe no man any thing, but to love one another.",
+      ref: "Romans 13:8",
+    },
+    debtConsolidation: {
+      text: "Let all things be done decently and in order.",
+      ref: "1 Corinthians 14:40",
+    },
+    personalLoans: {
+      text: "The borrower is servant to the lender.",
+      ref: "Proverbs 22:7",
+    },
+    howItWorks: {
+      text: "In all thy ways acknowledge him, and he shall direct thy paths.",
+      ref: "Proverbs 3:6",
+    },
+    faithBasedGuidance: {
+      text: "God hath not given us the spirit of fear, but of power, and of love, and of a sound mind.",
+      ref: "2 Timothy 1:7",
+    },
+    resources: {
+      text: "The heart of the prudent getteth knowledge.",
+      ref: "Proverbs 18:15",
+    },
+    debtReview: {
+      text: "Let us search and try our ways.",
+      ref: "Lamentations 3:40",
+    },
+    faq: {
+      text: "Counsel in the heart of man is like deep water; but a man of understanding will draw it out.",
+      ref: "Proverbs 20:5",
+    },
+    about: {
+      text: "He hath shewed thee what is good.",
+      ref: "Micah 6:8",
+    },
+    contact: {
+      text: "A word spoken in due season, how good is it.",
+      ref: "Proverbs 15:23",
+    },
+  },
+  trust: {
+    badges: [
+      {
+        src: "/brand/trust-badges/bbb-accredited-business.png",
+        alt: "BBB Accredited Business",
+      },
+      {
+        src: "/brand/trust-badges/trustpilot.webp",
+        alt: "Trustpilot reviews",
+      },
+      {
+        src: "/brand/trust-badges/google-reviews.webp",
+        alt: "Google reviews",
+      },
+    ],
+  },
   description:
     "River Relief helps faith-based borrowers talk through credit card debt, compare personal-loan options, and take the next faithful step toward a more manageable monthly plan.",
-  url: "https://example.com", // TODO: replace with production domain once known
+  url: "https://river-relief-website-rebuild.vercel.app", // TODO: replace with client-owned production domain once known
 
   nav: [
     {
@@ -54,11 +146,11 @@ export const siteConfig = {
     eyebrow: "Faith based debt help",
     heading: "A path out of credit card debt.",
     subheading:
-      "Private, faith-respectful guidance for lowering payment pressure and finding the next right step.",
+      "Private, faith-respectful Financial Stewardship for lowering payment pressure and finding the next right step.",
     primaryCta: { label: "Qualify For Debt Relief", href: "/qualify" },
     headerCta: { label: "Qualify Today", href: "/qualify" },
     secondaryCta: { label: "Talk With Us", href: "/contact" },
-    trustLine: "Free review. No pressure. Human follow-up.",
+    trustLine: "Free review. No pressure. Promise over profit.",
     testimonial: {
       quote:
         "They helped us slow down, understand the numbers, and take the next step without feeling judged.",
@@ -142,7 +234,7 @@ export const siteConfig = {
   programs: {
     eyebrow: "How it works",
     heading: "Here’s how it works.",
-    body: "Answer a few questions, then talk through your options.",
+    body: "If any of you lacks wisdom, let him ask of God. James 1:5",
     items: [
       {
         title: "Answer quick questions",
@@ -207,13 +299,59 @@ export const siteConfig = {
   },
 
   intake: {
-    eyebrow: "Private debt relief review",
+    eyebrow: "Promise over profit",
     heading: "Take a step today for a better tomorrow.",
-    body: "Takes about 3 minutes. Answer a few questions, then choose how River Relief should follow up.",
-    steps: ["Debt", "Pressure", "Goal", "Contact"],
-    submitLabel: "Prepare My Review",
+    body: "Takes about 3 minutes. Answer the same private fit questions used on River Relief landing pages, then choose where to send your options.",
+    steps: ["Debt Type", "Amount", "Timing", "State", "Contact"],
+    submitLabel: "Send My Options",
     successTitle: "Your review profile is ready.",
     successBody: "This can be sent to the CRM in the next backend pass.",
+    promiseNote:
+      "Promise over profit. We start with stewardship, clarity, and no judgement.",
+    questions: [
+      {
+        key: "debtType",
+        label: "What type of debt is giving you the most stress right now?",
+        options: [
+          "Credit Card Debt",
+          "Personal Loan Debt",
+          "Another Kind Of Debt",
+        ],
+        affirmation:
+          "Naming the pressure is a faithful first step toward Financial Stewardship.",
+      },
+      {
+        key: "debtAmount",
+        label: "How Much Debt Do You Currently Have?",
+        options: ["$0 - $30,000", "$30,000 - $50,000", "$50,000+"],
+        affirmation:
+          "A range is enough. River Relief can help you compare options without shame.",
+      },
+      {
+        key: "paymentStruggleDuration",
+        label: "How Long Have You Been Struggling With Payments?",
+        options: [
+          "Very Recently",
+          "6 Months - 1 Year",
+          "1-3 years",
+          "3+ Years",
+        ],
+        affirmation:
+          "There is grace for every timeline. The next step can still be practical.",
+      },
+    ],
+    stateStep: {
+      title: "You Qualify For Debt Relief Options!",
+      label: "State of Residence*",
+      affirmation:
+        "State availability matters. This helps River Relief point you toward the right review path.",
+    },
+    contactStep: {
+      title: "Debt Relief Options Found!",
+      deliveryQuestion: "Where Should We Send Your Options?",
+      affirmation:
+        "Where your treasure is, there your heart will be also. Matthew 6:21",
+    },
   },
 
   contact: {
@@ -262,21 +400,7 @@ export const siteConfig = {
       trustLine:
         "Takes about 3 minutes. No judgement. Contact info comes last.",
       callCta: { label: "Call (800) 520-1758", href: "tel:8005201758" },
-      proof: ["Faith-respectful", "Private start", "Human follow-up"],
-      trustLogos: [
-        {
-          src: "/brand/trust-badges/bbb-accredited-business.png",
-          alt: "BBB Accredited Business",
-        },
-        {
-          src: "/brand/trust-badges/trustpilot.webp",
-          alt: "Trustpilot reviews",
-        },
-        {
-          src: "/brand/trust-badges/google-reviews.webp",
-          alt: "Google reviews",
-        },
-      ],
+      proof: ["Faith-respectful", "Financial Stewardship", "Human follow-up"],
     },
     nextStep: {
       title: "What happens after the review?",

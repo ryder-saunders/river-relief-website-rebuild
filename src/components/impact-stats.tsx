@@ -42,6 +42,12 @@ export function ImpactStats() {
           {impact.cta.label}
           <ArrowRightIcon className="ml-2 h-4 w-4" />
         </a>
+        <p className="text-brand-grey-mid mt-4 max-w-lg text-sm leading-6">
+          {siteConfig.scriptureLines.impact.text}{" "}
+          <span className="text-brand-grey-dark font-semibold">
+            {siteConfig.scriptureLines.impact.ref}
+          </span>
+        </p>
       </div>
     </section>
   );

@@ -6,6 +6,7 @@ import {
   PhoneIcon,
   ShieldCheckIcon,
 } from "@/components/icons";
+import { TrustBadges } from "@/components/trust-badges";
 import { siteConfig } from "@/lib/site-config";
 
 type StandardPageContent =
@@ -16,6 +17,14 @@ const cardIcons = [ShieldCheckIcon, PhoneIcon, HandHeartIcon];
 export function StandardPage({ content }: { content: StandardPageContent }) {
   const isContactPage =
     content.title === siteConfig.standardPages.contact.title;
+  const pageKey =
+    (
+      Object.entries(siteConfig.standardPages) as [
+        keyof typeof siteConfig.standardPages,
+        StandardPageContent,
+      ][]
+    ).find(([, page]) => page.title === content.title)?.[0] ?? "debtRelief";
+  const pageScripture = siteConfig.pageScriptures[pageKey];
 
   return (
     <>
@@ -39,7 +48,18 @@ export function StandardPage({ content }: { content: StandardPageContent }) {
             </div>
             <p className="mt-5 flex items-center gap-2 text-sm text-white/72">
               <ShieldCheckIcon className="h-4 w-4 shrink-0" />
-              Private review. No pressure. Faith-respectful support.
+              Private review.{" "}
+              <strong className="text-white">
+                {siteConfig.brandPromise.tagline}
+              </strong>{" "}
+              Faith-respectful support.
+            </p>
+            <div className="mt-5">
+              <TrustBadges theme="dark" />
+            </div>
+            <p className="mt-4 max-w-xl text-sm leading-6 font-semibold text-white/64">
+              {pageScripture.text}{" "}
+              <span className="text-white/80">{pageScripture.ref}</span>
             </p>
           </div>
           {isContactPage ? (
@@ -103,8 +123,8 @@ export function StandardPage({ content }: { content: StandardPageContent }) {
               body="Begin with direction, not pressure."
             />
             <ConfidenceTile
-              title="Faith-Respectful"
-              body="A practical process that leaves room for values."
+              title="Values First"
+              body="A practical process that leaves room for stewardship."
             />
             <ConfidenceTile
               title="Human Follow-Up"

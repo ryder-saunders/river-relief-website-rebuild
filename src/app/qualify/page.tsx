@@ -1,19 +1,26 @@
-import type { Metadata } from "next";
-import Image from "next/image";
 import { HandHeartIcon, ShieldCheckIcon, UserIcon } from "@/components/icons";
 import { SbsSurvey } from "@/components/sbs-survey";
+import { WebPageStructuredData } from "@/components/structured-data";
+import { TrustBadges } from "@/components/trust-badges";
 import { siteConfig } from "@/lib/site-config";
+import { metadataForPath } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Qualify For Debt Relief — ${siteConfig.orgName}`,
-  description: siteConfig.funnel.hero.body,
-};
+export const metadata = metadataForPath("/qualify");
 
 export default function QualifyPage() {
   const { funnel } = siteConfig;
 
   return (
     <>
+      <WebPageStructuredData
+        path="/qualify"
+        title={funnel.hero.title}
+        description={funnel.hero.body}
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: funnel.hero.title, path: "/qualify" },
+        ]}
+      />
       <section className="bg-brand-blue text-white">
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:py-12">
           <div className="text-center lg:text-left">
@@ -30,22 +37,12 @@ export default function QualifyPage() {
               <ShieldCheckIcon className="mt-0.5 h-5 w-5 shrink-0" />
               {funnel.hero.trustLine}
             </p>
-            <div className="mx-auto mt-8 grid max-w-lg grid-cols-3 items-center gap-3 lg:mx-0">
-              {funnel.hero.trustLogos.map((logo) => (
-                <div
-                  key={logo.src}
-                  className="flex min-h-14 items-center justify-center rounded-md bg-white px-1.5 py-1.5 sm:px-2 sm:py-2"
-                >
-                  <Image
-                    src={logo.src}
-                    alt={logo.alt}
-                    width={150}
-                    height={48}
-                    className="max-h-11 w-auto object-contain"
-                  />
-                </div>
-              ))}
+            <div className="mx-auto mt-8 lg:mx-0">
+              <TrustBadges theme="dark" />
             </div>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-6 font-semibold text-white/68 lg:mx-0">
+              {siteConfig.brandPromise.stewardship}
+            </p>
           </div>
 
           <SbsSurvey

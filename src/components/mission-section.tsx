@@ -46,6 +46,12 @@ export function MissionSection() {
             conversation about credit card debt, stewardship, and the next
             practical step.
           </p>
+          <p className="text-brand-blue mt-4 text-sm leading-6 font-semibold">
+            {siteConfig.scriptureLines.mission.text}{" "}
+            <span className="text-brand-grey-dark">
+              {siteConfig.scriptureLines.mission.ref}
+            </span>
+          </p>
           <ul className="mt-8 grid gap-4">
             {mission.points.map((point) => (
               <li

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRightIcon,
@@ -6,18 +5,27 @@ import {
   PhoneIcon,
   ShieldCheckIcon,
 } from "@/components/icons";
+import { TrustBadges } from "@/components/trust-badges";
+import { WebPageStructuredData } from "@/components/structured-data";
 import { siteConfig } from "@/lib/site-config";
+import { metadataForPath } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Review Submitted — ${siteConfig.orgName}`,
-  description: siteConfig.funnel.completion.body,
-};
+export const metadata = metadataForPath("/review-complete");
 
 export default function ReviewCompletePage() {
   const { completion } = siteConfig.funnel;
 
   return (
     <>
+      <WebPageStructuredData
+        path="/review-complete"
+        title={completion.title}
+        description={completion.body}
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: completion.title, path: "/review-complete" },
+        ]}
+      />
       <section className="bg-brand-blue text-white">
         <div className="mx-auto max-w-4xl px-6 py-16 text-center">
           <ShieldCheckIcon className="mx-auto h-12 w-12 text-white" />
@@ -29,6 +37,12 @@ export default function ReviewCompletePage() {
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-xl leading-8 text-white/75">
             {completion.body}
+          </p>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 font-semibold text-white/68">
+            {siteConfig.scriptureLines.completion.text}{" "}
+            <span className="text-white/80">
+              {siteConfig.scriptureLines.completion.ref}
+            </span>
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <a
@@ -50,18 +64,23 @@ export default function ReviewCompletePage() {
       </section>
 
       <section className="bg-white py-12">
-        <div className="mx-auto grid max-w-5xl gap-4 px-6 md:grid-cols-3">
-          {completion.reassurance.map((item) => (
-            <div
-              key={item}
-              className="border-brand-grey-light/30 shadow-brand-blue/5 flex gap-3 rounded-lg border bg-white p-5 shadow-lg"
-            >
-              <CheckIcon className="text-brand-blue mt-1 h-4 w-4 shrink-0" />
-              <p className="text-brand-grey-dark text-sm leading-6 font-semibold">
-                {item}
-              </p>
-            </div>
-          ))}
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="mb-8 flex justify-center">
+            <TrustBadges />
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {completion.reassurance.map((item) => (
+              <div
+                key={item}
+                className="border-brand-grey-light/30 shadow-brand-blue/5 flex gap-3 rounded-lg border bg-white p-5 shadow-lg"
+              >
+                <CheckIcon className="text-brand-blue mt-1 h-4 w-4 shrink-0" />
+                <p className="text-brand-grey-dark text-sm leading-6 font-semibold">
+                  {item}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>
