@@ -134,18 +134,13 @@ will fail CI.
 ## Deployment & repo ownership
 
 - Live at https://river-relief-website-rebuild.vercel.app. Vercel project
-  `lukeflahertys-projects/river-relief-website-rebuild` is connected via
-  GitHub integration to the `main` branch of
-  `LukeFlaherty/river-relief-website-rebuild`. Pushing to `main` triggers a
-  production deploy; PRs get preview deploys automatically. No
-  `vercel.json` — Next.js is auto-detected.
-- **This repo and Vercel project are temporary.** They're owned by the
-  developer (Luke Flaherty) as a starting point. At some point this will be
-  transferred to a client-owned GitHub org and a client-owned Vercel
-  project. When that happens: update this note, update the repo URL in
-  `README.md`, and confirm the Vercel project's Git integration is
-  repointed at the new remote (a transferred GitHub repo keeps its Vercel
-  hooks working automatically in most cases, but verify).
+  `river-relief-website-rebuild` is linked locally as project
+  `prj_GZWprUnk9XyHKRta1sieGsiqmIVX`. The GitHub repo has been transferred to
+  the client-owned `ryder-saunders/river-relief-website-rebuild` repository.
+  Confirm the Vercel project's Git integration is pointed at this transferred
+  repo; once confirmed, pushing to `main` should trigger a production deploy
+  and PRs should get preview deploys automatically. No `vercel.json` —
+  Next.js is auto-detected.
 - No environment variables or secrets are in use yet. If any are added
   (analytics IDs, form endpoints, CMS keys), document them in `README.md`
   and add a `.env.example`.

@@ -3,9 +3,10 @@
 Marketing site for River Relief LLC, a personal-loan / debt-consolidation
 lender. Built with Next.js (App Router) and TypeScript, deployed on Vercel.
 
-> **Note:** This repo currently lives at `LukeFlaherty/river-relief-website-rebuild` and deploys
-> from a personal Vercel account as a starting point. It will be transferred to a client-owned
-> GitHub org and Vercel project later — see `AGENTS.md` for details.
+> **Note:** This repo now lives at
+> [`ryder-saunders/river-relief-website-rebuild`](https://github.com/ryder-saunders/river-relief-website-rebuild).
+> Confirm the Vercel Git integration is pointed at this transferred GitHub
+> repo before relying on automatic production deploys from `main`.
 
 ## Stack
 
@@ -69,7 +70,9 @@ For more on how the project is organized and conventions to follow, see
 
 Live at **https://river-relief-website-rebuild.vercel.app**.
 
-The Vercel project (`lukeflahertys-projects/river-relief-website-rebuild`) is
-connected to this GitHub repo's GitHub integration: pushes to `main` deploy
-to production automatically, and PRs get preview deployments. No
+The Vercel project is linked locally as `river-relief-website-rebuild`
+(`prj_GZWprUnk9XyHKRta1sieGsiqmIVX`). Confirm in Vercel that its Git
+integration points to
+`ryder-saunders/river-relief-website-rebuild`: pushes to `main` should deploy
+to production automatically, and PRs should get preview deployments. No
 `vercel.json` is needed — Next.js is auto-detected.
