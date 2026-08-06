@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SiteStructuredData } from "@/components/structured-data";
 import { SiteShell } from "@/components/site-shell";
 import { siteConfig } from "@/lib/site-config";
@@ -92,6 +94,8 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col">
         <SiteStructuredData />
         <SiteShell>{children}</SiteShell>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
