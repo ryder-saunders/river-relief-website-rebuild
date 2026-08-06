@@ -11,6 +11,14 @@ export function Hero() {
       id="top"
       className="hero-field bg-brand-blue overflow-hidden text-white"
     >
+      <div
+        className="hero-background"
+        style={{
+          backgroundImage: `url(${hero.backgroundImage.src})`,
+          backgroundPosition: hero.backgroundImage.position,
+        }}
+        aria-hidden="true"
+      />
       <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 sm:py-16 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
         <div>
           <div className="mb-5 flex max-w-xl items-start gap-3 text-white/82">

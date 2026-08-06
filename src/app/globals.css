@@ -36,25 +36,39 @@ html {
 }
 
 .hero-field {
-  --hero-image: url("/brand/generated/v006/debt-relief-budget-couple-v006.png");
+  background: color-mix(in srgb, var(--color-brand-blue) 82%, black);
+  isolation: isolate;
+  position: relative;
+}
 
+.hero-field::before {
   background:
     linear-gradient(
       90deg,
-      rgb(15 29 41 / 92%) 0%,
-      rgb(21 37 52 / 84%) 45%,
-      rgb(21 37 52 / 62%) 100%
+      rgb(8 21 31 / 92%) 0%,
+      rgb(10 24 35 / 78%) 44%,
+      rgb(10 24 35 / 50%) 100%
     ),
-    radial-gradient(circle at 20% 10%, rgb(255 255 255 / 10%), transparent 28%),
-    linear-gradient(
-      135deg,
-      var(--color-brand-blue) 0%,
-      color-mix(in srgb, var(--color-brand-blue) 76%, black) 54%,
-      color-mix(in srgb, var(--color-brand-blue) 58%, black) 100%
-    ),
-    var(--hero-image);
-  background-position: center;
-  background-size: auto, auto, auto, cover;
+    linear-gradient(180deg, rgb(6 18 28 / 36%), rgb(6 18 28 / 52%));
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.hero-field > * {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
 }
 
 .glow-cta {
@@ -110,6 +124,25 @@ html {
 }
 
 @media (max-width: 640px) {
+  .hero-field::before {
+    background:
+      linear-gradient(
+        180deg,
+        rgb(7 20 30 / 52%) 0%,
+        rgb(7 20 30 / 68%) 60%,
+        color-mix(in srgb, var(--color-brand-blue) 82%, black) 100%
+      ),
+      linear-gradient(90deg, rgb(7 20 30 / 64%), rgb(7 20 30 / 34%));
+    height: clamp(35rem, 74vh, 45rem);
+    inset: 0 0 auto;
+  }
+
+  .hero-background {
+    background-position: 54% center !important;
+    height: clamp(35rem, 74vh, 45rem);
+    inset: 0 0 auto;
+  }
+
   .demo-components-hero {
     background-position: 58% center;
   }
@@ -134,6 +167,8 @@ html {
   *,
   *::before,
   *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }

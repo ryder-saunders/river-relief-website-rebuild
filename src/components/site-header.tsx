@@ -58,7 +58,7 @@ export function SiteHeader() {
           </a>
           <a
             href={siteConfig.hero.headerCta.href}
-            className="glow-cta text-brand-blue inline-flex rounded-md bg-white px-3 py-2 text-xs font-bold transition-transform hover:-translate-y-0.5 sm:px-5 sm:text-sm"
+            className="glow-cta text-brand-blue inline-flex rounded-md bg-white px-4 py-2.5 text-sm font-bold transition-transform hover:-translate-y-0.5 sm:px-5"
           >
             {siteConfig.hero.headerCta.label}
           </a>

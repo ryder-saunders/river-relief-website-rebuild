@@ -21,8 +21,8 @@ export const siteConfig = {
   },
   scriptureLines: {
     hero: {
-      text: "Commit your work to the Lord, and your plans will be established.",
-      ref: "Proverbs 16:3",
+      text: "What does the Lord require of you? To act justly and to love mercy and to walk humbly with your God.",
+      ref: "Micah 6:8",
     },
     mission: {
       text: "The plans of the diligent lead surely to abundance.",
@@ -147,6 +147,10 @@ export const siteConfig = {
     heading: "A path out of credit card debt.",
     subheading:
       "Private, faith-respectful Financial Stewardship for lowering payment pressure and finding the next right step.",
+    backgroundImage: {
+      src: "/brand/generated/v004/church-lobby-standing-advisor-family-v004.png",
+      position: "center",
+    },
     primaryCta: { label: "Qualify For Debt Relief", href: "/qualify" },
     headerCta: { label: "Qualify Today", href: "/qualify" },
     secondaryCta: { label: "Talk With Us", href: "/contact" },
