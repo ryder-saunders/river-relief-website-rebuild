@@ -53,8 +53,9 @@ confirm current wording with the client before changing or removing it).
   - `logo-full-color.png` / `logo-full-color.svg` — navy wordmark + icon, for light backgrounds
   - `logo-white.png` / `logo-white.svg` — off-white wordmark + icon, for dark backgrounds (footer, on `brand-blue`)
   - `logo-mark.svg` / `logo-mark-white.svg` — standalone mark exports
-  - Favicon / `app/icon.png` / `app/apple-icon.png` are generated from the
-    navy standalone mark.
+  - Favicon / `app/icon.png` / `app/apple-icon.png` and the public web app
+    icon files are sourced from the client-provided favicon package
+    (2026-08-10).
   - `credit-score-graphic.png` — a generic marketing graphic from the
     client's site (credit-score gauge stock photo); not currently used
     anywhere, kept in case a future section needs it.
