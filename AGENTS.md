@@ -41,18 +41,20 @@ confirm current wording with the client before changing or removing it).
 - Colors are defined as Tailwind theme tokens in `src/app/globals.css`
   (`@theme inline` block) and used via `bg-brand-*` / `text-brand-*` /
   `border-brand-*` utilities — never hardcode hex values in components.
-  Source: client-provided brand colors, 2026-07-17.
-  - `brand-tan` `#fbecd3` — light background sections (hero, alternating bands)
-  - `brand-blue` `#21394a` — primary/dark brand color (CTAs, footer, headings accent)
+  Source: client-provided brand redo logo files, 2026-08-10.
+  - `brand-tan` `#f4f2ed` — warm off-white from the reverse logo
+  - `brand-blue` `#213949` — primary/dark brand color (CTAs, footer, headings accent)
+  - `brand-accent` `#b57b58` — warm accent from the reverse logo
   - `brand-grey-light` `#9aa0a9`, `brand-grey-mid` `#7a7a7a`, `brand-grey-dark` `#33373d` — body text / borders, light to dark
   - `background` (white `#ffffff`) — the default page background
-- Logo files live in `public/brand/`, sourced from the client's existing
-  site assets (2026-07-17):
-  - `logo-full-color.png` — dark wordmark + icon, for light backgrounds (header)
-  - `logo-white.png` — white wordmark + icon, for dark backgrounds (footer, on `brand-blue`)
-  - Favicon / `app/icon.png` / `app/apple-icon.png` were cropped from the
-    left ~111×111px icon mark of `logo-full-color.png` (see git history for
-    the exact crop if regenerating).
+- Logo files live in `public/brand/`, sourced from the client-provided
+  brand redo package (2026-08-10):
+  - `new-logos/` — full source package, including `.ai`, JPG, PNG, and SVG exports
+  - `logo-full-color.png` / `logo-full-color.svg` — navy wordmark + icon, for light backgrounds
+  - `logo-white.png` / `logo-white.svg` — off-white wordmark + icon, for dark backgrounds (footer, on `brand-blue`)
+  - `logo-mark.svg` / `logo-mark-white.svg` — standalone mark exports
+  - Favicon / `app/icon.png` / `app/apple-icon.png` are generated from the
+    navy standalone mark.
   - `credit-score-graphic.png` — a generic marketing graphic from the
     client's site (credit-score gauge stock photo); not currently used
     anywhere, kept in case a future section needs it.

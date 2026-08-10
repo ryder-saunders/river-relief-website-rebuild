@@ -12,10 +12,11 @@ export function FunnelHeader() {
           <Image
             src="/brand/logo-white.png"
             alt={siteConfig.orgName}
-            width={168}
-            height={42}
+            width={210}
+            height={44}
             priority
             className="h-11 w-auto"
+            style={{ width: "auto" }}
           />
         </Link>
       </div>

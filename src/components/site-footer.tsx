@@ -15,9 +15,10 @@ export function SiteFooter() {
           <Image
             src="/brand/logo-white.png"
             alt={siteConfig.orgName}
-            width={160}
+            width={172}
             height={40}
             className="h-9 w-auto"
+            style={{ width: "auto" }}
           />
           {socialLinks.length > 0 && (
             <div className="flex gap-6">

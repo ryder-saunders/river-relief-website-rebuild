@@ -10,7 +10,7 @@ export default function Image() {
     <div
       style={{
         alignItems: "center",
-        background: "#21394a",
+        background: "#213949",
         color: "white",
         display: "flex",
         height: "100%",
@@ -29,7 +29,7 @@ export default function Image() {
       >
         <div
           style={{
-            color: "#fbecd3",
+            color: "#f4f2ed",
             fontSize: 34,
             fontWeight: 700,
             letterSpacing: 0,
@@ -61,9 +61,9 @@ export default function Image() {
       <div
         style={{
           alignItems: "center",
-          background: "#fbecd3",
+          background: "#f4f2ed",
           borderRadius: "36px",
-          color: "#21394a",
+          color: "#213949",
           display: "flex",
           fontSize: 26,
           fontWeight: 800,

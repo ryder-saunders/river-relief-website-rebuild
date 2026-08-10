@@ -12,10 +12,11 @@ export function SiteHeader() {
           <Image
             src="/brand/logo-white.png"
             alt={siteConfig.orgName}
-            width={160}
+            width={191}
             height={40}
             priority
             className="h-10 w-auto sm:h-11"
+            style={{ width: "auto" }}
           />
         </Link>
         <nav className="hidden items-center gap-1 lg:flex">
