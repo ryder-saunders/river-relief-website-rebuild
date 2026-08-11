@@ -1,10 +1,5 @@
 import Link from "next/link";
-import {
-  ArrowRightIcon,
-  CheckIcon,
-  PhoneIcon,
-  ShieldCheckIcon,
-} from "@/components/icons";
+import { ArrowRightIcon, CheckIcon, PhoneIcon } from "@/components/icons";
 import { TrustBadges } from "@/components/trust-badges";
 import { WebPageStructuredData } from "@/components/structured-data";
 import { siteConfig } from "@/lib/site-config";
@@ -27,20 +22,17 @@ export default function ReviewCompletePage() {
         ]}
       />
       <section className="bg-brand-blue text-white">
-        <div className="mx-auto max-w-4xl px-6 py-16 text-center">
-          <ShieldCheckIcon className="mx-auto h-12 w-12 text-white" />
-          <p className="mt-6 text-sm font-bold tracking-wide text-white/60 uppercase">
+        <div className="mx-auto max-w-5xl px-6 py-12 text-center sm:py-16">
+          <p className="text-sm font-bold tracking-wide text-white/60 uppercase">
             {completion.eyebrow}
           </p>
-          <h1 className="mt-4 text-5xl leading-tight font-bold sm:text-6xl">
-            {completion.title}
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-xl leading-8 text-white/75">
+          <h1 className="sr-only">{completion.title}</h1>
+          <p className="mx-auto mt-4 max-w-5xl text-3xl leading-tight font-medium text-balance text-white/82 sm:text-4xl sm:leading-tight">
             {completion.body}
           </p>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 font-semibold text-white/68">
+          <p className="mx-auto mt-8 max-w-3xl text-lg leading-7 font-bold text-white/78 sm:text-xl">
             {siteConfig.scriptureLines.completion.text}{" "}
-            <span className="text-white/80">
+            <span className="text-white">
               {siteConfig.scriptureLines.completion.ref}
             </span>
           </p>

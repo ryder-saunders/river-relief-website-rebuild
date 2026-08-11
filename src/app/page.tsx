@@ -17,7 +17,7 @@ export default function Home() {
       <WebPageStructuredData
         path="/"
         title="River Relief"
-        description="Faith-respectful debt relief conversations for credit card debt, personal-loan options, and a clearer monthly plan."
+        description="Debt relief conversations for credit card debt, personal-loan options, and a clearer monthly plan with support that honors faith and values."
         image="/brand/generated/v006/debt-relief-budget-couple-v006.png"
         breadcrumbs={[{ name: "Home", path: "/" }]}
       />

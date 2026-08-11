@@ -386,7 +386,7 @@ export const siteConfig = {
         body: "Know whether the online review is worth your time.",
       },
       {
-        title: "Faith-respectful",
+        title: "Values-honoring",
         body: "A practical conversation without shame.",
       },
     ],
@@ -409,7 +409,7 @@ export const siteConfig = {
       trustLine:
         "Takes about 3 minutes. No judgement. Contact info comes last.",
       callCta: { label: "Call (800) 520-1758", href: "tel:8005201758" },
-      proof: ["Faith-respectful", "Financial Stewardship", "Human follow-up"],
+      proof: ["Faith and values", "Financial Stewardship", "Human follow-up"],
     },
     nextStep: {
       title: "What happens after the review?",
@@ -432,7 +432,7 @@ export const siteConfig = {
     completion: {
       eyebrow: "Review submitted",
       title: "Your private review was received.",
-      body: "A River Relief advisor can use your answers to understand the situation and follow up in the way you selected.",
+      body: "We will be calling shortly from a 949 area code. If you can't take a call right now, please feel free to respond to our text message. We'll take it from there.",
       primaryCta: { label: "Return Home", href: "/" },
       callCta: { label: "Call (800) 520-1758", href: "tel:8005201758" },
       reassurance: [
@@ -888,7 +888,7 @@ export const siteConfig = {
         "Debt relief should not require confusion. River Relief keeps the first step direct and human.",
       proofImage: "/brand/generated/v006/debt-relief-budget-couple-v006.png",
       proofAlt: "Family reviewing answers before a debt relief decision",
-      proofItems: ["No pressure", "Plain language", "Faith-respectful"],
+      proofItems: ["No pressure", "Plain language", "Values-honoring"],
       stepsTitle: "What most people ask",
       steps: [
         "What payment may fit?",

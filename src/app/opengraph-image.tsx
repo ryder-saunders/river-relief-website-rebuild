@@ -54,8 +54,8 @@ export default function Image() {
             lineHeight: 1.35,
           }}
         >
-          Faith-respectful debt relief conversations, private reviews, and
-          personal-loan option guidance.
+          Debt relief conversations, private reviews, and personal-loan option
+          guidance that honors faith and values.
         </div>
       </div>
       <div
