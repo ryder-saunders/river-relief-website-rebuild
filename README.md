@@ -76,3 +76,52 @@ integration points to
 `ryder-saunders/river-relief-website-rebuild`: pushes to `main` should deploy
 to production automatically, and PRs should get preview deployments. No
 `vercel.json` is needed — Next.js is auto-detected.
+
+### Environment variables
+
+The lead form posts to Forth CRM from a server-side route. Configure these in
+Vercel for Production, Preview, and Development:
+
+```bash
+FORTH_CLIENT_ID=
+FORTH_CLIENT_SECRET=
+FORTH_API_BASE_URL=https://api.forthcrm.com/v1
+FORTH_LEAD_SOURCE=River Relief Website
+FORTH_LEAD_CAMPAIGN=Website Leads
+FORTH_DEFAULT_DATA_SOURCE_ID=148284
+FORTH_QUALIFY_DATA_SOURCE_ID=148284
+FORTH_HOME_DATA_SOURCE_ID=148675
+FORTH_CONTACT_DATA_SOURCE_ID=148362
+FORTH_CAMPAIGN_ID=
+FORTH_FIELD_HARDSHIP_DESCRIPTION_ID=749414
+FORTH_FIELD_LEAD_TYPE_ID=749418
+FORTH_FIELD_ORIGINAL_DATA_SOURCE_ID=750532
+FORTH_FIELD_UTM_CAMPAIGN_ID=774881
+FORTH_FIELD_CREDIT_RATING_ID=750644
+FORTH_FIELD_MONTHLY_PAYMENT_ID=750800
+FORTH_FIELD_TOTAL_DEBT_ID=750801
+FORTH_FIELD_TELL_US_MORE_ID=750868
+FORTH_FIELD_TOTAL_CREDIT_CARD_DEBT_ID=754651
+```
+
+## Lead form testing
+
+Run the local smoke test before client demos or after lead-form changes:
+
+```bash
+npm run test:leads
+```
+
+This starts a local Next.js dev server, uses a mock Forth server, and submits
+all lead form instances: the `/qualify` funnel, homepage hero form, homepage
+intake form, and a mobile `/qualify` flow.
+
+To verify live Forth credentials and field mapping, export the real env vars
+locally and run:
+
+```bash
+npm run test:leads:live-forth
+```
+
+The live test creates a fake contact, reads it back to verify standard and
+custom fields, then deletes the test contact.

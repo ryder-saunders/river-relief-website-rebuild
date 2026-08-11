@@ -37,8 +37,8 @@ export const siteConfig = {
       ref: "Luke 14:28",
     },
     footer: {
-      text: "Let all that you do be done in love.",
-      ref: "1 Corinthians 16:14",
+      text: "What does the Lord require of you? To act justly and to love mercy and to walk humbly with your God.",
+      ref: "Micah 6:8",
     },
     completion: {
       text: "The Lord will guide you continually.",
@@ -108,7 +108,7 @@ export const siteConfig = {
     ],
   },
   description:
-    "River Relief helps faith-based borrowers talk through credit card debt, compare personal-loan options, and take the next faithful step toward a more manageable monthly plan.",
+    "River Relief helps borrowers talk through credit card debt, compare personal-loan options, and take the next faithful step toward a more manageable monthly plan.",
   url: "https://river-relief-website-rebuild.vercel.app", // TODO: replace with client-owned production domain once known
 
   nav: [
@@ -125,7 +125,7 @@ export const siteConfig = {
       label: "How It Works",
       href: "/how-it-works",
       items: [
-        { label: "Faith-Based Guidance", href: "/faith-based-guidance" },
+        { label: "Faith And Values", href: "/faith-based-guidance" },
         { label: "How It Works", href: "/how-it-works" },
         { label: "Get Help With Debt Relief", href: "/debt-review" },
       ],
@@ -146,7 +146,7 @@ export const siteConfig = {
     eyebrow: "Faith based debt help",
     heading: "A path out of credit card debt.",
     subheading:
-      "Private, faith-respectful Financial Stewardship for lowering payment pressure and finding the next right step.",
+      "Private Financial Stewardship for lowering payment pressure and finding the next right step.",
     backgroundImage: {
       src: "/brand/generated/v004/church-lobby-standing-advisor-family-v004.png",
       position: "center",
@@ -308,8 +308,14 @@ export const siteConfig = {
     body: "Takes about 3 minutes. Answer the same private fit questions used on River Relief landing pages, then choose where to send your options.",
     steps: ["Debt Type", "Amount", "Timing", "State", "Contact"],
     submitLabel: "Send My Options",
-    successTitle: "Your review profile is ready.",
-    successBody: "This can be sent to the CRM in the next backend pass.",
+    submittingLabel: "Sending...",
+    successTitle: "Your review was received.",
+    successBody:
+      "A River Relief advisor can use your answers to follow up with more context.",
+    errorBody:
+      "We could not send your review right now. Please try again or call River Relief.",
+    consentLabel:
+      "By submitting this form, I agree that River Relief may contact me about my review by phone, text, or email. Message and data rates may apply. I can opt out at any time.",
     promiseNote:
       "Promise over profit. We start with stewardship, clarity, and no judgement.",
     questions: [
@@ -353,8 +359,7 @@ export const siteConfig = {
     contactStep: {
       title: "Debt Relief Options Found!",
       deliveryQuestion: "Where Should We Send Your Options?",
-      affirmation:
-        "Where your treasure is, there your heart will be also. Matthew 6:21",
+      affirmation: "The integrity of the upright guides them. Proverbs 11:3",
     },
   },
 
@@ -493,7 +498,7 @@ export const siteConfig = {
     creditCardDebt: {
       title: "Credit Card Debt Help",
       description:
-        "Review a faith-respectful path for credit card balances, high payments, and too many due dates.",
+        "Review a values-honoring path for credit card balances, high payments, and too many due dates.",
       eyebrow: "Credit Card Debt",
       heroImage:
         "/brand/generated/v006/credit-card-debt-relief-rectangle-v006.png",
@@ -705,7 +710,7 @@ export const siteConfig = {
       heroAlt: "Faith-forward River Relief debt relief background",
       primaryCta: { label: "Qualify For Debt Relief", href: "/qualify" },
       secondaryCta: { label: "Call River Relief", href: "tel:8005201758" },
-      cardsTitle: "A calmer faith-respectful review",
+      cardsTitle: "A calmer values-honoring review",
       cards: [
         {
           title: "No Shame",
@@ -737,7 +742,8 @@ export const siteConfig = {
       faqs: [
         {
           question: "Is this only for church members?",
-          answer: "No. It is for people who want faith-respectful guidance.",
+          answer:
+            "No. It is for people who want financial guidance that leaves room for faith and values.",
         },
         {
           question: "Will the review feel preachy?",
@@ -745,7 +751,8 @@ export const siteConfig = {
         },
       ],
       finalCtaTitle: "Take a step today for a better tomorrow.",
-      finalCtaBody: "Get help with debt relief in a faith-respectful process.",
+      finalCtaBody:
+        "Get help with debt relief in a process that honors your faith and values.",
     },
     resources: {
       title: "Debt Relief Resources",
@@ -900,7 +907,8 @@ export const siteConfig = {
         },
         {
           question: "Can faith be part of the conversation?",
-          answer: "Yes. The process is built to be faith-respectful.",
+          answer:
+            "Yes. Our process is designed to honor your faith and values.",
         },
       ],
       finalCtaTitle: "Have a question about your situation?",
@@ -909,7 +917,7 @@ export const siteConfig = {
     about: {
       title: "About River Relief",
       description:
-        "River Relief helps people compare practical personal-loan paths for debt relief with faith-respectful support.",
+        "River Relief helps people explore practical paths out of debt, with support that honors faith and values.",
       eyebrow: "About",
       heroImage:
         "/brand/generated/v006/resources-guidance-compact-hero-v006.png",
@@ -1575,10 +1583,9 @@ export const siteConfig = {
   },
 
   legal: {
-    // Adapted from the client's existing site footer disclosures. Confirm
-    // current wording with the client before treating this as final —
-    // lending disclosures are compliance-sensitive.
+    // Client-provided footer disclosure, updated 2026-08-11.
+    // Lending disclosures are compliance-sensitive; confirm before changing.
     disclosure:
-      "We provide Personal Lending Services. Personal loan options offered by our affiliates range from $1,000 to $100,000+, have Annual Percentage Rates that range from 4.9% to 35.99%, origination fees ranging from 4.95% to 10% of the amount financed, and loan terms from 4 to 84 months. Only the most creditworthy borrowers receive the highest loan amounts at the lowest rates. Our services are not available in all states; fees may vary by state. We do not discriminate on the basis of race, color, religion, sex, marital status, national origin, or ancestry.",
+      "River Relief facilitates access to personal lending and debt relief options offered through third-party affiliates. River Relief is not a lender and does not directly fund loans or negotiate, settle, or assume consumer debts. Personal loan options offered by our affiliates range from $1,000 to $100,000+, with Annual Percentage Rates (APRs) from 4.9% to 35.99%, origination fees from 4.95% to 10% of the amount financed, and loan terms from 4 to 84 months. Only the most creditworthy borrowers qualify for the highest loan amounts and lowest rates. Debt relief programs are offered and administered by third-party affiliates and are subject to eligibility requirements. Not all debts or consumers will qualify. Program availability, terms, fees, duration, and results vary based on individual circumstances and state of residence. No specific savings, program outcomes, or time to become debt-free are guaranteed. Personal lending and debt relief options are not available in all states. By using this site, you acknowledge that you have read and understood our Terms of Use and Privacy Policy. River Relief does not discriminate on the basis of race, color, religion, sex, marital status, national origin, or ancestry. © 2026 River Relief LLC. All rights reserved.",
   },
 } as const;

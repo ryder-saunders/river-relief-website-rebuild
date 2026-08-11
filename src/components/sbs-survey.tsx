@@ -2,6 +2,7 @@
 
 import type { FormEvent } from "react";
 import { useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { ArrowRightIcon, CheckIcon, ShieldCheckIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site-config";
@@ -14,7 +15,10 @@ type SurveyData = {
   firstName: string;
   lastName: string;
   email: string;
+  phone: string;
+  tellUsMore: string;
   consent: boolean;
+  website: string;
 };
 
 type SurveyVariant = "hero" | "section" | "funnel";
@@ -27,7 +31,10 @@ const initialData: SurveyData = {
   firstName: "",
   lastName: "",
   email: "",
+  phone: "",
+  tellUsMore: "",
   consent: false,
+  website: "",
 };
 
 const states = [
@@ -93,8 +100,11 @@ export function SbsSurvey({
   redirectOnSubmit?: string;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [data, setData] = useState<SurveyData>(initialData);
   const { intake } = siteConfig;
   const stateStepIndex = intake.questions.length;
@@ -112,16 +122,20 @@ export function SbsSurvey({
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
+        phone: data.phone,
       },
       debtProfile: {
         debtType: data.debtType,
         debtAmount: data.debtAmount,
         paymentStruggleDuration: data.paymentStruggleDuration,
         stateOfResidence: data.stateOfResidence,
+        tellUsMore: data.tellUsMore,
       },
       consent: data.consent,
+      landingPage: pathname,
+      website: data.website,
     }),
-    [data],
+    [data, pathname],
   );
 
   function updateField<K extends keyof SurveyData>(
@@ -136,11 +150,43 @@ export function SbsSurvey({
     setStep((current) => Math.min(contactStepIndex, current + 1));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
-    if (redirectOnSubmit) {
-      router.push(redirectOnSubmit);
+    setSubmitError("");
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          debtType: data.debtType,
+          debtAmount: data.debtAmount,
+          paymentStruggleDuration: data.paymentStruggleDuration,
+          stateOfResidence: data.stateOfResidence,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          tellUsMore: data.tellUsMore,
+          consent: data.consent,
+          landingPage: pathname,
+          website: data.website,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Lead submission failed");
+      }
+
+      setSubmitted(true);
+      if (redirectOnSubmit) {
+        router.push(redirectOnSubmit);
+      }
+    } catch {
+      setSubmitError(intake.errorBody);
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -180,7 +226,7 @@ export function SbsSurvey({
       </div>
 
       <div className="rounded-lg bg-white p-4 sm:p-5">
-        {!isContactStep && currentQuestion && (
+        {!isStateStep && !isContactStep && currentQuestion && (
           <fieldset aria-labelledby={`${currentQuestion.key}-label`}>
             <div className="flex items-start justify-between gap-4">
               <h3
@@ -189,7 +235,7 @@ export function SbsSurvey({
               >
                 {currentQuestion.label}
               </h3>
-              <ShieldCheckIcon className="text-brand-blue mt-1 h-7 w-7 shrink-0" />
+              <ShieldCheckIcon className="text-brand-accent mt-1 h-7 w-7 shrink-0" />
             </div>
             <div className="mt-5 grid gap-2">
               {currentQuestion.options.map((option) => (
@@ -201,7 +247,7 @@ export function SbsSurvey({
                 />
               ))}
             </div>
-            <p className="border-brand-blue/15 bg-brand-blue/5 text-brand-blue mt-5 flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
+            <p className="border-brand-accent/25 bg-brand-accent/10 text-brand-blue mt-5 flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
               <CheckIcon className="mt-0.5 h-4 w-4 shrink-0" />
               {currentQuestion.affirmation}
             </p>
@@ -211,7 +257,7 @@ export function SbsSurvey({
         {isStateStep && (
           <div className="grid gap-4">
             <div className="text-center">
-              <span className="bg-brand-blue mx-auto flex h-14 w-14 items-center justify-center rounded-full text-white">
+              <span className="bg-brand-accent mx-auto flex h-14 w-14 items-center justify-center rounded-full text-white">
                 <CheckIcon className="h-9 w-9" />
               </span>
               <h3 className="text-brand-grey-dark mt-5 text-2xl leading-tight font-semibold sm:text-3xl">
@@ -236,7 +282,7 @@ export function SbsSurvey({
                 ))}
               </select>
             </label>
-            <p className="border-brand-blue/15 bg-brand-blue/5 text-brand-blue flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
+            <p className="border-brand-accent/25 bg-brand-accent/10 text-brand-blue flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
               <CheckIcon className="mt-0.5 h-4 w-4 shrink-0" />
               {intake.stateStep.affirmation}
             </p>
@@ -246,7 +292,7 @@ export function SbsSurvey({
         {isContactStep && (
           <div className="grid gap-4">
             <div className="text-center">
-              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-600 text-white">
+              <span className="bg-brand-accent mx-auto flex h-14 w-14 items-center justify-center rounded-full text-white">
                 <CheckIcon className="h-9 w-9" />
               </span>
               <h3 className="text-brand-grey-dark text-2xl leading-tight font-semibold sm:text-3xl">
@@ -275,10 +321,36 @@ export function SbsSurvey({
                 onChange={(value) => updateField("email", value)}
                 required
               />
-              <p className="text-brand-grey-dark flex items-end text-sm leading-6 font-semibold">
-                {intake.contactStep.deliveryQuestion}
-              </p>
+              <TextInput
+                label="Phone"
+                type="tel"
+                value={data.phone}
+                onChange={(value) => updateField("phone", value)}
+                required
+              />
             </div>
+            <label className="text-brand-grey-dark grid gap-2 text-sm font-semibold">
+              Tell Us More
+              <textarea
+                rows={4}
+                value={data.tellUsMore}
+                onChange={(event) =>
+                  updateField("tellUsMore", event.target.value)
+                }
+                className="border-brand-grey-light/40 text-brand-grey-dark focus:border-brand-blue min-h-28 rounded-md border px-4 py-3 font-normal transition-colors outline-none"
+                placeholder="Share anything helpful for the first conversation."
+              />
+            </label>
+            <input
+              type="text"
+              name="website"
+              value={data.website}
+              onChange={(event) => updateField("website", event.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              className="hidden"
+              aria-hidden="true"
+            />
             <label className="text-brand-grey-mid flex gap-3 text-sm leading-6">
               <input
                 type="checkbox"
@@ -289,9 +361,9 @@ export function SbsSurvey({
                 required
                 className="accent-brand-blue mt-1 h-4 w-4"
               />
-              River Relief may contact me about my review.
+              {intake.consentLabel}
             </label>
-            <p className="border-brand-blue/15 bg-brand-blue/5 text-brand-blue flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
+            <p className="border-brand-accent/25 bg-brand-accent/10 text-brand-blue flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
               <CheckIcon className="mt-0.5 h-4 w-4 shrink-0" />
               {intake.contactStep.affirmation}
             </p>
@@ -331,13 +403,22 @@ export function SbsSurvey({
           {isContactStep ? (
             <button
               type="submit"
-              className="bg-brand-blue hover:bg-brand-blue/90 inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold text-white transition-colors"
+              disabled={isSubmitting}
+              className="bg-brand-blue hover:bg-brand-blue/90 inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {intake.submitLabel}
+              {isSubmitting ? intake.submittingLabel : intake.submitLabel}
               <CheckIcon className="h-4 w-4" />
             </button>
           ) : null}
         </div>
+
+        {submitError && (
+          <div className="mt-5 rounded-md border border-red-200 bg-red-50 p-4">
+            <p className="text-sm leading-6 font-semibold text-red-800">
+              {submitError}
+            </p>
+          </div>
+        )}
 
         {submitted && (
           <div className="border-brand-blue/20 bg-brand-blue/5 mt-5 rounded-md border p-4">
@@ -369,7 +450,7 @@ function SurveyOption({
       onClick={onSelect}
       className={`group flex w-full items-center justify-between rounded-md border px-4 py-3 text-left text-sm font-semibold transition-colors ${
         selected
-          ? "border-brand-blue bg-brand-blue/5 text-brand-blue"
+          ? "border-brand-accent bg-brand-accent/10 text-brand-blue"
           : "border-brand-grey-light/35 text-brand-grey-dark hover:border-brand-blue hover:bg-brand-blue/5 bg-white"
       }`}
       aria-pressed={selected}
@@ -378,7 +459,7 @@ function SurveyOption({
         <span
           className={`h-4 w-4 rounded-full border ${
             selected
-              ? "border-brand-blue ring-brand-blue/20 bg-brand-blue ring-4"
+              ? "border-brand-accent ring-brand-accent/25 bg-brand-accent ring-4"
               : "border-brand-grey-mid"
           }`}
         />

@@ -16,7 +16,7 @@ export function FunnelHeader() {
             height={44}
             priority
             className="h-11 w-auto"
-            style={{ width: "auto" }}
+            style={{ height: "auto", width: "auto" }}
           />
         </Link>
       </div>

@@ -3,7 +3,6 @@ import { TrustBadges } from "@/components/trust-badges";
 import { siteConfig } from "@/lib/site-config";
 
 export function SiteFooter() {
-  const year = new Date().getFullYear();
   const socialLinks = Object.entries(siteConfig.social).filter(
     ([, url]) => url,
   );
@@ -18,7 +17,7 @@ export function SiteFooter() {
             width={172}
             height={40}
             className="h-9 w-auto"
-            style={{ width: "auto" }}
+            style={{ height: "auto", width: "auto" }}
           />
           {socialLinks.length > 0 && (
             <div className="flex gap-6">
@@ -36,18 +35,15 @@ export function SiteFooter() {
         </div>
         <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <TrustBadges theme="dark" compact />
-          <p className="max-w-xl text-sm leading-6 font-semibold text-white/68">
+          <p className="border-brand-accent/40 max-w-xl border-l-2 pl-4 text-sm leading-6 font-semibold text-white/68">
             {siteConfig.scriptureLines.footer.text}{" "}
-            <span className="text-white/80">
+            <span className="text-brand-tan">
               {siteConfig.scriptureLines.footer.ref}
             </span>
           </p>
         </div>
-        <p className="text-brand-grey-light mt-10 max-w-5xl text-xs leading-relaxed">
+        <p className="text-brand-grey-light mt-10 max-w-5xl text-[0.625rem] leading-5">
           {siteConfig.legal.disclosure}
-        </p>
-        <p className="text-brand-grey-light mt-4 text-xs">
-          &copy; {year} {siteConfig.orgName} LLC. All rights reserved.
         </p>
         <div className="mt-4 flex gap-5 text-xs font-semibold text-white/75">
           <a href="/privacy-policy" className="hover:text-white">

@@ -47,12 +47,12 @@ export function StandardPage({ content }: { content: StandardPageContent }) {
               <PageCta cta={content.secondaryCta} variant="outline" />
             </div>
             <p className="mt-5 flex items-center gap-2 text-sm text-white/72">
-              <ShieldCheckIcon className="h-4 w-4 shrink-0" />
+              <ShieldCheckIcon className="text-brand-tan h-4 w-4 shrink-0" />
               Private review.{" "}
               <strong className="text-white">
                 {siteConfig.brandPromise.tagline}
               </strong>{" "}
-              Faith-respectful support.
+              Support that honors your faith and values.
             </p>
             <div className="mt-5">
               <TrustBadges theme="dark" />
@@ -354,12 +354,17 @@ function ContactMessageForm({ theme = "light" }: { theme?: "light" | "dark" }) {
         conversation.
       </p>
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <ContactField label="First name" name="firstName" type="text" />
+        <ContactField label="Last name" name="lastName" type="text" />
+      </div>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
         <ContactField label="Email" type="email" />
         <ContactField label="Phone" type="tel" />
       </div>
       <label className="text-brand-grey-dark mt-3 grid gap-2 text-sm font-semibold">
-        Additional information
+        Tell Us More
         <textarea
+          name="tellUsMore"
           rows={5}
           className="border-brand-grey-light/40 focus:border-brand-blue rounded-md border px-4 py-3 font-normal outline-none"
           placeholder="Tell us what you want help sorting through."
@@ -376,12 +381,21 @@ function ContactMessageForm({ theme = "light" }: { theme?: "light" | "dark" }) {
   );
 }
 
-function ContactField({ label, type }: { label: string; type: string }) {
+function ContactField({
+  label,
+  name,
+  type,
+}: {
+  label: string;
+  name?: string;
+  type: string;
+}) {
   return (
     <label className="text-brand-grey-dark grid gap-2 text-sm font-semibold">
       {label}
       <input
         type={type}
+        name={name ?? label.toLowerCase()}
         className="border-brand-grey-light/40 focus:border-brand-blue rounded-md border px-4 py-3 font-normal outline-none"
       />
     </label>

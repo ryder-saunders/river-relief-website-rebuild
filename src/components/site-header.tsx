@@ -16,7 +16,7 @@ export function SiteHeader() {
             height={40}
             priority
             className="h-10 w-auto sm:h-11"
-            style={{ width: "auto" }}
+            style={{ height: "auto", width: "auto" }}
           />
         </Link>
         <nav className="hidden items-center gap-1 lg:flex">
