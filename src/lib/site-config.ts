@@ -314,8 +314,7 @@ export const siteConfig = {
       "A River Relief advisor can use your answers to follow up with more context.",
     errorBody:
       "We could not send your review right now. Please try again or call River Relief.",
-    consentLabel:
-      "By submitting this form, I agree that River Relief may contact me about my review by phone, text, or email. Message and data rates may apply. I can opt out at any time.",
+    consentLabel: "River Relief may contact me about my review.",
     promiseNote:
       "Promise over profit. We start with stewardship, clarity, and no judgement.",
     questions: [

@@ -16,7 +16,7 @@ export function FitSection() {
             )}
             <h2 className="text-brand-grey-dark text-4xl leading-tight font-semibold text-balance">
               Ready to{" "}
-              <span className="decoration-brand-blue underline decoration-4 underline-offset-4">
+              <span className="decoration-brand-accent underline decoration-4 underline-offset-4">
                 face your debt
               </span>{" "}
               and simplify the structure?
@@ -33,7 +33,7 @@ export function FitSection() {
               </a>
               <a
                 href={fit.secondaryCta.href}
-                className="border-brand-grey-light/40 text-brand-blue hover:border-brand-blue focus-visible:outline-brand-blue inline-flex items-center justify-center rounded-md border bg-white px-6 py-3 text-base font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="border-brand-accent/35 text-brand-blue hover:border-brand-accent focus-visible:outline-brand-blue inline-flex items-center justify-center rounded-md border bg-white px-6 py-3 text-base font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
               >
                 <PhoneIcon className="mr-2 h-4 w-4" />
                 {fit.secondaryCta.label}
@@ -44,7 +44,7 @@ export function FitSection() {
             {fit.cards.map((card) => (
               <div
                 key={card.title}
-                className="border-brand-blue/20 shadow-brand-blue/10 ring-brand-blue/5 rounded-lg border bg-white p-4 shadow-xl ring-1 sm:p-7"
+                className="border-brand-accent/25 shadow-brand-blue/10 ring-brand-accent/10 rounded-lg border bg-white p-4 shadow-xl ring-1 sm:p-7"
               >
                 <h3 className="text-brand-grey-dark text-base font-semibold sm:text-lg lg:text-[1.35rem]">
                   {card.title}
@@ -55,7 +55,7 @@ export function FitSection() {
                       key={item}
                       className="text-brand-grey-mid flex gap-2 text-xs leading-5 sm:gap-3 sm:text-sm sm:leading-6"
                     >
-                      <CheckIcon className="text-brand-blue mt-0.5 h-4 w-4 shrink-0" />
+                      <CheckIcon className="text-brand-accent mt-0.5 h-4 w-4 shrink-0" />
                       {item}
                     </li>
                   ))}

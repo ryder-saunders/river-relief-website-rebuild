@@ -33,14 +33,14 @@ export function GetInvolvedSection() {
             {getInvolved.actions.map((action) => (
               <div
                 key={action.title}
-                className="border-brand-grey-light/30 flex flex-col rounded-lg border bg-white p-5 sm:p-6"
+                className="border-brand-grey-light/30 hover:border-brand-accent/35 flex flex-col rounded-lg border bg-white p-5 shadow-sm transition-colors sm:p-6"
               >
                 <div className="flex items-center gap-3">
                   {(() => {
                     const ActionIcon =
                       actionIcons[getInvolved.actions.indexOf(action)];
                     return (
-                      <ActionIcon className="text-brand-blue h-7 w-7 shrink-0" />
+                      <ActionIcon className="text-brand-accent h-7 w-7 shrink-0" />
                     );
                   })()}
                   <div>
@@ -54,7 +54,7 @@ export function GetInvolvedSection() {
                 </div>
                 <a
                   href={action.cta.href}
-                  className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue mt-6 inline-flex items-center justify-center rounded-md px-5 py-2.5 text-center text-sm font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue border-brand-accent/35 mt-6 inline-flex items-center justify-center rounded-md border px-5 py-2.5 text-center text-sm font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
                   {action.cta.label}
                   <ArrowRightIcon className="ml-2 h-4 w-4" />

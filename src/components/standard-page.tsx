@@ -46,13 +46,11 @@ export function StandardPage({ content }: { content: StandardPageContent }) {
               <PageCta cta={content.primaryCta} variant="light" />
               <PageCta cta={content.secondaryCta} variant="outline" />
             </div>
-            <p className="mt-5 flex items-center gap-2 text-sm text-white/72">
+            <p className="border-brand-accent/35 mt-5 flex max-w-xl items-center gap-2 border-l-2 pl-4 text-sm text-white/72">
               <ShieldCheckIcon className="text-brand-tan h-4 w-4 shrink-0" />
-              Private review.{" "}
               <strong className="text-white">
                 {siteConfig.brandPromise.tagline}
-              </strong>{" "}
-              Support that honors your faith and values.
+              </strong>
             </p>
             <div className="mt-5">
               <TrustBadges theme="dark" />
@@ -101,14 +99,14 @@ export function StandardPage({ content }: { content: StandardPageContent }) {
                 return (
                   <div
                     key={card.title}
-                    className="border-brand-grey-light/30 flex items-center gap-3 rounded-lg border bg-white p-4 shadow-sm sm:block sm:p-5"
+                    className="bg-brand-accent flex items-center gap-3 rounded-lg border border-white/10 p-4 text-white shadow-sm sm:block sm:p-5"
                   >
-                    <CardIcon className="text-brand-blue h-7 w-7 shrink-0 sm:mb-5" />
+                    <CardIcon className="h-7 w-7 shrink-0 text-white sm:mb-5" />
                     <div>
-                      <h3 className="text-brand-grey-dark text-lg font-semibold">
+                      <h3 className="text-lg font-semibold text-white">
                         {card.title}
                       </h3>
-                      <p className="text-brand-grey-mid mt-2 text-sm leading-6">
+                      <p className="mt-2 text-sm leading-6 text-white/82">
                         {card.body}
                       </p>
                     </div>
@@ -147,9 +145,9 @@ export function StandardPage({ content }: { content: StandardPageContent }) {
               {content.proofItems.map((item) => (
                 <li
                   key={item}
-                  className="border-brand-grey-light/30 flex items-center gap-3 rounded-md border bg-white px-4 py-3 text-sm font-semibold"
+                  className="border-brand-grey-light/30 hover:border-brand-accent/35 flex items-center gap-3 rounded-md border bg-white px-4 py-3 text-sm font-semibold transition-colors"
                 >
-                  <CheckIcon className="text-brand-blue h-4 w-4 shrink-0" />
+                  <CheckIcon className="text-brand-accent h-4 w-4 shrink-0" />
                   {item}
                 </li>
               ))}
@@ -222,7 +220,7 @@ export function StandardPage({ content }: { content: StandardPageContent }) {
                   key={step}
                   className="flex flex-col items-center justify-center gap-4 rounded-lg border border-white/15 bg-white/5 p-5 text-center"
                 >
-                  <span className="text-brand-blue flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold">
+                  <span className="text-brand-blue border-brand-accent/35 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border bg-white text-sm font-bold">
                     {index + 1}
                   </span>
                   <p className="text-lg leading-7 font-semibold text-white/88">
@@ -287,7 +285,7 @@ export function StandardPage({ content }: { content: StandardPageContent }) {
 function ConfidenceTile({ title, body }: { title: string; body: string }) {
   return (
     <div className="border-brand-grey-light/30 flex items-center gap-3 rounded-lg border bg-white p-4">
-      <CheckIcon className="text-brand-blue h-5 w-5 shrink-0" />
+      <CheckIcon className="text-brand-accent h-5 w-5 shrink-0" />
       <div>
         <h3 className="text-brand-grey-dark text-sm font-bold">{title}</h3>
         <p className="text-brand-grey-mid mt-1 text-sm leading-6">{body}</p>
@@ -372,7 +370,7 @@ function ContactMessageForm({ theme = "light" }: { theme?: "light" | "dark" }) {
       </label>
       <button
         type="submit"
-        className="bg-brand-blue hover:bg-brand-blue/90 mt-5 inline-flex w-full items-center justify-center rounded-md px-5 py-3 text-sm font-bold text-white transition-colors"
+        className="bg-brand-blue hover:bg-brand-blue/90 border-brand-accent/35 mt-5 inline-flex w-full items-center justify-center rounded-md border px-5 py-3 text-sm font-bold text-white transition-colors"
       >
         Send Message
         <ArrowRightIcon className="ml-2 h-4 w-4" />
@@ -435,13 +433,13 @@ function PageCta({
   const isPhone = cta.href.startsWith("tel:");
 
   const classes = {
-    dark: "bg-brand-blue text-white hover:bg-brand-blue/90 focus-visible:outline-brand-blue",
+    dark: "bg-brand-blue text-white hover:bg-brand-blue/90 focus-visible:outline-brand-blue border border-brand-accent/35",
     light:
-      "glow-cta bg-white text-brand-blue hover:-translate-y-0.5 focus-visible:outline-white",
+      "glow-cta border border-brand-accent/35 bg-white text-brand-blue hover:-translate-y-0.5 focus-visible:outline-white",
     outline:
       "border border-white/20 bg-white/10 text-white hover:bg-white/15 focus-visible:outline-white",
     outlineDark:
-      "border border-brand-grey-light/40 bg-white text-brand-blue hover:border-brand-blue focus-visible:outline-brand-blue",
+      "border border-brand-accent/35 bg-white text-brand-blue hover:border-brand-accent focus-visible:outline-brand-blue",
   }[variant];
 
   return (

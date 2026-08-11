@@ -20,7 +20,7 @@ export function MissionSection() {
             </h2>
             <a
               href={mission.cta.href}
-              className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue mt-6 inline-flex items-center justify-center rounded-md px-4 py-3 text-center text-sm font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-6 sm:text-base lg:mt-8"
+              className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue border-brand-accent/35 mt-6 inline-flex items-center justify-center rounded-md border px-4 py-3 text-center text-sm font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-6 sm:text-base lg:mt-8"
             >
               <span className="flex flex-col items-center leading-tight">
                 <span>{mission.cta.label}</span>
@@ -46,7 +46,7 @@ export function MissionSection() {
             conversation about credit card debt, stewardship, and the next
             practical step.
           </p>
-          <p className="text-brand-blue mt-4 text-sm leading-6 font-semibold">
+          <p className="text-brand-blue border-brand-accent/40 mt-4 border-l-2 pl-4 text-sm leading-6 font-semibold">
             {siteConfig.scriptureLines.mission.text}{" "}
             <span className="text-brand-grey-dark">
               {siteConfig.scriptureLines.mission.ref}
@@ -56,9 +56,9 @@ export function MissionSection() {
             {mission.points.map((point) => (
               <li
                 key={point}
-                className="border-brand-grey-light/30 flex gap-3 rounded-lg border bg-white px-5 py-4"
+                className="border-brand-grey-light/30 hover:border-brand-accent/35 flex gap-3 rounded-lg border bg-white px-5 py-4 transition-colors"
               >
-                <CheckIcon className="text-brand-blue mt-0.5 h-5 w-5 shrink-0" />
+                <CheckIcon className="text-brand-accent mt-0.5 h-5 w-5 shrink-0" />
                 <p className="text-brand-grey-dark font-medium">
                   <MissionPoint text={point} />
                 </p>
@@ -78,7 +78,7 @@ function DebtReliefSupportExample({
   example: (typeof siteConfig)["mission"]["supportExample"];
 }) {
   return (
-    <div className="border-brand-grey-light/30 mt-5 rounded-lg border bg-white p-5 shadow-sm">
+    <div className="border-brand-accent/25 mt-5 rounded-lg border bg-white p-5 shadow-sm">
       <div>
         <h3 className="text-brand-grey-dark text-lg font-semibold">
           {example.title}

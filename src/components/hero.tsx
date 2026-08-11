@@ -22,7 +22,7 @@ export function Hero() {
       <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 sm:py-16 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
         <div>
           <div className="mb-5 flex max-w-xl items-start gap-3 text-white/82">
-            <QuoteIcon className="mt-1 h-6 w-6 shrink-0 text-white" />
+            <QuoteIcon className="text-brand-tan mt-1 h-6 w-6 shrink-0" />
             <p className="text-sm leading-6">“{hero.testimonial.quote}”</p>
           </div>
           <h1 className="max-w-3xl text-5xl leading-tight font-semibold text-balance sm:text-6xl">
@@ -34,7 +34,7 @@ export function Hero() {
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <a
               href={hero.primaryCta.href}
-              className="glow-cta text-brand-blue inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-bold transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="glow-cta text-brand-blue border-brand-accent/35 inline-flex items-center justify-center rounded-md border bg-white px-6 py-3 text-base font-bold transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               {hero.primaryCta.label}
             </a>
@@ -46,7 +46,7 @@ export function Hero() {
             </a>
           </div>
           <p className="mt-5 flex items-center gap-2 text-sm text-white/75">
-            <ShieldCheckIcon className="h-4 w-4 shrink-0 text-white" />
+            <ShieldCheckIcon className="text-brand-tan h-4 w-4 shrink-0" />
             Free review. No pressure.{" "}
             <strong className="text-white">
               {siteConfig.brandPromise.tagline}
@@ -97,9 +97,9 @@ function HeroHighlights({
       {highlights.map((highlight) => (
         <li
           key={highlight}
-          className="flex items-center gap-3 rounded-lg border border-white/15 bg-white/10 px-4 py-3 text-sm font-medium text-white/85"
+          className="border-brand-accent/25 flex items-center gap-3 rounded-lg border bg-white/10 px-4 py-3 text-sm font-medium text-white/85"
         >
-          <CheckIcon className="h-4 w-4 shrink-0 self-center text-white" />
+          <CheckIcon className="text-brand-tan h-4 w-4 shrink-0 self-center" />
           {highlight}
         </li>
       ))}

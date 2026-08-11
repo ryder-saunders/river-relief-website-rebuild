@@ -10,7 +10,7 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="mx-auto max-w-6xl px-6 py-12 pb-24">
-      <div className="border-brand-grey-light/30 shadow-brand-blue/5 grid gap-10 rounded-lg border bg-white p-6 shadow-xl sm:p-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
+      <div className="border-brand-accent/25 shadow-brand-blue/5 grid gap-10 rounded-lg border bg-white p-6 shadow-xl sm:p-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
         <div>
           {contact.eyebrow && (
             <p className="text-brand-blue mb-4 text-sm font-semibold uppercase">
@@ -23,7 +23,7 @@ export function ContactSection() {
           <p className="text-brand-grey-mid mt-5 text-lg leading-8">
             {contact.body}
           </p>
-          <p className="text-brand-blue mt-4 text-sm leading-6 font-semibold">
+          <p className="text-brand-blue border-brand-accent/40 mt-4 border-l-2 pl-4 text-sm leading-6 font-semibold">
             {siteConfig.brandPromise.stewardship}
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
@@ -33,14 +33,14 @@ export function ContactSection() {
               return (
                 <div
                   key={benefit.title}
-                  className="border-brand-grey-light/30 flex items-center gap-3 rounded-lg border bg-white p-4 sm:block"
+                  className="bg-brand-accent flex items-center gap-3 rounded-lg border border-white/10 p-4 text-white shadow-sm sm:block"
                 >
-                  <BenefitIcon className="text-brand-blue h-6 w-6 shrink-0 sm:mt-0" />
+                  <BenefitIcon className="h-6 w-6 shrink-0 text-white sm:mt-0" />
                   <div>
-                    <h3 className="text-brand-grey-dark text-sm font-semibold sm:mt-4">
+                    <h3 className="text-sm font-semibold text-white sm:mt-4">
                       {benefit.title}
                     </h3>
-                    <p className="text-brand-grey-mid mt-2 text-sm leading-6">
+                    <p className="mt-2 text-sm leading-6 text-white/82">
                       {benefit.body}
                     </p>
                   </div>
@@ -71,7 +71,7 @@ export function ContactSection() {
                     {contact.supportPerson.name}
                   </p>
                 </div>
-                <p className="text-brand-blue mt-1 text-xs font-semibold">
+                <p className="text-brand-accent mt-1 text-xs font-semibold">
                   {contact.supportPerson.title}
                 </p>
               </div>
@@ -80,7 +80,7 @@ export function ContactSection() {
           <div className="mt-6 grid gap-3">
             <a
               href={contact.callCta.href}
-              className="glow-cta border-brand-blue/20 text-brand-blue focus-visible:outline-brand-blue inline-flex items-center justify-center rounded-md border bg-white px-6 py-3 text-base font-bold transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="glow-cta border-brand-accent/35 text-brand-blue focus-visible:outline-brand-blue inline-flex items-center justify-center rounded-md border bg-white px-6 py-3 text-base font-bold transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               <PhoneIcon className="mr-2 h-4 w-4" />
               {contact.phone}

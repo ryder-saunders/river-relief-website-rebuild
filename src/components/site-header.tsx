@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/site-config";
 
 export function SiteHeader() {
   return (
-    <header className="bg-brand-blue/95 shadow-brand-blue/20 z-50 border-b border-white/10 text-white shadow-2xl backdrop-blur-sm">
+    <header className="bg-brand-blue/95 shadow-brand-blue/20 border-brand-accent/30 z-50 border-b text-white shadow-2xl backdrop-blur-sm">
       <div className="mx-auto flex min-h-20 max-w-6xl items-center justify-between gap-4 px-6 py-3">
         <Link href="/" aria-label={siteConfig.orgName}>
           <Image
@@ -38,7 +38,7 @@ export function SiteHeader() {
                       <a
                         key={subItem.href}
                         href={subItem.href}
-                        className="hover:bg-brand-blue/10 hover:text-brand-blue block rounded-md px-4 py-3 text-sm font-semibold transition-colors"
+                        className="hover:bg-brand-accent/10 hover:text-brand-blue block rounded-md px-4 py-3 text-sm font-semibold transition-colors"
                       >
                         {subItem.label}
                       </a>
@@ -59,7 +59,7 @@ export function SiteHeader() {
           </a>
           <a
             href={siteConfig.hero.headerCta.href}
-            className="glow-cta text-brand-blue inline-flex rounded-md bg-white px-4 py-2.5 text-sm font-bold transition-transform hover:-translate-y-0.5 sm:px-5"
+            className="glow-cta text-brand-blue border-brand-accent/30 inline-flex rounded-md border bg-white px-4 py-2.5 text-sm font-bold transition-transform hover:-translate-y-0.5 sm:px-5"
           >
             {siteConfig.hero.headerCta.label}
           </a>

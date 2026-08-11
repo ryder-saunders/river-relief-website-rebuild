@@ -269,9 +269,14 @@ export function SbsSurvey({
               <select
                 value={data.stateOfResidence}
                 required
-                onChange={(event) =>
-                  updateField("stateOfResidence", event.target.value)
-                }
+                onChange={(event) => {
+                  const state = event.target.value;
+
+                  updateField("stateOfResidence", state);
+                  if (state) {
+                    setStep(contactStepIndex);
+                  }
+                }}
                 className="border-brand-grey-light/50 text-brand-grey-dark focus:border-brand-blue rounded-md border bg-white px-4 py-3 font-normal transition-colors outline-none"
               >
                 <option value="">{intake.stateStep.label}</option>
