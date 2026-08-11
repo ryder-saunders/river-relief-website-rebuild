@@ -314,7 +314,8 @@ export const siteConfig = {
       "A River Relief advisor can use your answers to follow up with more context.",
     errorBody:
       "We could not send your review right now. Please try again or call River Relief.",
-    consentLabel: "River Relief may contact me about my review.",
+    consentLabel:
+      "By providing your phone number and checking this box, I consent to receive calls and text messages, including marketing and promotional messages, from River Relief, including through the use of an automatic telephone dialing system or an artificial or prerecorded voice, at any telephone number I provide. Msg and data rates may apply. Consent is not a condition for purchase. For text messages, reply STOP to cancel. If you choose not to consent, you may call us at 800-520-1758 to continue your inquiry.",
     promiseNote:
       "Promise over profit. We start with stewardship, clarity, and no judgement.",
     questions: [

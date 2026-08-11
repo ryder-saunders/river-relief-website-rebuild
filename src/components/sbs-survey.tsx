@@ -356,7 +356,7 @@ export function SbsSurvey({
               className="hidden"
               aria-hidden="true"
             />
-            <label className="text-brand-grey-mid flex gap-3 text-sm leading-6">
+            <label className="text-brand-grey-mid flex items-start gap-3 text-[11px] leading-5 sm:text-xs sm:leading-5">
               <input
                 type="checkbox"
                 checked={data.consent}
@@ -364,9 +364,9 @@ export function SbsSurvey({
                   updateField("consent", event.target.checked)
                 }
                 required
-                className="accent-brand-blue mt-1 h-4 w-4"
+                className="accent-brand-blue mt-0.5 h-4 w-4 shrink-0"
               />
-              {intake.consentLabel}
+              <span>{intake.consentLabel}</span>
             </label>
             <p className="border-brand-accent/25 bg-brand-accent/10 text-brand-blue flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
               <CheckIcon className="mt-0.5 h-4 w-4 shrink-0" />
