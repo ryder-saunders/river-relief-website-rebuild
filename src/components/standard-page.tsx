@@ -338,6 +338,7 @@ function ContactMessageForm({ theme = "light" }: { theme?: "light" | "dark" }) {
 
   return (
     <form
+      action={siteConfig.funnel.bookingPath}
       className={`rounded-lg p-5 shadow-2xl ${
         dark
           ? "text-brand-grey-dark border border-white/15 bg-white"

@@ -401,6 +401,7 @@ export const siteConfig = {
 
   funnel: {
     path: "/qualify",
+    bookingPath: "/book-consultation",
     completionPath: "/review-complete",
     hero: {
       eyebrow: "Private debt relief review",
@@ -426,6 +427,39 @@ export const siteConfig = {
         {
           title: "You choose pace",
           body: "Continue online, ask a question, or call first if that feels better.",
+        },
+      ],
+    },
+    booking: {
+      eyebrow: "Step 2: Schedule your call",
+      title: "Choose a time that gives your review a real next step.",
+      body: "Your private review was received. The next best step is to reserve a short conversation with a River Relief advisor so you can talk through fit, timing, and options without starting from scratch.",
+      trustLine:
+        "Pick a time that works for you. If nothing fits, River Relief can still follow up by phone or text.",
+      calendlyUrl: "https://calendly.com/d/dv2p-kpm-vd2/river-relief-website",
+      directBookingUrl:
+        "https://calendly.com/d/dv2p-kpm-vd2/river-relief-website",
+      calendlyScriptSrc:
+        "https://assets.calendly.com/assets/external/widget.js",
+      postBookingConfirmationUrl:
+        "https://river-relief-website-rebuild.vercel.app/review-complete",
+      placeholderTitle: "Calendly embed goes here",
+      placeholderBody:
+        "Once the scheduling link is provided, this space will show the live Calendly booking experience.",
+      callCta: { label: "Call (800) 520-1758", href: "tel:8005201758" },
+      callSubtext: "Want to Speak to a Representative Now?",
+      reassurance: [
+        {
+          title: "Your review is saved",
+          body: "The answers you submitted are ready for the advisor conversation.",
+        },
+        {
+          title: "No pressure to decide",
+          body: "The call is for clarity on fit, cost, timing, and next steps.",
+        },
+        {
+          title: "Human follow-up",
+          body: "You can still call or reply to follow-up if booking online is not convenient.",
         },
       ],
     },

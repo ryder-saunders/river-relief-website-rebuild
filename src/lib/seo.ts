@@ -96,6 +96,14 @@ export const seoRoutes: SeoRoute[] = [
     changeFrequency: "monthly",
   },
   {
+    path: "/book-consultation",
+    title: "Book A River Relief Consultation",
+    description: siteConfig.funnel.booking.body,
+    priority: 0,
+    changeFrequency: "yearly",
+    noIndex: true,
+  },
+  {
     path: "/privacy-policy",
     title: siteConfig.legalPages.privacyPolicy.title,
     description: siteConfig.legalPages.privacyPolicy.description,

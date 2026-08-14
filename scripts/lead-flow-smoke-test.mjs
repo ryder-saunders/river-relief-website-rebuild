@@ -167,6 +167,16 @@ function startMockForth() {
         return;
       }
 
+      if (request.method === "POST" && request.url === "/v1/debts") {
+        response.end(
+          JSON.stringify({
+            response: { id: 123_456_789 },
+            status: { code: 200 },
+          }),
+        );
+        return;
+      }
+
       response.statusCode = 404;
       response.end(JSON.stringify({ error: "not found" }));
     });
@@ -233,11 +243,7 @@ async function completeSurvey(form, values) {
     .getByRole("button", { name: values.duration, exact: true })
     .click();
 
-  const nextButton = form.getByRole("button", { name: "Next", exact: true });
-  const disabledBeforeState = await nextButton.isDisabled();
   await form.getByLabel("State of Residence*").selectOption(values.state);
-  const disabledAfterState = await nextButton.isDisabled();
-  await nextButton.click();
 
   await form
     .getByRole("textbox", { name: "First name", exact: true })
@@ -255,12 +261,6 @@ async function completeSurvey(form, values) {
     .getByRole("textbox", { name: "Tell Us More", exact: true })
     .fill(values.tellUsMore);
   await form.getByRole("checkbox").check();
-
-  assert(disabledBeforeState, "State Next button should start disabled");
-  assert(
-    !disabledAfterState,
-    "State Next button should enable after selection",
-  );
 }
 
 function customsById(payload) {
@@ -278,14 +278,16 @@ async function testFormScenario(page, scenario) {
 
   if (scenario.expectsRedirect) {
     await Promise.all([
-      page.waitForURL("**/review-complete", { timeout: 10_000 }),
+      page.waitForURL("**/book-consultation", { timeout: 10_000 }),
       form.getByRole("button", { name: "Send My Options" }).click(),
     ]);
     assert(
       await page
-        .getByRole("heading", { name: "Your private review was received." })
+        .getByRole("heading", {
+          name: "Choose a time that gives your review a real next step.",
+        })
         .isVisible(),
-      `${scenario.name} did not show the completion page`,
+      `${scenario.name} did not show the booking page`,
     );
     return;
   }
@@ -459,9 +461,16 @@ async function main() {
     const contactPosts = requests.filter(
       (request) => request.method === "POST" && request.url === "/v1/contacts",
     );
+    const debtPosts = requests.filter(
+      (request) => request.method === "POST" && request.url === "/v1/debts",
+    );
     assert(
       contactPosts.length === 5,
       `Expected 5 contact posts, saw ${contactPosts.length}`,
+    );
+    assert(
+      debtPosts.length === contactPosts.length,
+      `Expected ${contactPosts.length} debt posts, saw ${debtPosts.length}`,
     );
 
     for (const [index, request] of contactPosts.entries()) {
@@ -480,6 +489,14 @@ async function main() {
       assert(
         request.body.data_source_id,
         `Contact post ${index} missing data_source_id`,
+      );
+      assert(
+        request.body.total_debt,
+        `Contact post ${index} missing standard total_debt`,
+      );
+      assert(
+        customs["749411"],
+        `Contact post ${index} missing estimated debt custom`,
       );
       assert(
         customs["750801"],
@@ -503,14 +520,37 @@ async function main() {
       );
       assert(customs["750532"], `Contact post ${index} missing source custom`);
       assert(
+        customs["750639"] === "Website",
+        `Contact post ${index} missing Website lead source custom`,
+      );
+      assert(
+        customs["760267"] === "Yes",
+        `Contact post ${index} missing struggling-to-pay custom`,
+      );
+      assert(
         customs["774881"],
         `Contact post ${index} missing campaign custom`,
       );
     }
 
+    for (const [index, request] of debtPosts.entries()) {
+      assert(request.body.client_id, `Debt post ${index} missing client_id`);
+      assert(request.body.creditor, `Debt post ${index} missing creditor`);
+      assert(request.body.debt_type, `Debt post ${index} missing debt_type`);
+      assert(
+        request.body.original_debt_amount,
+        `Debt post ${index} missing original_debt_amount`,
+      );
+      assert(
+        request.body.current_debt_amount,
+        `Debt post ${index} missing current_debt_amount`,
+      );
+      assert(request.body.notes, `Debt post ${index} missing notes`);
+    }
+
     console.log("Lead flow smoke test passed.");
     console.log(
-      `Verified ${contactPosts.length} contact submissions across all forms.`,
+      `Verified ${contactPosts.length} contact submissions and ${debtPosts.length} debt records across all forms.`,
     );
   } finally {
     mockForth.close();

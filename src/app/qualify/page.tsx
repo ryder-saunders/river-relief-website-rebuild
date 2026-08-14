@@ -45,10 +45,7 @@ export default function QualifyPage() {
             </p>
           </div>
 
-          <SbsSurvey
-            variant="funnel"
-            redirectOnSubmit={funnel.completionPath}
-          />
+          <SbsSurvey variant="funnel" redirectOnSubmit={funnel.bookingPath} />
         </div>
       </section>
 

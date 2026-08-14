@@ -65,7 +65,10 @@ export function Hero() {
         </div>
 
         <div>
-          <SbsSurvey variant="hero" />
+          <SbsSurvey
+            variant="hero"
+            redirectOnSubmit={siteConfig.funnel.bookingPath}
+          />
           <div className="mt-5">
             <TrustBadges theme="dark" />
           </div>

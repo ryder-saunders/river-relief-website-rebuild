@@ -29,7 +29,7 @@ export function IntakeForm() {
           </div>
         </div>
 
-        <SbsSurvey />
+        <SbsSurvey redirectOnSubmit={siteConfig.funnel.bookingPath} />
         <div className="shadow-brand-blue/10 relative h-64 overflow-hidden rounded-lg shadow-xl lg:hidden">
           <Image
             src="/brand/generated/v004/church-lobby-standing-advisor-family-v004.png"

@@ -7,7 +7,11 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StickyMobileCta } from "@/components/sticky-mobile-cta";
 
-const funnelRoutes = new Set(["/qualify", "/review-complete"]);
+const funnelRoutes = new Set([
+  "/qualify",
+  "/book-consultation",
+  "/review-complete",
+]);
 
 export function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
