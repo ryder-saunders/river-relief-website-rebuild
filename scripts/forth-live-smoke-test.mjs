@@ -132,30 +132,28 @@ async function main() {
 
   try {
     await postDataSource(FORTH_HOME_POST_URL, {
-      EmailAddress: `riverrelief.live.home.4.9+${timestamp}@example.com`,
-      Email: `riverrelief.live.home.4.9+${timestamp}@example.com`,
-      email: `riverrelief.live.home.4.9+${timestamp}@example.com`,
+      EmailAddress: `riverrelief.live.home.5.1+${timestamp}@example.com`,
+      Email: `riverrelief.live.home.5.1+${timestamp}@example.com`,
       FirstName: "Live",
       first_name: "Live",
       HomePhone: homePhone,
       How_much_total_debt_are_you_in: "$30,000 - $50,000",
-      LastName: "Home49",
-      last_name: "Home49",
+      LastName: "Home51",
+      last_name: "Home51",
       Net_Income: "$3,000 - $5,000",
       Phone: homePhone,
       State: "Florida",
     });
     await postDataSource(FORTH_CONTACT_POST_URL, {
-      EmailAddress: `riverrelief.live.contact.4.9+${timestamp}@example.com`,
-      Email: `riverrelief.live.contact.4.9+${timestamp}@example.com`,
-      email: `riverrelief.live.contact.4.9+${timestamp}@example.com`,
+      EmailAddress: `riverrelief.live.contact.5.1+${timestamp}@example.com`,
+      Email: `riverrelief.live.contact.5.1+${timestamp}@example.com`,
       FirstName: "Live",
       first_name: "Live",
       HomePhone: contactPhone,
-      LastName: "Contact49",
-      last_name: "Contact49",
+      LastName: "Contact51",
+      last_name: "Contact51",
       Phone: contactPhone,
-      Tell_us_more: "Live 4.9 contact form data-source smoke test note.",
+      Tell_us_more: "Live 5.1 contact form data-source smoke test note.",
     });
 
     for (const phone of [homePhone, contactPhone]) {

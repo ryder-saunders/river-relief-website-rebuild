@@ -87,17 +87,6 @@ FORTH_HOME_POST_URL=https://login.forthcrm.com/post/4898492146f1f1ffd916dd181e7a
 FORTH_CONTACT_POST_URL=https://login.forthcrm.com/post/2337089719f85c02b5381b45b030a2eb35a1bc7b/
 ```
 
-API credentials are used after the Data Source post to patch fields that Forth's
-importer currently misses:
-
-```bash
-FORTH_CLIENT_ID=
-FORTH_CLIENT_SECRET=
-FORTH_API_BASE_URL=https://api.forthcrm.com/v1
-FORTH_FIELD_NET_INCOME_ID=750765
-FORTH_FIELD_STATE_QUALIFICATION_ID=760271
-```
-
 ## Lead form testing
 
 Run the local smoke test before client demos or after lead-form changes:

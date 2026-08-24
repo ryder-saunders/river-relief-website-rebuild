@@ -215,9 +215,6 @@ function startNextDev() {
     {
       env: {
         ...process.env,
-        FORTH_API_BASE_URL: `${MOCK_FORTH_ORIGIN}/v1`,
-        FORTH_CLIENT_ID: "test-client-id",
-        FORTH_CLIENT_SECRET: "test-client-secret",
         FORTH_CONTACT_POST_URL: MOCK_CONTACT_POST_URL,
         FORTH_HOME_POST_URL: MOCK_HOME_POST_URL,
       },
@@ -547,20 +544,16 @@ async function main() {
       `Expected 2 contact data-source posts, saw ${contactPosts.length}`,
     );
     assert(
-      patchPosts.length === 7,
-      `Expected 7 contact patch posts, saw ${patchPosts.length}`,
-    );
-    const patchByEmail = new Map(
-      patchPosts.map((request) => [request.body?.email, request.body]),
+      patchPosts.length === 0,
+      `Expected no contact patch posts, saw ${patchPosts.length}`,
     );
 
     for (const [index, request] of homePosts.entries()) {
-      const patch = patchByEmail.get(request.body.EmailAddress);
-
       assert(request.body.FirstName, `Home post ${index} missing FirstName`);
       assert(request.body.first_name, `Home post ${index} missing first_name`);
       assert(request.body.LastName, `Home post ${index} missing LastName`);
       assert(request.body.last_name, `Home post ${index} missing last_name`);
+      assert(request.body.Email, `Home post ${index} missing Email`);
       assert(
         request.body.EmailAddress,
         `Home post ${index} missing EmailAddress`,
@@ -584,24 +577,9 @@ async function main() {
           !request.body.total_debt,
         `Home post ${index} should not include placeholder address or total_debt`,
       );
-      assert(patch?.email, `Home patch ${index} missing email`);
-      assert(
-        patch?.customs?.some(
-          (field) => field.field_id === "750765" && field.value?.[0],
-        ),
-        `Home patch ${index} missing Net Income custom`,
-      );
-      assert(
-        patch?.customs?.some(
-          (field) => field.field_id === "760271" && field.value?.[0],
-        ),
-        `Home patch ${index} missing State Qualification custom`,
-      );
     }
 
     for (const [index, request] of contactPosts.entries()) {
-      const patch = patchByEmail.get(request.body.EmailAddress);
-
       assert(request.body.FirstName, `Contact post ${index} missing FirstName`);
       assert(
         request.body.first_name,
@@ -609,6 +587,7 @@ async function main() {
       );
       assert(request.body.LastName, `Contact post ${index} missing LastName`);
       assert(request.body.last_name, `Contact post ${index} missing last_name`);
+      assert(request.body.Email, `Contact post ${index} missing Email`);
       assert(
         request.body.EmailAddress,
         `Contact post ${index} missing EmailAddress`,
@@ -624,11 +603,6 @@ async function main() {
           !request.body.State &&
           !request.body.Net_Income,
         `Contact post ${index} should only include contact-form data`,
-      );
-      assert(patch?.email, `Contact patch ${index} missing email`);
-      assert(
-        !patch?.customs,
-        `Contact patch ${index} should not include survey customs`,
       );
     }
 
