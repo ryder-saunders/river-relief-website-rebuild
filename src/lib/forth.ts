@@ -51,6 +51,12 @@ const forthFields = {
   tellUsMore: process.env.FORTH_FIELD_TELL_US_MORE_ID ?? "750868",
 } as const;
 
+const defaultWorkflow = {
+  fileType: process.env.FORTH_FILE_TYPE_ID ?? "1",
+  stageId: process.env.FORTH_STAGE_ID ?? "50518",
+  statusId: process.env.FORTH_STATUS_ID,
+} as const;
+
 let cachedToken: { value: string; expiresAt: number } | undefined;
 
 function requiredEnv(name: string) {
@@ -284,6 +290,9 @@ export async function createForthLead(lead: ForthLead) {
     phone_number: lead.phone,
     ...(lead.stateOfResidence ? { state: lead.stateOfResidence } : {}),
     data_source_id: contactDataSourceId(lead.landingPage),
+    file_type: defaultWorkflow.fileType,
+    stageID: defaultWorkflow.stageId,
+    ...(defaultWorkflow.statusId ? { statusID: defaultWorkflow.statusId } : {}),
     ...(process.env.FORTH_CAMPAIGN_ID
       ? { campaign_id: process.env.FORTH_CAMPAIGN_ID }
       : {}),

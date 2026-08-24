@@ -50,11 +50,22 @@ Standard contact fields:
 - `phone_number`: borrower phone
 - `state`: state of residence
 - `data_source_id`: selected from landing page
+- `file_type`: `1`
+- `stageID`: `50518` / `River Relief Sales`
+- `statusID`: Forth status ID for `Ready To Apply` when available
 
 Do not send the nested `address` object unless the visitor provided actual
 address fields. Live 2026-08-24 probes showed that Forth rejects `address` with
 state only because `address.address1` is required, and placeholder values like
 `-` or `00000` should not be sent.
+
+Live 2026-08-24 probes also showed that `POST /v1/contacts` does not apply
+stage/status defaults configured on the data source. The API accepts workflow
+values only as camelCase `stageID` and `statusID`; snake_case variants such as
+`stage_id` and `status_id` are ignored. `River Relief Sales` was returned from
+`GET /v1/contact-stages` as ID `50518`. `Ready To Apply` was not returned in the
+first 100 `GET /v1/contact-statuses` results and Forth ignored tested filter and
+pagination params, so configure `FORTH_STATUS_ID` once the ID is confirmed.
 
 Custom contact fields:
 

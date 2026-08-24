@@ -200,8 +200,11 @@ function startNextDev() {
         FORTH_API_BASE_URL: MOCK_FORTH_BASE_URL,
         FORTH_CLIENT_ID: "test-client-id",
         FORTH_CLIENT_SECRET: "test-client-secret",
+        FORTH_FILE_TYPE_ID: "1",
         FORTH_LEAD_CAMPAIGN: "Website Leads Test",
         FORTH_LEAD_SOURCE: "River Relief Website Test",
+        FORTH_STAGE_ID: "50518",
+        FORTH_STATUS_ID: "999001",
       },
       stdio: ["ignore", "pipe", "pipe"],
     },
@@ -545,6 +548,18 @@ async function main() {
       assert(
         request.body.data_source_id,
         `Contact post ${index} missing data_source_id`,
+      );
+      assert(
+        request.body.file_type === "1",
+        `Contact post ${index} missing Forth file type`,
+      );
+      assert(
+        request.body.stageID === "50518",
+        `Contact post ${index} missing River Relief Sales stage`,
+      );
+      assert(
+        request.body.statusID === "999001",
+        `Contact post ${index} missing configured Forth status`,
       );
       assert(
         !request.body.total_debt,
