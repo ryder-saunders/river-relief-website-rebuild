@@ -547,10 +547,6 @@ async function main() {
         `Contact post ${index} missing data_source_id`,
       );
       assert(
-        !request.body.address,
-        `Contact post ${index} should not include address`,
-      );
-      assert(
         !request.body.total_debt,
         `Contact post ${index} should not include standard total_debt`,
       );
@@ -597,6 +593,10 @@ async function main() {
           `Contact post ${index} should not include state`,
         );
         assert(
+          !request.body.address,
+          `Contact post ${index} should not include address`,
+        );
+        assert(
           !customs["750801"],
           `Contact post ${index} should not include debt custom`,
         );
@@ -611,6 +611,16 @@ async function main() {
         );
       } else {
         assert(request.body.state, `Contact post ${index} missing state`);
+        assert(
+          request.body.address?.state,
+          `Contact post ${index} missing applicant address state`,
+        );
+        assert(
+          !request.body.address.address1 &&
+            !request.body.address.city &&
+            !request.body.address.zip,
+          `Contact post ${index} should not include empty address placeholders`,
+        );
         assert(customs["750801"], `Contact post ${index} missing debt custom`);
         assert(
           customs["750765"],

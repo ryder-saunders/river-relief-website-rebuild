@@ -51,6 +51,59 @@ const forthFields = {
   tellUsMore: process.env.FORTH_FIELD_TELL_US_MORE_ID ?? "750868",
 } as const;
 
+const stateAbbreviations: Record<string, string> = {
+  Alabama: "AL",
+  Alaska: "AK",
+  Arizona: "AZ",
+  Arkansas: "AR",
+  California: "CA",
+  Colorado: "CO",
+  Connecticut: "CT",
+  Delaware: "DE",
+  Florida: "FL",
+  Georgia: "GA",
+  Hawaii: "HI",
+  Idaho: "ID",
+  Illinois: "IL",
+  Indiana: "IN",
+  Iowa: "IA",
+  Kansas: "KS",
+  Kentucky: "KY",
+  Louisiana: "LA",
+  Maine: "ME",
+  Maryland: "MD",
+  Massachusetts: "MA",
+  Michigan: "MI",
+  Minnesota: "MN",
+  Mississippi: "MS",
+  Missouri: "MO",
+  Montana: "MT",
+  Nebraska: "NE",
+  Nevada: "NV",
+  "New Hampshire": "NH",
+  "New Jersey": "NJ",
+  "New Mexico": "NM",
+  "New York": "NY",
+  "North Carolina": "NC",
+  "North Dakota": "ND",
+  Ohio: "OH",
+  Oklahoma: "OK",
+  Oregon: "OR",
+  Pennsylvania: "PA",
+  "Rhode Island": "RI",
+  "South Carolina": "SC",
+  "South Dakota": "SD",
+  Tennessee: "TN",
+  Texas: "TX",
+  Utah: "UT",
+  Vermont: "VT",
+  Virginia: "VA",
+  Washington: "WA",
+  "West Virginia": "WV",
+  Wisconsin: "WI",
+  Wyoming: "WY",
+};
+
 let cachedToken: { value: string; expiresAt: number } | undefined;
 
 function requiredEnv(name: string) {
@@ -150,6 +203,16 @@ function optionalCustom(fieldId: string, value: string | undefined) {
   }
 
   return { field_id: fieldId, value: [cleanValue] };
+}
+
+function applicantAddress(stateOfResidence: string | undefined) {
+  const state = stateOfResidence?.trim();
+
+  if (!state) {
+    return undefined;
+  }
+
+  return { state: stateAbbreviations[state] ?? state };
 }
 
 function debtAmountEstimate(debtAmount: string | undefined) {
@@ -283,6 +346,9 @@ export async function createForthLead(lead: ForthLead) {
     email: lead.email,
     phone_number: lead.phone,
     ...(lead.stateOfResidence ? { state: lead.stateOfResidence } : {}),
+    ...(applicantAddress(lead.stateOfResidence)
+      ? { address: applicantAddress(lead.stateOfResidence) }
+      : {}),
     data_source_id: contactDataSourceId(lead.landingPage),
     ...(process.env.FORTH_CAMPAIGN_ID
       ? { campaign_id: process.env.FORTH_CAMPAIGN_ID }
