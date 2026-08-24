@@ -306,7 +306,7 @@ export const siteConfig = {
     eyebrow: "Promise over profit",
     heading: "Take a step today for a better tomorrow.",
     body: "Takes about 3 minutes. Answer the same private fit questions used on River Relief landing pages, then choose where to send your options.",
-    steps: ["Debt Type", "Amount", "Timing", "State", "Contact"],
+    steps: ["Debt", "State", "Combine", "Income", "Name", "Email", "Phone"],
     submitLabel: "Send My Options",
     submittingLabel: "Sending...",
     successTitle: "Your review was received.",
@@ -320,45 +320,43 @@ export const siteConfig = {
       "Promise over profit. We start with stewardship, clarity, and no judgement.",
     questions: [
       {
-        key: "debtType",
-        label: "What type of debt is giving you the most stress right now?",
-        options: [
-          "Credit Card Debt",
-          "Personal Loan Debt",
-          "Another Kind Of Debt",
-        ],
-        affirmation:
-          "Naming the pressure is a faithful first step toward Financial Stewardship.",
-      },
-      {
         key: "debtAmount",
-        label: "How Much Debt Do You Currently Have?",
+        label: "How much debt do you need help with?",
         options: ["$0 - $30,000", "$30,000 - $50,000", "$50,000+"],
         affirmation:
           "A range is enough. River Relief can help you compare options without shame.",
       },
       {
-        key: "paymentStruggleDuration",
-        label: "How Long Have You Been Struggling With Payments?",
+        key: "combineDebt",
+        label:
+          "Would you like to combine your debt into one simple monthly payment?",
+        options: ["Yes", "No"],
+        affirmation:
+          "One monthly payment can make the next step easier to understand.",
+      },
+      {
+        key: "monthlyTakeHomePay",
+        label: "What's your monthly take-home pay?",
         options: [
-          "Very Recently",
-          "6 Months - 1 Year",
-          "1-3 years",
-          "3+ Years",
+          "$0 - $3,000",
+          "$3,000 - $5,000",
+          "$5,000 - $7,500",
+          "$7,500+",
         ],
         affirmation:
-          "There is grace for every timeline. The next step can still be practical.",
+          "This helps River Relief compare options against your real monthly budget.",
       },
     ],
     stateStep: {
-      title: "You Qualify For Debt Relief Options!",
-      label: "State of Residence*",
+      title: "What is your State of Residence?",
+      label: "Select your state",
       affirmation:
         "State availability matters. This helps River Relief point you toward the right review path.",
     },
     contactStep: {
-      title: "Debt Relief Options Found!",
-      deliveryQuestion: "Where Should We Send Your Options?",
+      nameTitle: "What is your name?",
+      emailTitle: "Confirm Your Email",
+      phoneTitle: "What is your phone number?",
       affirmation: "The integrity of the upright guides them. Proverbs 11:3",
     },
   },

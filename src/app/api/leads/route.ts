@@ -7,6 +7,8 @@ type LeadRequest = {
   debtAmount?: unknown;
   paymentStruggleDuration?: unknown;
   stateOfResidence?: unknown;
+  combineDebt?: unknown;
+  monthlyTakeHomePay?: unknown;
   firstName?: unknown;
   lastName?: unknown;
   email?: unknown;
@@ -50,6 +52,8 @@ export async function POST(request: Request) {
     debtAmount: cleanString(body.debtAmount),
     paymentStruggleDuration: cleanString(body.paymentStruggleDuration),
     stateOfResidence: cleanString(body.stateOfResidence),
+    combineDebt: cleanString(body.combineDebt),
+    monthlyTakeHomePay: cleanString(body.monthlyTakeHomePay),
     firstName: cleanString(body.firstName),
     lastName: cleanString(body.lastName),
     email: cleanString(body.email).toLowerCase(),
@@ -64,10 +68,10 @@ export async function POST(request: Request) {
   };
 
   const requiredStringFields = [
-    "debtType",
     "debtAmount",
-    "paymentStruggleDuration",
     "stateOfResidence",
+    "combineDebt",
+    "monthlyTakeHomePay",
     "firstName",
     "lastName",
     "email",

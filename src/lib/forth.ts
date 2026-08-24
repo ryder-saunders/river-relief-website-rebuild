@@ -28,9 +28,11 @@ type ForthLead = {
   monthlyPayment?: string;
   totalCreditCardDebt?: string;
   stateOfResidence: string;
-  debtType: string;
+  debtType?: string;
   debtAmount: string;
-  paymentStruggleDuration: string;
+  paymentStruggleDuration?: string;
+  combineDebt: string;
+  monthlyTakeHomePay: string;
   consent: boolean;
   landingPage: string;
   submittedAt: string;
@@ -41,8 +43,6 @@ const FORTH_API_BASE_URL =
 
 const forthFields = {
   estimatedDebt: process.env.FORTH_FIELD_ESTIMATED_DEBT_ID ?? "749411",
-  hardshipDescription:
-    process.env.FORTH_FIELD_HARDSHIP_DESCRIPTION_ID ?? "749414",
   leadType: process.env.FORTH_FIELD_LEAD_TYPE_ID ?? "749418",
   leadSource: process.env.FORTH_FIELD_LEAD_SOURCE_ID ?? "750639",
   originalDataSource:
@@ -53,6 +53,9 @@ const forthFields = {
     process.env.FORTH_FIELD_CREDIT_RATING_SELECT_ID ?? "750799",
   monthlyPayment: process.env.FORTH_FIELD_MONTHLY_PAYMENT_ID ?? "750800",
   totalDebt: process.env.FORTH_FIELD_TOTAL_DEBT_ID ?? "750801",
+  netIncome: process.env.FORTH_FIELD_NET_INCOME_ID ?? "750765",
+  stateQualification:
+    process.env.FORTH_FIELD_STATE_QUALIFICATION_ID ?? "760271",
   strugglingToMakePayments:
     process.env.FORTH_FIELD_STRUGGLING_TO_MAKE_PAYMENTS_ID ?? "760267",
   tellUsMore: process.env.FORTH_FIELD_TELL_US_MORE_ID ?? "750868",
@@ -112,23 +115,23 @@ async function getForthAccessToken() {
 function leadNote(lead: ForthLead) {
   return [
     "River Relief website lead",
-    `Debt type: ${lead.debtType}`,
     `Debt amount: ${lead.debtAmount}`,
-    `Payment struggle duration: ${lead.paymentStruggleDuration}`,
-    `Tell Us More: ${lead.tellUsMore || "Not provided"}`,
-    `Landing page: ${lead.landingPage}`,
-    `Consent: ${lead.consent ? "Yes" : "No"}`,
+    `State of residence: ${lead.stateOfResidence}`,
+    `Combine debt into one payment: ${lead.combineDebt}`,
+    `Monthly take-home pay: ${lead.monthlyTakeHomePay}`,
+    `Tell Us More summary: ${tellUsMoreSummary(lead)}`,
     `Submitted at: ${lead.submittedAt}`,
   ].join("\n");
 }
 
-function hardshipSummary(lead: ForthLead) {
+function tellUsMoreSummary(lead: ForthLead) {
   return [
-    `Debt type: ${lead.debtType}`,
-    `Payment struggle duration: ${lead.paymentStruggleDuration}`,
-    `Tell Us More: ${lead.tellUsMore || "Not provided"}`,
-    `Consent: ${lead.consent ? "Yes" : "No"}`,
-    `Landing page: ${lead.landingPage}`,
+    "Website survey summary",
+    `Debt amount: ${lead.debtAmount}`,
+    `State of residence: ${lead.stateOfResidence}`,
+    `Wants to combine debt into one payment: ${lead.combineDebt}`,
+    `Monthly take-home pay: ${lead.monthlyTakeHomePay}`,
+    ...(lead.tellUsMore ? [`Visitor note: ${lead.tellUsMore}`] : []),
   ].join("\n");
 }
 
@@ -202,7 +205,7 @@ function estimatedDebtOption(debtAmount: string) {
   return "";
 }
 
-function debtTypeId(debtType: string) {
+function debtTypeId(debtType: string | undefined) {
   switch (debtType) {
     case "Credit Card Debt":
       return "1";
@@ -215,7 +218,7 @@ function debtTypeId(debtType: string) {
   }
 }
 
-function debtTypeLabel(debtType: string) {
+function debtTypeLabel(debtType: string | undefined) {
   switch (debtTypeId(debtType)) {
     case "1":
       return "Credit Card";
@@ -248,11 +251,12 @@ function contactCustoms(lead: ForthLead) {
     ),
     optionalCustom(forthFields.totalDebt, lead.debtAmount),
     optionalCustom(forthFields.totalCreditCardDebt, totalCreditCardDebt),
+    optionalCustom(forthFields.netIncome, lead.monthlyTakeHomePay),
+    optionalCustom(forthFields.stateQualification, lead.stateOfResidence),
     optionalCustom(forthFields.monthlyPayment, lead.monthlyPayment),
     optionalCustom(forthFields.creditRating, lead.creditRating),
     optionalCustom(forthFields.creditRatingSelect, lead.creditRating),
-    optionalCustom(forthFields.tellUsMore, lead.tellUsMore),
-    optionalCustom(forthFields.hardshipDescription, hardshipSummary(lead)),
+    optionalCustom(forthFields.tellUsMore, tellUsMoreSummary(lead)),
     optionalCustom(forthFields.leadType, "debt-consolidation-intake"),
     optionalCustom(forthFields.leadSource, "Website"),
     optionalCustom(forthFields.strugglingToMakePayments, "Yes"),
@@ -284,12 +288,12 @@ async function createForthDebt(
     debt_type: debtTypeId(lead.debtType),
     original_debt_amount: estimatedAmount,
     current_debt_amount: estimatedAmount,
-    ...(lead.monthlyPayment ? { current_payment: lead.monthlyPayment } : {}),
     notes: [
       `Debt Type: ${debtTypeLabel(lead.debtType)}`,
-      `Website selected debt type: ${lead.debtType}`,
       `Website selected debt amount: ${lead.debtAmount}`,
-      `Payment struggle duration: ${lead.paymentStruggleDuration}`,
+      `State of residence: ${lead.stateOfResidence}`,
+      `Combine debt into one payment: ${lead.combineDebt}`,
+      `Monthly take-home pay: ${lead.monthlyTakeHomePay}`,
     ].join("\n"),
   };
 

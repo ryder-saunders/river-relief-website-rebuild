@@ -15,10 +15,10 @@ const formScenarios = [
     formIndex: 0,
     expectsRedirect: true,
     values: {
-      debtType: "Credit Card Debt",
       debtAmount: "$30,000 - $50,000",
-      duration: "6 Months - 1 Year",
       state: "Florida",
+      combineDebt: "Yes",
+      monthlyTakeHomePay: "$3,000 - $5,000",
       firstName: "Smoke",
       lastName: "Qualify",
       email: "smoke.qualify@example.com",
@@ -30,12 +30,12 @@ const formScenarios = [
     name: "homepage hero",
     path: "/",
     formIndex: 0,
-    expectsRedirect: false,
+    expectsRedirect: true,
     values: {
-      debtType: "Personal Loan Debt",
       debtAmount: "$0 - $30,000",
-      duration: "Very Recently",
       state: "Texas",
+      combineDebt: "No",
+      monthlyTakeHomePay: "$0 - $3,000",
       firstName: "Smoke",
       lastName: "Hero",
       email: "smoke.hero@example.com",
@@ -47,12 +47,12 @@ const formScenarios = [
     name: "homepage intake section",
     path: "/",
     formIndex: 1,
-    expectsRedirect: false,
+    expectsRedirect: true,
     values: {
-      debtType: "Another Kind Of Debt",
       debtAmount: "$50,000+",
-      duration: "3+ Years",
       state: "California",
+      combineDebt: "Yes",
+      monthlyTakeHomePay: "$7,500+",
       firstName: "Smoke",
       lastName: "Intake",
       email: "smoke.intake@example.com",
@@ -234,32 +234,34 @@ async function waitForApp() {
 
 async function completeSurvey(form, values) {
   await form
-    .getByRole("button", { name: values.debtType, exact: true })
-    .click();
-  await form
     .getByRole("button", { name: values.debtAmount, exact: true })
     .click();
+
+  await form.getByLabel("Select your state").selectOption(values.state);
+
   await form
-    .getByRole("button", { name: values.duration, exact: true })
+    .getByRole("button", { name: values.combineDebt, exact: true })
+    .click();
+  await form
+    .getByRole("button", { name: values.monthlyTakeHomePay, exact: true })
     .click();
 
-  await form.getByLabel("State of Residence*").selectOption(values.state);
-
   await form
-    .getByRole("textbox", { name: "First name", exact: true })
+    .getByRole("textbox", { name: "First Name", exact: true })
     .fill(values.firstName);
   await form
-    .getByRole("textbox", { name: "Last name", exact: true })
+    .getByRole("textbox", { name: "Last Name", exact: true })
     .fill(values.lastName);
+  await form.getByRole("button", { name: "Next", exact: true }).click();
+
   await form
     .getByRole("textbox", { name: "Email", exact: true })
     .fill(values.email);
+  await form.getByRole("button", { name: "Next", exact: true }).click();
+
   await form
     .getByRole("textbox", { name: "Phone", exact: true })
     .fill(values.phone);
-  await form
-    .getByRole("textbox", { name: "Tell Us More", exact: true })
-    .fill(values.tellUsMore);
   await form.getByRole("checkbox").check();
 }
 
@@ -299,67 +301,74 @@ async function testFormScenario(page, scenario) {
 }
 
 async function testUiOptions(page) {
-  const debtTypes = [
-    "Credit Card Debt",
-    "Personal Loan Debt",
-    "Another Kind Of Debt",
-  ];
   const debtAmounts = ["$0 - $30,000", "$30,000 - $50,000", "$50,000+"];
-  const durations = [
-    "Very Recently",
-    "6 Months - 1 Year",
-    "1-3 years",
-    "3+ Years",
+  const combineOptions = ["Yes", "No"];
+  const monthlyTakeHomePayOptions = [
+    "$0 - $3,000",
+    "$3,000 - $5,000",
+    "$5,000 - $7,500",
+    "$7,500+",
   ];
-
-  for (const debtType of debtTypes) {
-    await page.goto(`${APP_ORIGIN}/qualify`, { waitUntil: "networkidle" });
-    await page.getByRole("button", { name: debtType, exact: true }).click();
-    assert(
-      await page
-        .getByRole("heading", { name: "How Much Debt Do You Currently Have?" })
-        .isVisible(),
-      `${debtType} did not advance to amount step`,
-    );
-  }
 
   for (const debtAmount of debtAmounts) {
     await page.goto(`${APP_ORIGIN}/qualify`, { waitUntil: "networkidle" });
-    await page
-      .getByRole("button", { name: "Credit Card Debt", exact: true })
-      .click();
     await page.getByRole("button", { name: debtAmount, exact: true }).click();
     assert(
       await page
         .getByRole("heading", {
-          name: "How Long Have You Been Struggling With Payments?",
+          name: "What is your State of Residence?",
         })
         .isVisible(),
-      `${debtAmount} did not advance to timing step`,
+      `${debtAmount} did not advance to state step`,
     );
   }
 
-  for (const duration of durations) {
+  for (const combineOption of combineOptions) {
     await page.goto(`${APP_ORIGIN}/qualify`, { waitUntil: "networkidle" });
-    await page
-      .getByRole("button", { name: "Credit Card Debt", exact: true })
-      .click();
     await page
       .getByRole("button", { name: "$30,000 - $50,000", exact: true })
       .click();
-    await page.getByRole("button", { name: duration, exact: true }).click();
+    await page.getByLabel("Select your state").selectOption("Florida");
+    await page
+      .getByRole("button", { name: combineOption, exact: true })
+      .click();
     assert(
       await page
         .getByRole("heading", {
-          name: "You Qualify For Debt Relief Options!",
+          name: "What's your monthly take-home pay?",
         })
         .isVisible(),
-      `${duration} did not advance to state step`,
+      `${combineOption} did not advance to monthly take-home pay step`,
     );
   }
 
+  for (const monthlyTakeHomePay of monthlyTakeHomePayOptions) {
+    await page.goto(`${APP_ORIGIN}/qualify`, { waitUntil: "networkidle" });
+    await page
+      .getByRole("button", { name: "$30,000 - $50,000", exact: true })
+      .click();
+    await page.getByLabel("Select your state").selectOption("Florida");
+    await page.getByRole("button", { name: "Yes", exact: true }).click();
+    await page
+      .getByRole("button", { name: monthlyTakeHomePay, exact: true })
+      .click();
+    assert(
+      await page
+        .getByRole("heading", {
+          name: "What is your name?",
+        })
+        .isVisible(),
+      `${monthlyTakeHomePay} did not advance to name step`,
+    );
+  }
+
+  await page.goto(`${APP_ORIGIN}/qualify`, { waitUntil: "networkidle" });
+  await page
+    .getByRole("button", { name: "$30,000 - $50,000", exact: true })
+    .click();
+
   const stateOptions = await page
-    .getByLabel("State of Residence*")
+    .getByLabel("Select your state")
     .locator("option")
     .evaluateAll((options) => options.map((option) => option.textContent));
 
@@ -372,14 +381,14 @@ async function testUiOptions(page) {
 
 async function testApiValidation() {
   const validLead = {
+    combineDebt: "Yes",
     consent: true,
     debtAmount: "$30,000 - $50,000",
-    debtType: "Credit Card Debt",
     email: "api.smoke@example.com",
     firstName: "Api",
     landingPage: "/qualify",
     lastName: "Smoke",
-    paymentStruggleDuration: "6 Months - 1 Year",
+    monthlyTakeHomePay: "$3,000 - $5,000",
     phone: "(555) 111-2222",
     stateOfResidence: "Florida",
     tellUsMore: "API smoke test note",
@@ -507,12 +516,21 @@ async function main() {
         `Contact post ${index} missing Tell Us More custom`,
       );
       assert(
-        customs["750868"].length > 0,
-        `Contact post ${index} missing Tell Us More value`,
+        customs["750868"].includes("Website survey summary") &&
+          customs["750868"].includes("Wants to combine debt into one payment"),
+        `Contact post ${index} missing Tell Us More summary`,
       );
       assert(
-        customs["749414"],
-        `Contact post ${index} missing hardship custom`,
+        !customs["749414"],
+        `Contact post ${index} should not include hardship custom`,
+      );
+      assert(
+        customs["750765"],
+        `Contact post ${index} missing Net Income custom`,
+      );
+      assert(
+        customs["760271"],
+        `Contact post ${index} missing State Qualification custom`,
       );
       assert(
         customs["749418"] === "debt-consolidation-intake",

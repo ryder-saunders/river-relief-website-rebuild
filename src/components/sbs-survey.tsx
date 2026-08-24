@@ -8,10 +8,10 @@ import { ArrowRightIcon, CheckIcon, ShieldCheckIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site-config";
 
 type SurveyData = {
-  debtType: string;
   debtAmount: string;
-  paymentStruggleDuration: string;
   stateOfResidence: string;
+  combineDebt: string;
+  monthlyTakeHomePay: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -24,10 +24,10 @@ type SurveyData = {
 type SurveyVariant = "hero" | "section" | "funnel";
 
 const initialData: SurveyData = {
-  debtType: "",
   debtAmount: "",
-  paymentStruggleDuration: "",
   stateOfResidence: "",
+  combineDebt: "",
+  monthlyTakeHomePay: "",
   firstName: "",
   lastName: "",
   email: "",
@@ -107,11 +107,25 @@ export function SbsSurvey({
   const [submitError, setSubmitError] = useState("");
   const [data, setData] = useState<SurveyData>(initialData);
   const { intake } = siteConfig;
-  const stateStepIndex = intake.questions.length;
-  const contactStepIndex = intake.questions.length + 1;
+  const stateStepIndex = 1;
+  const combineDebtStepIndex = 2;
+  const monthlyTakeHomePayStepIndex = 3;
+  const nameStepIndex = 4;
+  const emailStepIndex = 5;
+  const phoneStepIndex = 6;
+  const finalStepIndex = phoneStepIndex;
   const isStateStep = step === stateStepIndex;
-  const isContactStep = step === contactStepIndex;
-  const currentQuestion = intake.questions[step];
+  const isNameStep = step === nameStepIndex;
+  const isEmailStep = step === emailStepIndex;
+  const isPhoneStep = step === phoneStepIndex;
+  const currentQuestion =
+    step === 0
+      ? intake.questions[0]
+      : step === combineDebtStepIndex
+        ? intake.questions[1]
+        : step === monthlyTakeHomePayStepIndex
+          ? intake.questions[2]
+          : undefined;
 
   const crmPayload = useMemo(
     () => ({
@@ -125,10 +139,10 @@ export function SbsSurvey({
         phone: data.phone,
       },
       debtProfile: {
-        debtType: data.debtType,
         debtAmount: data.debtAmount,
-        paymentStruggleDuration: data.paymentStruggleDuration,
         stateOfResidence: data.stateOfResidence,
+        combineDebt: data.combineDebt,
+        monthlyTakeHomePay: data.monthlyTakeHomePay,
         tellUsMore: data.tellUsMore,
       },
       consent: data.consent,
@@ -147,7 +161,7 @@ export function SbsSurvey({
 
   function chooseOption(key: QuestionKey, value: string) {
     updateField(key, value);
-    setStep((current) => Math.min(contactStepIndex, current + 1));
+    setStep((current) => Math.min(finalStepIndex, current + 1));
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -160,10 +174,10 @@ export function SbsSurvey({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          debtType: data.debtType,
           debtAmount: data.debtAmount,
-          paymentStruggleDuration: data.paymentStruggleDuration,
           stateOfResidence: data.stateOfResidence,
+          combineDebt: data.combineDebt,
+          monthlyTakeHomePay: data.monthlyTakeHomePay,
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email,
@@ -201,14 +215,15 @@ export function SbsSurvey({
             : "border-brand-grey-light/30 bg-brand-blue shadow-brand-blue/15 p-3 sm:p-6"
       }`}
     >
-      <div className="mb-5 grid grid-cols-5 gap-2">
-        {[
-          ...intake.questions,
-          { key: "stateOfResidence", label: "State" },
-          { key: "contact", label: "Contact" },
-        ].map((item, index) => (
+      <div
+        className="mb-5 grid gap-2"
+        style={{
+          gridTemplateColumns: `repeat(${intake.steps.length}, minmax(0, 1fr))`,
+        }}
+      >
+        {intake.steps.map((label, index) => (
           <button
-            key={item.key}
+            key={label}
             type="button"
             onClick={() => setStep(index)}
             className={`h-2 rounded-sm transition-colors ${
@@ -220,13 +235,13 @@ export function SbsSurvey({
                   ? "bg-brand-grey-light/35"
                   : "bg-white/20"
             }`}
-            aria-label={`Go to ${item.label}`}
+            aria-label={`Go to ${label}`}
           />
         ))}
       </div>
 
       <div className="rounded-lg bg-white p-4 sm:p-5">
-        {!isStateStep && !isContactStep && currentQuestion && (
+        {currentQuestion && (
           <fieldset aria-labelledby={`${currentQuestion.key}-label`}>
             <div className="flex items-start justify-between gap-4">
               <h3
@@ -274,7 +289,7 @@ export function SbsSurvey({
 
                   updateField("stateOfResidence", state);
                   if (state) {
-                    setStep(contactStepIndex);
+                    setStep(combineDebtStepIndex);
                   }
                 }}
                 className="border-brand-grey-light/50 text-brand-grey-dark focus:border-brand-blue rounded-md border bg-white px-4 py-3 font-normal transition-colors outline-none"
@@ -294,58 +309,66 @@ export function SbsSurvey({
           </div>
         )}
 
-        {isContactStep && (
+        {isNameStep && (
           <div className="grid gap-4">
-            <div className="text-center">
-              <span className="bg-brand-accent mx-auto flex h-14 w-14 items-center justify-center rounded-full text-white">
-                <CheckIcon className="h-9 w-9" />
-              </span>
-              <h3 className="text-brand-grey-dark text-2xl leading-tight font-semibold sm:text-3xl">
-                {intake.contactStep.title}
-              </h3>
-            </div>
+            <h3 className="text-brand-grey-dark text-2xl leading-tight font-semibold sm:text-3xl">
+              {intake.contactStep.nameTitle}
+            </h3>
             <div className="grid gap-3 sm:grid-cols-2">
               <TextInput
-                label="First name"
+                label="First Name"
                 value={data.firstName}
                 onChange={(value) => updateField("firstName", value)}
                 required
               />
               <TextInput
-                label="Last name"
+                label="Last Name"
                 value={data.lastName}
                 onChange={(value) => updateField("lastName", value)}
                 required
               />
             </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <TextInput
-                label="Email"
-                type="email"
-                value={data.email}
-                onChange={(value) => updateField("email", value)}
-                required
-              />
-              <TextInput
-                label="Phone"
-                type="tel"
-                value={data.phone}
-                onChange={(value) => updateField("phone", value)}
-                required
-              />
-            </div>
-            <label className="text-brand-grey-dark grid gap-2 text-sm font-semibold">
-              Tell Us More
-              <textarea
-                rows={4}
-                value={data.tellUsMore}
-                onChange={(event) =>
-                  updateField("tellUsMore", event.target.value)
-                }
-                className="border-brand-grey-light/40 text-brand-grey-dark focus:border-brand-blue min-h-28 rounded-md border px-4 py-3 font-normal transition-colors outline-none"
-                placeholder="Share anything helpful for the first conversation."
-              />
-            </label>
+            <p className="border-brand-accent/25 bg-brand-accent/10 text-brand-blue flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
+              <CheckIcon className="mt-0.5 h-4 w-4 shrink-0" />
+              {intake.contactStep.affirmation}
+            </p>
+          </div>
+        )}
+
+        {isEmailStep && (
+          <div className="grid gap-4">
+            <h3 className="text-brand-grey-dark text-2xl leading-tight font-semibold sm:text-3xl">
+              {intake.contactStep.emailTitle}
+            </h3>
+            <TextInput
+              label="Email"
+              labelClassName="sr-only"
+              type="email"
+              value={data.email}
+              onChange={(value) => updateField("email", value)}
+              required
+            />
+            <p className="border-brand-accent/25 bg-brand-accent/10 text-brand-blue flex gap-3 rounded-md border px-4 py-3 text-sm leading-6 font-semibold">
+              <CheckIcon className="mt-0.5 h-4 w-4 shrink-0" />
+              {intake.contactStep.affirmation}
+            </p>
+          </div>
+        )}
+
+        {isPhoneStep && (
+          <div className="grid gap-4">
+            <h3 className="text-brand-grey-dark text-2xl leading-tight font-semibold sm:text-3xl">
+              {intake.contactStep.phoneTitle}
+            </h3>
+            <TextInput
+              label="Phone"
+              labelClassName="sr-only"
+              placeholder="(555) 555-5555"
+              type="tel"
+              value={data.phone}
+              onChange={(value) => updateField("phone", value)}
+              required
+            />
             <input
               type="text"
               name="website"
@@ -395,7 +418,7 @@ export function SbsSurvey({
               type="button"
               onClick={() => {
                 if (data.stateOfResidence) {
-                  setStep(contactStepIndex);
+                  setStep(combineDebtStepIndex);
                 }
               }}
               className="bg-brand-blue hover:bg-brand-blue/90 inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-40"
@@ -405,7 +428,29 @@ export function SbsSurvey({
               <ArrowRightIcon className="h-4 w-4" />
             </button>
           ) : null}
-          {isContactStep ? (
+          {isNameStep ? (
+            <button
+              type="button"
+              onClick={() => setStep(emailStepIndex)}
+              className="bg-brand-blue hover:bg-brand-blue/90 inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+              disabled={!data.firstName.trim() || !data.lastName.trim()}
+            >
+              Next
+              <ArrowRightIcon className="h-4 w-4" />
+            </button>
+          ) : null}
+          {isEmailStep ? (
+            <button
+              type="button"
+              onClick={() => setStep(phoneStepIndex)}
+              className="bg-brand-blue hover:bg-brand-blue/90 inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+              disabled={!data.email.trim()}
+            >
+              Next
+              <ArrowRightIcon className="h-4 w-4" />
+            </button>
+          ) : null}
+          {isPhoneStep ? (
             <button
               type="submit"
               disabled={isSubmitting}
@@ -477,12 +522,16 @@ function SurveyOption({
 
 function TextInput({
   label,
+  labelClassName = "",
+  placeholder,
   value,
   onChange,
   type = "text",
   required = false,
 }: {
   label: string;
+  labelClassName?: string;
+  placeholder?: string;
   value: string;
   onChange: (value: string) => void;
   type?: string;
@@ -490,11 +539,12 @@ function TextInput({
 }) {
   return (
     <label className="text-brand-grey-dark grid gap-2 text-sm font-semibold">
-      {label}
+      <span className={labelClassName}>{label}</span>
       <input
         type={type}
         value={value}
         required={required}
+        placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
         className="border-brand-grey-light/40 text-brand-grey-dark focus:border-brand-blue rounded-md border px-4 py-3 font-normal transition-colors outline-none"
       />
