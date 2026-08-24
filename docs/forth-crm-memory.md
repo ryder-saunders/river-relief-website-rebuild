@@ -40,6 +40,9 @@ Post field names:
 - `Email`: borrower email
 - `EmailAddress`: borrower email
 - `HomePhone`: borrower phone
+- `Phone`: borrower phone
+- `first_name`: borrower first name compatibility alias
+- `last_name`: borrower last name compatibility alias
 - `State`: state of residence, survey forms only
 - `How_much_total_debt_are_you_in`: selected debt range, survey forms only
 - `Net_Income`: monthly take-home pay range, survey forms only
@@ -54,6 +57,21 @@ longer follows the post with an authenticated contact update; email, state, net
 income, stage, and status should all come from the Forth Data Source field maps
 and source settings.
 
+Required Forth Data Source field maps:
+
+- Home source `148675`: `FirstName` or `first_name` -> First Name, `LastName`
+  or `last_name` -> Last Name, `Email` and/or `EmailAddress` -> Email,
+  `HomePhone` and/or `Phone` -> Home Phone, `State` -> State,
+  `How_much_total_debt_are_you_in` -> How much total debt are you in,
+  `Net_Income` -> Net Income.
+- Contact source `148362`: `FirstName` or `first_name` -> First Name,
+  `LastName` or `last_name` -> Last Name, `Email` and/or `EmailAddress` ->
+  Email, `HomePhone` and/or `Phone` -> Home Phone, `Tell_us_more` -> Tell us
+  more.
+
+Both data sources should have Stage / Status set in Forth to `River Relief Sales
+: Ready to Apply`. The website should not send stage/status values itself.
+
 ## Debt amount handling
 
 Do not create related debt rows directly from the website route. The selected
@@ -67,6 +85,15 @@ Source mappings handle the target CRM field.
 to Apply` stage/status. That stage/status should now be applied by the Data
   Source Post URL flow rather than sent manually through the direct contacts
   API.
+- 2026-08-24 live 5.1 tests through production `/api/leads` confirmed:
+  - Home contact `1247799940` was created via data source `148675` with
+    `River Relief Sales / Ready to Apply`, email populated, address state `FL`,
+    `Net Income` populated, and `How much total debt are you in` populated.
+  - Contact Us contact `1247799943` was created via data source `148362` with
+    `River Relief Sales / Ready to Apply`, email populated, and only the
+    contact-page long-form `Tell us more...` custom field populated.
+  - Address fields not provided by the user remained empty/null; no `-`, `N/A`,
+    `not provided`, fake ZIP, or fake street values were sent.
 
 ## Known limitations
 
