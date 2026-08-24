@@ -48,6 +48,16 @@ Do not send address placeholders, consent values, source URLs, generated survey
 summaries, direct custom-field IDs, or duplicate debt fields. The Data Source
 field maps decide which contact/custom fields these post names populate.
 
+Live 5.0 testing showed the post source accepts `EmailAddress`, `State`, and
+`Net_Income`, but the Forth Data Source importer did not map those values onto
+the created contact. The website therefore parses the returned `Success:{id}`
+and follows with a narrow authenticated contact update:
+
+- `email`: collected email
+- `750765` / `Net Income`: survey monthly take-home pay
+- `760271` / `State Qualification`: survey state, as the no-placeholder state
+  fallback
+
 ## Debt amount handling
 
 Do not create related debt rows directly from the website route. The selected

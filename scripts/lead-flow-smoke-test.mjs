@@ -163,7 +163,35 @@ function startMockForth() {
           requestUrl.pathname === "/post/contact-source/")
       ) {
         response.setHeader("content-type", "text/plain");
-        response.end("ok");
+        response.end("Success:987654321");
+        return;
+      }
+
+      response.setHeader("content-type", "application/json");
+
+      if (
+        request.method === "POST" &&
+        requestUrl.pathname === "/v1/auth/token"
+      ) {
+        response.end(
+          JSON.stringify({
+            response: { api_key: "mock-api-key", expires_in: 86_400 },
+            status: { code: 200 },
+          }),
+        );
+        return;
+      }
+
+      if (
+        request.method === "PUT" &&
+        requestUrl.pathname === "/v1/contacts/987654321"
+      ) {
+        response.end(
+          JSON.stringify({
+            response: { id: 987_654_321 },
+            status: { code: 200 },
+          }),
+        );
         return;
       }
 
@@ -187,6 +215,9 @@ function startNextDev() {
     {
       env: {
         ...process.env,
+        FORTH_API_BASE_URL: `${MOCK_FORTH_ORIGIN}/v1`,
+        FORTH_CLIENT_ID: "test-client-id",
+        FORTH_CLIENT_SECRET: "test-client-secret",
         FORTH_CONTACT_POST_URL: MOCK_CONTACT_POST_URL,
         FORTH_HOME_POST_URL: MOCK_HOME_POST_URL,
       },
@@ -503,6 +534,10 @@ async function main() {
       (request) =>
         request.method === "POST" && request.url === "/post/contact-source/",
     );
+    const patchPosts = requests.filter(
+      (request) =>
+        request.method === "PUT" && request.url === "/v1/contacts/987654321",
+    );
     assert(
       homePosts.length === 5,
       `Expected 5 home data-source posts, saw ${homePosts.length}`,
@@ -511,8 +546,17 @@ async function main() {
       contactPosts.length === 2,
       `Expected 2 contact data-source posts, saw ${contactPosts.length}`,
     );
+    assert(
+      patchPosts.length === 7,
+      `Expected 7 contact patch posts, saw ${patchPosts.length}`,
+    );
+    const patchByEmail = new Map(
+      patchPosts.map((request) => [request.body?.email, request.body]),
+    );
 
     for (const [index, request] of homePosts.entries()) {
+      const patch = patchByEmail.get(request.body.EmailAddress);
+
       assert(request.body.FirstName, `Home post ${index} missing FirstName`);
       assert(request.body.first_name, `Home post ${index} missing first_name`);
       assert(request.body.LastName, `Home post ${index} missing LastName`);
@@ -521,11 +565,6 @@ async function main() {
         request.body.EmailAddress,
         `Home post ${index} missing EmailAddress`,
       );
-      assert(request.body.email, `Home post ${index} missing email`);
-      assert(
-        request.body.email_address,
-        `Home post ${index} missing email_address`,
-      );
       assert(request.body.HomePhone, `Home post ${index} missing HomePhone`);
       assert(request.body.Phone, `Home post ${index} missing Phone`);
       assert(
@@ -533,12 +572,7 @@ async function main() {
         `Home post ${index} missing debt range`,
       );
       assert(request.body.State, `Home post ${index} missing State`);
-      assert(request.body.state, `Home post ${index} missing state`);
       assert(request.body.Net_Income, `Home post ${index} missing Net_Income`);
-      assert(
-        request.body.How_much_is_your_monthly_take_home_pay,
-        `Home post ${index} missing monthly income alias`,
-      );
       assert(
         !request.body.Tell_us_more,
         `Home post ${index} should not include Tell_us_more`,
@@ -550,9 +584,24 @@ async function main() {
           !request.body.total_debt,
         `Home post ${index} should not include placeholder address or total_debt`,
       );
+      assert(patch?.email, `Home patch ${index} missing email`);
+      assert(
+        patch?.customs?.some(
+          (field) => field.field_id === "750765" && field.value?.[0],
+        ),
+        `Home patch ${index} missing Net Income custom`,
+      );
+      assert(
+        patch?.customs?.some(
+          (field) => field.field_id === "760271" && field.value?.[0],
+        ),
+        `Home patch ${index} missing State Qualification custom`,
+      );
     }
 
     for (const [index, request] of contactPosts.entries()) {
+      const patch = patchByEmail.get(request.body.EmailAddress);
+
       assert(request.body.FirstName, `Contact post ${index} missing FirstName`);
       assert(
         request.body.first_name,
@@ -563,11 +612,6 @@ async function main() {
       assert(
         request.body.EmailAddress,
         `Contact post ${index} missing EmailAddress`,
-      );
-      assert(request.body.email, `Contact post ${index} missing email`);
-      assert(
-        request.body.email_address,
-        `Contact post ${index} missing email_address`,
       );
       assert(request.body.HomePhone, `Contact post ${index} missing HomePhone`);
       assert(request.body.Phone, `Contact post ${index} missing Phone`);
@@ -580,6 +624,11 @@ async function main() {
           !request.body.State &&
           !request.body.Net_Income,
         `Contact post ${index} should only include contact-form data`,
+      );
+      assert(patch?.email, `Contact patch ${index} missing email`);
+      assert(
+        !patch?.customs,
+        `Contact patch ${index} should not include survey customs`,
       );
     }
 
