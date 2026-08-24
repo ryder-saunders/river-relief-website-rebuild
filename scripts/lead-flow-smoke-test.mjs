@@ -612,14 +612,8 @@ async function main() {
       } else {
         assert(request.body.state, `Contact post ${index} missing state`);
         assert(
-          request.body.address?.state,
-          `Contact post ${index} missing applicant address state`,
-        );
-        assert(
-          !request.body.address.address1 &&
-            !request.body.address.city &&
-            !request.body.address.zip,
-          `Contact post ${index} should not include empty address placeholders`,
+          !request.body.address,
+          `Contact post ${index} should not include address placeholders`,
         );
         assert(customs["750801"], `Contact post ${index} missing debt custom`);
         assert(

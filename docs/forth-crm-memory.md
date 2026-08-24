@@ -50,27 +50,25 @@ Standard contact fields:
 - `phone_number`: borrower phone
 - `state`: state of residence
 - `data_source_id`: selected from landing page
-- `total_debt`: numeric estimate from the selected debt range
+
+Do not send the nested `address` object unless the visitor provided actual
+address fields. Live 2026-08-24 probes showed that Forth rejects `address` with
+state only because `address.address1` is required, and placeholder values like
+`-` or `00000` should not be sent.
 
 Custom contact fields:
 
-- `749411` / `Estimated Debt`: closest Forth select option for debt range
-- `749418` / `Lead Type`: `debt-consolidation-intake`
-- `750532` / `Original Data Source`: `River Relief Website`
-- `750639` / `Lead Source`: `Website`
 - `750765` / `Net Income`: monthly take-home pay range selected in the survey
 - `750801` / `How much total debt are you in`: original selected debt range
-- `750868` / `Tell us more...`: generated website survey summary. This is
-  where the debt amount, state, combine-debt answer, monthly take-home pay, and
-  any visitor note should land.
-- `754651` / `Total Credit Card Debt`: selected debt range when the user picked
-  credit card debt
-- `760267` / `Struggling to Make Payments`: `Yes`
-- `760271` / `State Qualification`: state of residence selected in the survey
-- `774881` / `utm_campaign`: `Website Leads`
+- `750868` / `Tell us more...`: contact-page long-form message only
 
-Do not populate `749414` / `Hardship Description` from website forms. Do not
-send consent values or source URLs into Forth notes/custom summaries.
+Do not populate duplicate or summary fields from website surveys, including
+`749411` / `Estimated Debt`, `749414` / `Hardship Description`, `749418` /
+`Lead Type`, `750532` / `Original Data Source`, `750639` / `Lead Source`,
+`750771` / `Balance of Unsecured Accounts`, `754651` / `Total Credit Card
+Debt`, `760267` / `Struggling to Make Payments`, `760271` / `State
+Qualification`, or `774881` / `utm_campaign`. Do not send consent values or
+source URLs into Forth notes/custom summaries.
 
 Other configured-but-not-always-present fields:
 
@@ -89,11 +87,8 @@ estimate:
 - `$30,000 - $50,000` -> `40000`
 - `$50,000+` -> `50000`
 
-For Forth `Estimated Debt` select field `749411`, use:
-
-- `$0 - $30,000` -> `$20,000 - $30,000`
-- `$30,000 - $50,000` -> `$30,000 - $40,000`
-- `$50,000+` -> `$50,000 - $60,000`
+Do not send the numeric estimate to standard contact `total_debt`; the selected
+debt range should only populate custom field `750801`.
 
 ## Debt row handling
 
