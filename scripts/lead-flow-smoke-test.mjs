@@ -496,6 +496,15 @@ async function main() {
       );
       assert(request.body.state, `Contact post ${index} missing state`);
       assert(
+        request.body.address?.state,
+        `Contact post ${index} missing applicant address state`,
+      );
+      assert(
+        request.body.address?.address1 ===
+          "Address not provided - website state only",
+        `Contact post ${index} missing applicant address placeholder`,
+      );
+      assert(
         request.body.data_source_id,
         `Contact post ${index} missing data_source_id`,
       );

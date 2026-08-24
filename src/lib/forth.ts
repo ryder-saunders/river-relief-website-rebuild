@@ -41,6 +41,59 @@ type ForthLead = {
 const FORTH_API_BASE_URL =
   process.env.FORTH_API_BASE_URL ?? "https://api.forthcrm.com/v1";
 
+const stateAbbreviations: Record<string, string> = {
+  Alabama: "AL",
+  Alaska: "AK",
+  Arizona: "AZ",
+  Arkansas: "AR",
+  California: "CA",
+  Colorado: "CO",
+  Connecticut: "CT",
+  Delaware: "DE",
+  Florida: "FL",
+  Georgia: "GA",
+  Hawaii: "HI",
+  Idaho: "ID",
+  Illinois: "IL",
+  Indiana: "IN",
+  Iowa: "IA",
+  Kansas: "KS",
+  Kentucky: "KY",
+  Louisiana: "LA",
+  Maine: "ME",
+  Maryland: "MD",
+  Massachusetts: "MA",
+  Michigan: "MI",
+  Minnesota: "MN",
+  Mississippi: "MS",
+  Missouri: "MO",
+  Montana: "MT",
+  Nebraska: "NE",
+  Nevada: "NV",
+  "New Hampshire": "NH",
+  "New Jersey": "NJ",
+  "New Mexico": "NM",
+  "New York": "NY",
+  "North Carolina": "NC",
+  "North Dakota": "ND",
+  Ohio: "OH",
+  Oklahoma: "OK",
+  Oregon: "OR",
+  Pennsylvania: "PA",
+  "Rhode Island": "RI",
+  "South Carolina": "SC",
+  "South Dakota": "SD",
+  Tennessee: "TN",
+  Texas: "TX",
+  Utah: "UT",
+  Vermont: "VT",
+  Virginia: "VA",
+  Washington: "WA",
+  "West Virginia": "WV",
+  Wisconsin: "WI",
+  Wyoming: "WY",
+};
+
 const forthFields = {
   estimatedDebt: process.env.FORTH_FIELD_ESTIMATED_DEBT_ID ?? "749411",
   leadType: process.env.FORTH_FIELD_LEAD_TYPE_ID ?? "749418",
@@ -171,6 +224,10 @@ function optionalCustom(fieldId: string, value: string | undefined) {
   }
 
   return { field_id: fieldId, value: [cleanValue] };
+}
+
+function stateAbbreviation(state: string) {
+  return stateAbbreviations[state] ?? state;
 }
 
 function debtAmountEstimate(debtAmount: string) {
@@ -327,6 +384,14 @@ export async function createForthLead(lead: ForthLead) {
     email: lead.email,
     phone_number: lead.phone,
     state: lead.stateOfResidence,
+    address: {
+      address1: "Address not provided - website state only",
+      address2: "",
+      address3: "",
+      city: "Not Provided",
+      state: stateAbbreviation(lead.stateOfResidence),
+      zip: "00000",
+    },
     data_source_id: contactDataSourceId(lead.landingPage),
     ...(estimatedDebtAmount ? { total_debt: estimatedDebtAmount } : {}),
     source: process.env.FORTH_LEAD_SOURCE ?? "River Relief Website",
