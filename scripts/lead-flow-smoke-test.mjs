@@ -508,8 +508,8 @@ async function main() {
         `Contact post ${index} missing estimated debt custom`,
       );
       assert(
-        customs["750801"],
-        `Contact post ${index} missing debt amount custom`,
+        customs["750771"],
+        `Contact post ${index} missing unsecured balance custom`,
       );
       assert(
         customs["750868"],
@@ -529,8 +529,8 @@ async function main() {
         `Contact post ${index} missing Net Income custom`,
       );
       assert(
-        customs["760271"],
-        `Contact post ${index} missing State Qualification custom`,
+        !customs["760271"],
+        `Contact post ${index} should not include State Qualification custom`,
       );
       assert(
         customs["749418"] === "debt-consolidation-intake",

@@ -53,9 +53,9 @@ const forthFields = {
     process.env.FORTH_FIELD_CREDIT_RATING_SELECT_ID ?? "750799",
   monthlyPayment: process.env.FORTH_FIELD_MONTHLY_PAYMENT_ID ?? "750800",
   totalDebt: process.env.FORTH_FIELD_TOTAL_DEBT_ID ?? "750801",
+  balanceOfUnsecuredAccounts:
+    process.env.FORTH_FIELD_BALANCE_OF_UNSECURED_ACCOUNTS_ID ?? "750771",
   netIncome: process.env.FORTH_FIELD_NET_INCOME_ID ?? "750765",
-  stateQualification:
-    process.env.FORTH_FIELD_STATE_QUALIFICATION_ID ?? "760271",
   strugglingToMakePayments:
     process.env.FORTH_FIELD_STRUGGLING_TO_MAKE_PAYMENTS_ID ?? "760267",
   tellUsMore: process.env.FORTH_FIELD_TELL_US_MORE_ID ?? "750868",
@@ -125,6 +125,10 @@ function leadNote(lead: ForthLead) {
 }
 
 function tellUsMoreSummary(lead: ForthLead) {
+  if (lead.paymentStruggleDuration) {
+    return lead.paymentStruggleDuration;
+  }
+
   return [
     "Website survey summary",
     `Debt amount: ${lead.debtAmount}`,
@@ -250,9 +254,9 @@ function contactCustoms(lead: ForthLead) {
       estimatedDebtOption(lead.debtAmount),
     ),
     optionalCustom(forthFields.totalDebt, lead.debtAmount),
+    optionalCustom(forthFields.balanceOfUnsecuredAccounts, lead.debtAmount),
     optionalCustom(forthFields.totalCreditCardDebt, totalCreditCardDebt),
     optionalCustom(forthFields.netIncome, lead.monthlyTakeHomePay),
-    optionalCustom(forthFields.stateQualification, lead.stateOfResidence),
     optionalCustom(forthFields.monthlyPayment, lead.monthlyPayment),
     optionalCustom(forthFields.creditRating, lead.creditRating),
     optionalCustom(forthFields.creditRatingSelect, lead.creditRating),
