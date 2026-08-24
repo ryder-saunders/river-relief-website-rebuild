@@ -1,5 +1,11 @@
 const FORTH_API_BASE_URL =
   process.env.FORTH_API_BASE_URL ?? "https://api.forthcrm.com/v1";
+const FORTH_HOME_POST_URL =
+  process.env.FORTH_HOME_POST_URL ??
+  "https://login.forthcrm.com/post/4898492146f1f1ffd916dd181e7a42bec35b09d2/";
+const FORTH_CONTACT_POST_URL =
+  process.env.FORTH_CONTACT_POST_URL ??
+  "https://login.forthcrm.com/post/2337089719f85c02b5381b45b030a2eb35a1bc7b/";
 
 function requiredEnv(name) {
   const value = process.env[name];
@@ -38,8 +44,8 @@ async function getForthApiKey() {
   return apiKey;
 }
 
-function extractContactId(data) {
-  const ids = [];
+function extractContactIds(data) {
+  const ids = new Set();
 
   function walk(value) {
     if (!value || typeof value !== "object") {
@@ -51,7 +57,7 @@ function extractContactId(data) {
         /^(id|contact_id)$/i.test(key) &&
         (typeof child === "string" || typeof child === "number")
       ) {
-        ids.push(String(child));
+        ids.add(String(child));
       }
 
       walk(child);
@@ -60,137 +66,129 @@ function extractContactId(data) {
 
   walk(data);
 
-  return ids[0] ?? null;
+  return [...ids];
 }
 
-function customsById(contact) {
-  return Object.fromEntries(
-    (contact?.response?.customs ?? []).map((item) => [
-      String(item.field_id),
-      Array.isArray(item.value)
-        ? item.value.join(" ")
-        : String(item.value ?? ""),
-    ]),
-  );
+async function postDataSource(url, fields) {
+  const postUrl = new URL(url);
+
+  for (const [fieldName, value] of new URLSearchParams(fields).entries()) {
+    postUrl.searchParams.set(fieldName, value);
+  }
+
+  const response = await fetch(postUrl, { method: "POST" });
+  const responseText = await response.text();
+
+  assert(response.ok, `Data source post failed with ${response.status}`);
+
+  return responseText.match(/Success:(\d+)/)?.[1] ?? null;
+}
+
+async function findContactByPhone(apiKey, phone) {
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    const response = await fetch(
+      `${FORTH_API_BASE_URL}/contacts/search_by_phone/${phone}`,
+      { headers: { "Api-Key": apiKey } },
+    );
+    const data = await response.json();
+    const [contactId] = extractContactIds(data);
+
+    if (response.ok && contactId) {
+      return contactId;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+  }
+
+  return null;
+}
+
+async function readContact(apiKey, contactId) {
+  const response = await fetch(`${FORTH_API_BASE_URL}/contacts/${contactId}`, {
+    headers: { "Api-Key": apiKey },
+  });
+  const data = await response.json();
+
+  assert(response.ok, `Contact read failed with ${response.status}`);
+
+  return data;
+}
+
+async function deleteContact(apiKey, contactId) {
+  const response = await fetch(`${FORTH_API_BASE_URL}/contacts/${contactId}`, {
+    headers: { "Api-Key": apiKey },
+    method: "DELETE",
+  });
+
+  assert(response.ok, `Contact delete failed with ${response.status}`);
 }
 
 async function main() {
   const apiKey = await getForthApiKey();
-  const source = process.env.FORTH_LEAD_SOURCE ?? "River Relief Website";
-  const campaign = process.env.FORTH_LEAD_CAMPAIGN ?? "Website Leads";
-  const dataSourceId =
-    process.env.FORTH_QUALIFY_DATA_SOURCE_ID ??
-    process.env.FORTH_DEFAULT_DATA_SOURCE_ID ??
-    "148284";
   const timestamp = Date.now();
-  const email = `riverrelief.live.smoke+${timestamp}@example.com`;
-  let contactId;
-
-  const payload = {
-    campaign,
-    customs: [
-      { field_id: "750801", value: ["$30,000 - $50,000"] },
-      { field_id: "754651", value: ["$30,000 - $50,000"] },
-      { field_id: "750868", value: ["Live smoke test note"] },
-      {
-        field_id: "749414",
-        value: [
-          "Debt type: Credit Card Debt\nPayment struggle duration: 1-3 years\nConsent: Yes\nLanding page: /qualify",
-        ],
-      },
-      { field_id: "749418", value: ["debt-consolidation-intake"] },
-      { field_id: "750532", value: [source] },
-      { field_id: "774881", value: [campaign] },
-    ],
-    data_source_id: dataSourceId,
-    email,
-    first_name: "RiverRelief",
-    last_name: "LiveSmoke",
-    notes:
-      "River Relief website lead\nDebt type: Credit Card Debt\nDebt amount: $30,000 - $50,000\nPayment struggle duration: 1-3 years\nLanding page: /qualify\nConsent: Yes",
-    phone_number: "5558889999",
-    source,
-    state: "Florida",
-  };
+  const createdIds = [];
+  const homePhone = `55549${String(timestamp).slice(-5)}`;
+  const contactPhone = `55559${String(timestamp).slice(-5)}`;
 
   try {
-    const createResponse = await fetch(`${FORTH_API_BASE_URL}/contacts`, {
-      body: JSON.stringify(payload),
-      headers: { "Api-Key": apiKey, "content-type": "application/json" },
-      method: "POST",
+    await postDataSource(FORTH_HOME_POST_URL, {
+      EmailAddress: `riverrelief.live.home.4.9+${timestamp}@example.com`,
+      Email: `riverrelief.live.home.4.9+${timestamp}@example.com`,
+      Email_Address: `riverrelief.live.home.4.9+${timestamp}@example.com`,
+      email: `riverrelief.live.home.4.9+${timestamp}@example.com`,
+      emailAddress: `riverrelief.live.home.4.9+${timestamp}@example.com`,
+      email_address: `riverrelief.live.home.4.9+${timestamp}@example.com`,
+      FirstName: "Live",
+      first_name: "Live",
+      HomePhone: homePhone,
+      How_much_total_debt_are_you_in: "$30,000 - $50,000",
+      How_much_is_your_monthly_take_home_pay: "$3,000 - $5,000",
+      LastName: "Home49",
+      last_name: "Home49",
+      Net_Income: "$3,000 - $5,000",
+      Phone: homePhone,
+      State: "Florida",
+      state: "Florida",
     });
-    const createData = await createResponse.json();
-    contactId = extractContactId(createData);
+    await postDataSource(FORTH_CONTACT_POST_URL, {
+      EmailAddress: `riverrelief.live.contact.4.9+${timestamp}@example.com`,
+      Email: `riverrelief.live.contact.4.9+${timestamp}@example.com`,
+      Email_Address: `riverrelief.live.contact.4.9+${timestamp}@example.com`,
+      email: `riverrelief.live.contact.4.9+${timestamp}@example.com`,
+      emailAddress: `riverrelief.live.contact.4.9+${timestamp}@example.com`,
+      email_address: `riverrelief.live.contact.4.9+${timestamp}@example.com`,
+      FirstName: "Live",
+      first_name: "Live",
+      HomePhone: contactPhone,
+      LastName: "Contact49",
+      last_name: "Contact49",
+      Phone: contactPhone,
+      Tell_us_more: "Live 4.9 contact form data-source smoke test note.",
+    });
 
-    assert(
-      createResponse.ok && contactId,
-      `Forth contact creation failed with ${createResponse.status}`,
-    );
+    for (const phone of [homePhone, contactPhone]) {
+      const contactId = await findContactByPhone(apiKey, phone);
 
-    const readResponse = await fetch(
-      `${FORTH_API_BASE_URL}/contacts/${contactId}`,
-      {
-        headers: { "Api-Key": apiKey },
-      },
-    );
-    const contact = await readResponse.json();
-    const contactText = JSON.stringify(contact);
-    const customs = customsById(contact);
+      assert(contactId, `Could not find posted contact for phone ${phone}`);
+      createdIds.push(contactId);
 
-    assert(
-      readResponse.ok,
-      `Forth contact read failed with ${readResponse.status}`,
-    );
-    assert(contactText.includes(email), "Read-back contact is missing email");
-    assert(
-      contactText.includes("5558889999"),
-      "Read-back contact is missing phone",
-    );
-    assert(
-      customs["750801"]?.includes("$30,000 - $50,000"),
-      "Read-back contact is missing debt amount custom field",
-    );
-    assert(
-      customs["754651"]?.includes("$30,000 - $50,000"),
-      "Read-back contact is missing total credit card debt custom field",
-    );
-    assert(
-      customs["750868"]?.includes("Live smoke test note"),
-      "Read-back contact is missing Tell Us More custom field",
-    );
-    assert(
-      customs["749414"]?.includes("Credit Card Debt") &&
-        customs["749414"]?.includes("1-3 years"),
-      "Read-back contact is missing hardship custom field",
-    );
-    assert(
-      customs["749418"]?.includes("debt-consolidation-intake"),
-      "Read-back contact is missing lead type custom field",
-    );
-    assert(
-      customs["750532"]?.includes(source),
-      "Read-back contact is missing source custom field",
-    );
-    assert(
-      customs["774881"]?.includes(campaign),
-      "Read-back contact is missing campaign custom field",
-    );
-
-    console.log(`Live Forth smoke test passed for contact ${contactId}.`);
-  } finally {
-    if (contactId) {
-      const deleteResponse = await fetch(
-        `${FORTH_API_BASE_URL}/contacts/${contactId}`,
-        {
-          headers: { "Api-Key": apiKey },
-          method: "DELETE",
-        },
-      );
+      const contact = await readContact(apiKey, contactId);
+      const contactText = JSON.stringify(contact);
 
       assert(
-        deleteResponse.ok,
-        `Created test contact ${contactId}, but cleanup delete failed with ${deleteResponse.status}`,
+        contactText.includes(phone),
+        `Read-back contact ${contactId} missing phone ${phone}`,
       );
+    }
+
+    console.log(
+      `Live Forth data-source smoke test passed for contacts ${createdIds.join(
+        ", ",
+      )}.`,
+    );
+  } finally {
+    for (const contactId of createdIds) {
+      await deleteContact(apiKey, contactId);
       console.log(`Deleted live smoke-test contact ${contactId}.`);
     }
   }

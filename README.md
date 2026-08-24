@@ -79,36 +79,21 @@ to production automatically, and PRs should get preview deployments. No
 
 ### Environment variables
 
-The lead form posts to Forth CRM from a server-side route. Configure these in
-Vercel for Production, Preview, and Development:
+The lead form posts to Forth CRM Data Source Post URLs from a server-side route.
+Configure these in Vercel for Production, Preview, and Development:
+
+```bash
+FORTH_HOME_POST_URL=https://login.forthcrm.com/post/4898492146f1f1ffd916dd181e7a42bec35b09d2/
+FORTH_CONTACT_POST_URL=https://login.forthcrm.com/post/2337089719f85c02b5381b45b030a2eb35a1bc7b/
+```
+
+Optional API credentials are only needed for live CRM readback/testing scripts:
 
 ```bash
 FORTH_CLIENT_ID=
 FORTH_CLIENT_SECRET=
 FORTH_API_BASE_URL=https://api.forthcrm.com/v1
-FORTH_LEAD_SOURCE=River Relief Website
-FORTH_LEAD_CAMPAIGN=Website Leads
-FORTH_CREATE_DEBT_RECORDS=true
-FORTH_WEBSITE_INTAKE_CREDITOR_ID=28280013
-FORTH_DEFAULT_DATA_SOURCE_ID=148284
-FORTH_QUALIFY_DATA_SOURCE_ID=148284
-FORTH_HOME_DATA_SOURCE_ID=148675
-FORTH_CONTACT_DATA_SOURCE_ID=148362
-FORTH_CAMPAIGN_ID=
-FORTH_FILE_TYPE_ID=1
-FORTH_STAGE_ID=50518
-FORTH_STATUS_ID=
-FORTH_FIELD_CREDIT_RATING_ID=750644
-FORTH_FIELD_CREDIT_RATING_SELECT_ID=750799
-FORTH_FIELD_MONTHLY_PAYMENT_ID=750800
-FORTH_FIELD_TOTAL_DEBT_ID=750801
-FORTH_FIELD_NET_INCOME_ID=750765
-FORTH_FIELD_TELL_US_MORE_ID=750868
 ```
-
-`FORTH_STAGE_ID=50518` maps new website leads to `River Relief Sales`.
-Set `FORTH_STATUS_ID` to the Forth ID for `Ready To Apply` once that status is
-visible from Forth; the API field name is `statusID`.
 
 ## Lead form testing
 

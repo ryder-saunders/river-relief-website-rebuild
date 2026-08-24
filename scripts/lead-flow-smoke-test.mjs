@@ -6,7 +6,8 @@ import { chromium } from "playwright";
 const APP_ORIGIN = process.env.LEAD_TEST_APP_ORIGIN ?? "http://127.0.0.1:3037";
 const MOCK_FORTH_ORIGIN =
   process.env.LEAD_TEST_MOCK_FORTH_ORIGIN ?? "http://127.0.0.1:4317";
-const MOCK_FORTH_BASE_URL = `${MOCK_FORTH_ORIGIN}/v1`;
+const MOCK_HOME_POST_URL = `${MOCK_FORTH_ORIGIN}/post/home-source/`;
+const MOCK_CONTACT_POST_URL = `${MOCK_FORTH_ORIGIN}/post/contact-source/`;
 
 const formScenarios = [
   {
@@ -131,49 +132,38 @@ function startMockForth() {
     request.on("data", (chunk) => chunks.push(chunk));
     request.on("end", () => {
       const bodyText = Buffer.concat(chunks).toString("utf8");
+      const requestUrl = new URL(request.url ?? "/", MOCK_FORTH_ORIGIN);
       let body;
 
-      try {
-        body = bodyText ? JSON.parse(bodyText) : null;
-      } catch {
-        body = bodyText;
+      if ([...requestUrl.searchParams].length > 0) {
+        body = Object.fromEntries(requestUrl.searchParams);
+      } else if (
+        request.headers["content-type"]?.includes(
+          "application/x-www-form-urlencoded",
+        )
+      ) {
+        body = Object.fromEntries(new URLSearchParams(bodyText));
+      } else {
+        try {
+          body = bodyText ? JSON.parse(bodyText) : null;
+        } catch {
+          body = bodyText;
+        }
       }
 
       requests.push({
         body,
         headers: request.headers,
         method: request.method,
-        url: request.url,
+        url: requestUrl.pathname,
       });
-      response.setHeader("content-type", "application/json");
-
-      if (request.method === "POST" && request.url === "/v1/auth/token") {
-        response.end(
-          JSON.stringify({
-            response: { api_key: "mock-api-key", expires_in: 86_400 },
-            status: { code: 200 },
-          }),
-        );
-        return;
-      }
-
-      if (request.method === "POST" && request.url === "/v1/contacts") {
-        response.end(
-          JSON.stringify({
-            response: { id: 987_654_321 },
-            status: { code: 200 },
-          }),
-        );
-        return;
-      }
-
-      if (request.method === "POST" && request.url === "/v1/debts") {
-        response.end(
-          JSON.stringify({
-            response: { id: 123_456_789 },
-            status: { code: 200 },
-          }),
-        );
+      if (
+        request.method === "POST" &&
+        (requestUrl.pathname === "/post/home-source/" ||
+          requestUrl.pathname === "/post/contact-source/")
+      ) {
+        response.setHeader("content-type", "text/plain");
+        response.end("ok");
         return;
       }
 
@@ -197,14 +187,8 @@ function startNextDev() {
     {
       env: {
         ...process.env,
-        FORTH_API_BASE_URL: MOCK_FORTH_BASE_URL,
-        FORTH_CLIENT_ID: "test-client-id",
-        FORTH_CLIENT_SECRET: "test-client-secret",
-        FORTH_FILE_TYPE_ID: "1",
-        FORTH_LEAD_CAMPAIGN: "Website Leads Test",
-        FORTH_LEAD_SOURCE: "River Relief Website Test",
-        FORTH_STAGE_ID: "50518",
-        FORTH_STATUS_ID: "999001",
+        FORTH_CONTACT_POST_URL: MOCK_CONTACT_POST_URL,
+        FORTH_HOME_POST_URL: MOCK_HOME_POST_URL,
       },
       stdio: ["ignore", "pipe", "pipe"],
     },
@@ -266,12 +250,6 @@ async function completeSurvey(form, values) {
     .getByRole("textbox", { name: "Phone", exact: true })
     .fill(values.phone);
   await form.getByRole("checkbox").check();
-}
-
-function customsById(payload) {
-  return Object.fromEntries(
-    (payload.customs ?? []).map((item) => [item.field_id, item.value?.[0]]),
-  );
 }
 
 async function testFormScenario(page, scenario) {
@@ -517,149 +495,97 @@ async function main() {
       `Console errors: ${consoleErrors.join("; ")}`,
     );
 
+    const homePosts = requests.filter(
+      (request) =>
+        request.method === "POST" && request.url === "/post/home-source/",
+    );
     const contactPosts = requests.filter(
-      (request) => request.method === "POST" && request.url === "/v1/contacts",
-    );
-    const debtPosts = requests.filter(
-      (request) => request.method === "POST" && request.url === "/v1/debts",
+      (request) =>
+        request.method === "POST" && request.url === "/post/contact-source/",
     );
     assert(
-      contactPosts.length === 7,
-      `Expected 7 contact posts, saw ${contactPosts.length}`,
+      homePosts.length === 5,
+      `Expected 5 home data-source posts, saw ${homePosts.length}`,
     );
     assert(
-      debtPosts.length === 5,
-      `Expected 5 debt posts, saw ${debtPosts.length}`,
+      contactPosts.length === 2,
+      `Expected 2 contact data-source posts, saw ${contactPosts.length}`,
     );
 
+    for (const [index, request] of homePosts.entries()) {
+      assert(request.body.FirstName, `Home post ${index} missing FirstName`);
+      assert(request.body.first_name, `Home post ${index} missing first_name`);
+      assert(request.body.LastName, `Home post ${index} missing LastName`);
+      assert(request.body.last_name, `Home post ${index} missing last_name`);
+      assert(
+        request.body.EmailAddress,
+        `Home post ${index} missing EmailAddress`,
+      );
+      assert(request.body.email, `Home post ${index} missing email`);
+      assert(
+        request.body.email_address,
+        `Home post ${index} missing email_address`,
+      );
+      assert(request.body.HomePhone, `Home post ${index} missing HomePhone`);
+      assert(request.body.Phone, `Home post ${index} missing Phone`);
+      assert(
+        request.body.How_much_total_debt_are_you_in,
+        `Home post ${index} missing debt range`,
+      );
+      assert(request.body.State, `Home post ${index} missing State`);
+      assert(request.body.state, `Home post ${index} missing state`);
+      assert(request.body.Net_Income, `Home post ${index} missing Net_Income`);
+      assert(
+        request.body.How_much_is_your_monthly_take_home_pay,
+        `Home post ${index} missing monthly income alias`,
+      );
+      assert(
+        !request.body.Tell_us_more,
+        `Home post ${index} should not include Tell_us_more`,
+      );
+      assert(
+        !request.body.address &&
+          !request.body.address1 &&
+          !request.body.zip &&
+          !request.body.total_debt,
+        `Home post ${index} should not include placeholder address or total_debt`,
+      );
+    }
+
     for (const [index, request] of contactPosts.entries()) {
-      const customs = customsById(request.body);
-      const isContactOnly = request.body.data_source_id === "148362";
+      assert(request.body.FirstName, `Contact post ${index} missing FirstName`);
       assert(
         request.body.first_name,
         `Contact post ${index} missing first_name`,
       );
+      assert(request.body.LastName, `Contact post ${index} missing LastName`);
       assert(request.body.last_name, `Contact post ${index} missing last_name`);
+      assert(
+        request.body.EmailAddress,
+        `Contact post ${index} missing EmailAddress`,
+      );
       assert(request.body.email, `Contact post ${index} missing email`);
       assert(
-        request.body.phone_number,
-        `Contact post ${index} missing phone_number`,
+        request.body.email_address,
+        `Contact post ${index} missing email_address`,
+      );
+      assert(request.body.HomePhone, `Contact post ${index} missing HomePhone`);
+      assert(request.body.Phone, `Contact post ${index} missing Phone`);
+      assert(
+        request.body.Tell_us_more,
+        `Contact post ${index} missing Tell_us_more`,
       );
       assert(
-        request.body.data_source_id,
-        `Contact post ${index} missing data_source_id`,
+        !request.body.How_much_total_debt_are_you_in &&
+          !request.body.State &&
+          !request.body.Net_Income,
+        `Contact post ${index} should only include contact-form data`,
       );
-      assert(
-        request.body.file_type === "1",
-        `Contact post ${index} missing Forth file type`,
-      );
-      assert(
-        request.body.stageID === "50518",
-        `Contact post ${index} missing River Relief Sales stage`,
-      );
-      assert(
-        request.body.statusID === "999001",
-        `Contact post ${index} missing configured Forth status`,
-      );
-      assert(
-        !request.body.total_debt,
-        `Contact post ${index} should not include standard total_debt`,
-      );
-      assert(
-        !customs["749411"],
-        `Contact post ${index} should not include estimated debt custom`,
-      );
-      assert(
-        !customs["750771"],
-        `Contact post ${index} should not include unsecured balance custom`,
-      );
-      assert(
-        !customs["749414"],
-        `Contact post ${index} should not include hardship custom`,
-      );
-      assert(
-        !customs["760271"],
-        `Contact post ${index} should not include State Qualification custom`,
-      );
-      assert(
-        !customs["749418"],
-        `Contact post ${index} should not include lead type custom`,
-      );
-      assert(
-        !customs["750532"],
-        `Contact post ${index} should not include source custom`,
-      );
-      assert(
-        !customs["750639"],
-        `Contact post ${index} should not include lead source custom`,
-      );
-      assert(
-        !customs["760267"],
-        `Contact post ${index} should not include struggling-to-pay custom`,
-      );
-      assert(
-        !customs["774881"],
-        `Contact post ${index} should not include campaign custom`,
-      );
-
-      if (isContactOnly) {
-        assert(
-          !request.body.state,
-          `Contact post ${index} should not include state`,
-        );
-        assert(
-          !request.body.address,
-          `Contact post ${index} should not include address`,
-        );
-        assert(
-          !customs["750801"],
-          `Contact post ${index} should not include debt custom`,
-        );
-        assert(
-          !customs["750765"],
-          `Contact post ${index} should not include Net Income custom`,
-        );
-        assert(
-          customs["750868"]?.includes("long-form") ||
-            customs["750868"]?.includes("Contact API long-form note."),
-          `Contact post ${index} missing contact Tell Us More text`,
-        );
-      } else {
-        assert(request.body.state, `Contact post ${index} missing state`);
-        assert(
-          !request.body.address,
-          `Contact post ${index} should not include address placeholders`,
-        );
-        assert(customs["750801"], `Contact post ${index} missing debt custom`);
-        assert(
-          customs["750765"],
-          `Contact post ${index} missing Net Income custom`,
-        );
-        assert(
-          !customs["750868"],
-          `Contact post ${index} should not include Tell Us More`,
-        );
-      }
-    }
-
-    for (const [index, request] of debtPosts.entries()) {
-      assert(request.body.client_id, `Debt post ${index} missing client_id`);
-      assert(request.body.creditor, `Debt post ${index} missing creditor`);
-      assert(request.body.debt_type, `Debt post ${index} missing debt_type`);
-      assert(
-        request.body.original_debt_amount,
-        `Debt post ${index} missing original_debt_amount`,
-      );
-      assert(
-        request.body.current_debt_amount,
-        `Debt post ${index} missing current_debt_amount`,
-      );
-      assert(request.body.notes, `Debt post ${index} missing notes`);
     }
 
     console.log("Lead flow smoke test passed.");
     console.log(
-      `Verified ${contactPosts.length} contact submissions and ${debtPosts.length} debt records across all forms.`,
+      `Verified ${homePosts.length} home data-source posts and ${contactPosts.length} contact data-source posts across all forms.`,
     );
   } finally {
     mockForth.close();
