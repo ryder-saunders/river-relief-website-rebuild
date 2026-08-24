@@ -385,10 +385,10 @@ export async function createForthLead(lead: ForthLead) {
     phone_number: lead.phone,
     state: lead.stateOfResidence,
     address: {
-      address1: "Address not provided - website state only",
+      address1: "-",
       address2: "",
       address3: "",
-      city: "Not Provided",
+      city: "-",
       state: stateAbbreviation(lead.stateOfResidence),
       zip: "00000",
     },

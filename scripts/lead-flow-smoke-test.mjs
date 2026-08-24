@@ -500,9 +500,13 @@ async function main() {
         `Contact post ${index} missing applicant address state`,
       );
       assert(
-        request.body.address?.address1 ===
-          "Address not provided - website state only",
+        request.body.address?.address1 === "-",
         `Contact post ${index} missing applicant address placeholder`,
+      );
+      assert(
+        request.body.address?.city === "-" &&
+          request.body.address?.zip === "00000",
+        `Contact post ${index} missing neutral required address fields`,
       );
       assert(
         request.body.data_source_id,
