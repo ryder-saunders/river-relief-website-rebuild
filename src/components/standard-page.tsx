@@ -338,7 +338,8 @@ function ContactMessageForm({ theme = "light" }: { theme?: "light" | "dark" }) {
 
   return (
     <form
-      action={siteConfig.funnel.bookingPath}
+      action="/api/leads"
+      method="post"
       className={`rounded-lg p-5 shadow-2xl ${
         dark
           ? "text-brand-grey-dark border border-white/15 bg-white"
@@ -352,6 +353,15 @@ function ContactMessageForm({ theme = "light" }: { theme?: "light" | "dark" }) {
         Share the best way to reach you and anything helpful for the first
         conversation.
       </p>
+      <input type="hidden" name="formType" value="contact" />
+      <input type="hidden" name="landingPage" value="/contact" />
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+      />
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <ContactField label="First name" name="firstName" type="text" />
         <ContactField label="Last name" name="lastName" type="text" />
@@ -365,6 +375,7 @@ function ContactMessageForm({ theme = "light" }: { theme?: "light" | "dark" }) {
         <textarea
           name="tellUsMore"
           rows={5}
+          required
           className="border-brand-grey-light/40 focus:border-brand-blue rounded-md border px-4 py-3 font-normal outline-none"
           placeholder="Tell us what you want help sorting through."
         />
@@ -395,6 +406,7 @@ function ContactField({
       <input
         type={type}
         name={name ?? label.toLowerCase()}
+        required
         className="border-brand-grey-light/40 focus:border-brand-blue rounded-md border px-4 py-3 font-normal outline-none"
       />
     </label>

@@ -3,6 +3,7 @@ import { createForthLead } from "@/lib/forth";
 export const runtime = "nodejs";
 
 type LeadRequest = {
+  formType?: unknown;
   debtType?: unknown;
   debtAmount?: unknown;
   paymentStruggleDuration?: unknown;
@@ -35,16 +36,28 @@ function normalizePhone(value: string) {
 }
 
 export async function POST(request: Request) {
+  const contentType = request.headers.get("content-type") ?? "";
   let body: LeadRequest;
 
   try {
-    body = (await request.json()) as LeadRequest;
+    if (contentType.includes("application/json")) {
+      body = (await request.json()) as LeadRequest;
+    } else {
+      body = Object.fromEntries(await request.formData()) as LeadRequest;
+    }
   } catch {
     return Response.json({ error: "Invalid request body" }, { status: 400 });
   }
 
+  const formType = cleanString(body.formType);
+  const landingPage = cleanString(body.landingPage) || "unknown";
+  const isContactForm =
+    formType === "contact" || landingPage.startsWith("/contact");
+
   if (cleanString(body.website)) {
-    return Response.json({ ok: true });
+    return contentType.includes("application/json")
+      ? Response.json({ ok: true })
+      : Response.redirect(new URL("/book-consultation", request.url), 303);
   }
 
   const lead = {
@@ -63,26 +76,30 @@ export async function POST(request: Request) {
     monthlyPayment: cleanString(body.monthlyPayment),
     totalCreditCardDebt: cleanString(body.totalCreditCardDebt),
     consent: body.consent === true,
-    landingPage: cleanString(body.landingPage) || "unknown",
+    landingPage,
     submittedAt: new Date().toISOString(),
   };
 
-  const requiredStringFields = [
-    "debtAmount",
-    "stateOfResidence",
-    "combineDebt",
-    "monthlyTakeHomePay",
+  const contactFields = [
     "firstName",
     "lastName",
     "email",
     "phone",
     "landingPage",
   ] as const;
+  const surveyFields = [
+    "debtAmount",
+    "stateOfResidence",
+    "combineDebt",
+    "monthlyTakeHomePay",
+    ...contactFields,
+  ] as const;
+  const requiredStringFields = isContactForm ? contactFields : surveyFields;
   const missingFields: string[] = requiredStringFields.filter(
     (key) => lead[key].length === 0,
   );
 
-  if (!lead.consent) {
+  if (!isContactForm && !lead.consent) {
     missingFields.push("consent");
   }
 
@@ -108,5 +125,7 @@ export async function POST(request: Request) {
     );
   }
 
-  return Response.json({ ok: true });
+  return contentType.includes("application/json")
+    ? Response.json({ ok: true })
+    : Response.redirect(new URL("/book-consultation", request.url), 303);
 }

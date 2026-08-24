@@ -300,6 +300,35 @@ async function testFormScenario(page, scenario) {
     .waitFor({ state: "visible", timeout: 10_000 });
 }
 
+async function testContactForm(page) {
+  await page.goto(`${APP_ORIGIN}/contact`, { waitUntil: "networkidle" });
+  const form = page
+    .locator("form")
+    .filter({ has: page.getByRole("heading", { name: "Send a quick note." }) })
+    .first();
+
+  await form
+    .getByRole("textbox", { name: "First name", exact: true })
+    .fill("Smoke");
+  await form
+    .getByRole("textbox", { name: "Last name", exact: true })
+    .fill("Contact");
+  await form
+    .getByRole("textbox", { name: "Email", exact: true })
+    .fill("smoke.contact@example.com");
+  await form
+    .getByRole("textbox", { name: "Phone", exact: true })
+    .fill("(555) 777-8888");
+  await form
+    .getByRole("textbox", { name: "Tell Us More", exact: true })
+    .fill("This is long-form contact page text only.");
+
+  await Promise.all([
+    page.waitForURL("**/book-consultation", { timeout: 10_000 }),
+    form.getByRole("button", { name: "Send Message" }).click(),
+  ]);
+}
+
 async function testUiOptions(page) {
   const debtAmounts = ["$0 - $30,000", "$30,000 - $50,000", "$50,000+"];
   const combineOptions = ["Yes", "No"];
@@ -391,7 +420,17 @@ async function testApiValidation() {
     monthlyTakeHomePay: "$3,000 - $5,000",
     phone: "(555) 111-2222",
     stateOfResidence: "Florida",
-    tellUsMore: "API smoke test note",
+    tellUsMore: "",
+    website: "",
+  };
+  const validContactLead = {
+    email: "api.contact@example.com",
+    firstName: "Api",
+    formType: "contact",
+    landingPage: "/contact",
+    lastName: "Contact",
+    phone: "(555) 111-9999",
+    tellUsMore: "Contact API long-form note.",
     website: "",
   };
 
@@ -406,6 +445,10 @@ async function testApiValidation() {
   };
 
   assert((await postLead(validLead)).status === 200, "Valid API lead failed");
+  assert(
+    (await postLead(validContactLead)).status === 200,
+    "Valid contact API lead failed",
+  );
   assert(
     (await postLead({ ...validLead, phone: "" })).status === 400,
     "Missing phone should fail",
@@ -438,7 +481,10 @@ async function main() {
     });
     const consoleErrors = [];
     page.on("console", (message) => {
-      if (message.type() === "error") {
+      if (
+        message.type() === "error" &&
+        !message.text().includes("requestStorageAccess: Permission denied")
+      ) {
         consoleErrors.push(message.text());
       }
     });
@@ -448,6 +494,7 @@ async function main() {
     for (const scenario of formScenarios) {
       await testFormScenario(page, scenario);
     }
+    await testContactForm(page);
 
     const mobilePage = await browser.newPage({
       viewport: { height: 844, width: 390 },
@@ -474,16 +521,17 @@ async function main() {
       (request) => request.method === "POST" && request.url === "/v1/debts",
     );
     assert(
-      contactPosts.length === 5,
-      `Expected 5 contact posts, saw ${contactPosts.length}`,
+      contactPosts.length === 7,
+      `Expected 7 contact posts, saw ${contactPosts.length}`,
     );
     assert(
-      debtPosts.length === contactPosts.length,
-      `Expected ${contactPosts.length} debt posts, saw ${debtPosts.length}`,
+      debtPosts.length === 5,
+      `Expected 5 debt posts, saw ${debtPosts.length}`,
     );
 
     for (const [index, request] of contactPosts.entries()) {
       const customs = customsById(request.body);
+      const isContactOnly = request.body.data_source_id === "148362";
       assert(
         request.body.first_name,
         `Contact post ${index} missing first_name`,
@@ -494,74 +542,85 @@ async function main() {
         request.body.phone_number,
         `Contact post ${index} missing phone_number`,
       );
-      assert(request.body.state, `Contact post ${index} missing state`);
-      assert(
-        request.body.address?.state,
-        `Contact post ${index} missing applicant address state`,
-      );
-      assert(
-        request.body.address?.address1 === "-",
-        `Contact post ${index} missing applicant address placeholder`,
-      );
-      assert(
-        request.body.address?.city === "-" &&
-          request.body.address?.zip === "00000",
-        `Contact post ${index} missing neutral required address fields`,
-      );
       assert(
         request.body.data_source_id,
         `Contact post ${index} missing data_source_id`,
       );
       assert(
-        request.body.total_debt,
-        `Contact post ${index} missing standard total_debt`,
+        !request.body.address,
+        `Contact post ${index} should not include address`,
       );
       assert(
-        customs["749411"],
-        `Contact post ${index} missing estimated debt custom`,
+        !request.body.total_debt,
+        `Contact post ${index} should not include standard total_debt`,
       );
       assert(
-        customs["750771"],
-        `Contact post ${index} missing unsecured balance custom`,
+        !customs["749411"],
+        `Contact post ${index} should not include estimated debt custom`,
       );
       assert(
-        customs["750868"],
-        `Contact post ${index} missing Tell Us More custom`,
-      );
-      assert(
-        customs["750868"].includes("Website survey summary") &&
-          customs["750868"].includes("Wants to combine debt into one payment"),
-        `Contact post ${index} missing Tell Us More summary`,
+        !customs["750771"],
+        `Contact post ${index} should not include unsecured balance custom`,
       );
       assert(
         !customs["749414"],
         `Contact post ${index} should not include hardship custom`,
       );
       assert(
-        customs["750765"],
-        `Contact post ${index} missing Net Income custom`,
-      );
-      assert(
         !customs["760271"],
         `Contact post ${index} should not include State Qualification custom`,
       );
       assert(
-        customs["749418"] === "debt-consolidation-intake",
-        `Contact post ${index} missing lead type custom`,
-      );
-      assert(customs["750532"], `Contact post ${index} missing source custom`);
-      assert(
-        customs["750639"] === "Website",
-        `Contact post ${index} missing Website lead source custom`,
+        !customs["749418"],
+        `Contact post ${index} should not include lead type custom`,
       );
       assert(
-        customs["760267"] === "Yes",
-        `Contact post ${index} missing struggling-to-pay custom`,
+        !customs["750532"],
+        `Contact post ${index} should not include source custom`,
       );
       assert(
-        customs["774881"],
-        `Contact post ${index} missing campaign custom`,
+        !customs["750639"],
+        `Contact post ${index} should not include lead source custom`,
       );
+      assert(
+        !customs["760267"],
+        `Contact post ${index} should not include struggling-to-pay custom`,
+      );
+      assert(
+        !customs["774881"],
+        `Contact post ${index} should not include campaign custom`,
+      );
+
+      if (isContactOnly) {
+        assert(
+          !request.body.state,
+          `Contact post ${index} should not include state`,
+        );
+        assert(
+          !customs["750801"],
+          `Contact post ${index} should not include debt custom`,
+        );
+        assert(
+          !customs["750765"],
+          `Contact post ${index} should not include Net Income custom`,
+        );
+        assert(
+          customs["750868"]?.includes("long-form") ||
+            customs["750868"]?.includes("Contact API long-form note."),
+          `Contact post ${index} missing contact Tell Us More text`,
+        );
+      } else {
+        assert(request.body.state, `Contact post ${index} missing state`);
+        assert(customs["750801"], `Contact post ${index} missing debt custom`);
+        assert(
+          customs["750765"],
+          `Contact post ${index} missing Net Income custom`,
+        );
+        assert(
+          !customs["750868"],
+          `Contact post ${index} should not include Tell Us More`,
+        );
+      }
     }
 
     for (const [index, request] of debtPosts.entries()) {

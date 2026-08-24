@@ -27,12 +27,12 @@ type ForthLead = {
   creditRating?: string;
   monthlyPayment?: string;
   totalCreditCardDebt?: string;
-  stateOfResidence: string;
+  stateOfResidence?: string;
   debtType?: string;
-  debtAmount: string;
+  debtAmount?: string;
   paymentStruggleDuration?: string;
-  combineDebt: string;
-  monthlyTakeHomePay: string;
+  combineDebt?: string;
+  monthlyTakeHomePay?: string;
   consent: boolean;
   landingPage: string;
   submittedAt: string;
@@ -41,79 +41,14 @@ type ForthLead = {
 const FORTH_API_BASE_URL =
   process.env.FORTH_API_BASE_URL ?? "https://api.forthcrm.com/v1";
 
-const stateAbbreviations: Record<string, string> = {
-  Alabama: "AL",
-  Alaska: "AK",
-  Arizona: "AZ",
-  Arkansas: "AR",
-  California: "CA",
-  Colorado: "CO",
-  Connecticut: "CT",
-  Delaware: "DE",
-  Florida: "FL",
-  Georgia: "GA",
-  Hawaii: "HI",
-  Idaho: "ID",
-  Illinois: "IL",
-  Indiana: "IN",
-  Iowa: "IA",
-  Kansas: "KS",
-  Kentucky: "KY",
-  Louisiana: "LA",
-  Maine: "ME",
-  Maryland: "MD",
-  Massachusetts: "MA",
-  Michigan: "MI",
-  Minnesota: "MN",
-  Mississippi: "MS",
-  Missouri: "MO",
-  Montana: "MT",
-  Nebraska: "NE",
-  Nevada: "NV",
-  "New Hampshire": "NH",
-  "New Jersey": "NJ",
-  "New Mexico": "NM",
-  "New York": "NY",
-  "North Carolina": "NC",
-  "North Dakota": "ND",
-  Ohio: "OH",
-  Oklahoma: "OK",
-  Oregon: "OR",
-  Pennsylvania: "PA",
-  "Rhode Island": "RI",
-  "South Carolina": "SC",
-  "South Dakota": "SD",
-  Tennessee: "TN",
-  Texas: "TX",
-  Utah: "UT",
-  Vermont: "VT",
-  Virginia: "VA",
-  Washington: "WA",
-  "West Virginia": "WV",
-  Wisconsin: "WI",
-  Wyoming: "WY",
-};
-
 const forthFields = {
-  estimatedDebt: process.env.FORTH_FIELD_ESTIMATED_DEBT_ID ?? "749411",
-  leadType: process.env.FORTH_FIELD_LEAD_TYPE_ID ?? "749418",
-  leadSource: process.env.FORTH_FIELD_LEAD_SOURCE_ID ?? "750639",
-  originalDataSource:
-    process.env.FORTH_FIELD_ORIGINAL_DATA_SOURCE_ID ?? "750532",
-  utmCampaign: process.env.FORTH_FIELD_UTM_CAMPAIGN_ID ?? "774881",
   creditRating: process.env.FORTH_FIELD_CREDIT_RATING_ID ?? "750644",
   creditRatingSelect:
     process.env.FORTH_FIELD_CREDIT_RATING_SELECT_ID ?? "750799",
   monthlyPayment: process.env.FORTH_FIELD_MONTHLY_PAYMENT_ID ?? "750800",
   totalDebt: process.env.FORTH_FIELD_TOTAL_DEBT_ID ?? "750801",
-  balanceOfUnsecuredAccounts:
-    process.env.FORTH_FIELD_BALANCE_OF_UNSECURED_ACCOUNTS_ID ?? "750771",
   netIncome: process.env.FORTH_FIELD_NET_INCOME_ID ?? "750765",
-  strugglingToMakePayments:
-    process.env.FORTH_FIELD_STRUGGLING_TO_MAKE_PAYMENTS_ID ?? "760267",
   tellUsMore: process.env.FORTH_FIELD_TELL_US_MORE_ID ?? "750868",
-  totalCreditCardDebt:
-    process.env.FORTH_FIELD_TOTAL_CREDIT_CARD_DEBT_ID ?? "754651",
 } as const;
 
 let cachedToken: { value: string; expiresAt: number } | undefined;
@@ -168,27 +103,18 @@ async function getForthAccessToken() {
 function leadNote(lead: ForthLead) {
   return [
     "River Relief website lead",
-    `Debt amount: ${lead.debtAmount}`,
-    `State of residence: ${lead.stateOfResidence}`,
-    `Combine debt into one payment: ${lead.combineDebt}`,
-    `Monthly take-home pay: ${lead.monthlyTakeHomePay}`,
-    `Tell Us More summary: ${tellUsMoreSummary(lead)}`,
+    ...(lead.debtAmount ? [`Debt amount: ${lead.debtAmount}`] : []),
+    ...(lead.stateOfResidence
+      ? [`State of residence: ${lead.stateOfResidence}`]
+      : []),
+    ...(lead.combineDebt
+      ? [`Combine debt into one payment: ${lead.combineDebt}`]
+      : []),
+    ...(lead.monthlyTakeHomePay
+      ? [`Monthly take-home pay: ${lead.monthlyTakeHomePay}`]
+      : []),
+    ...(lead.tellUsMore ? [`Tell Us More: ${lead.tellUsMore}`] : []),
     `Submitted at: ${lead.submittedAt}`,
-  ].join("\n");
-}
-
-function tellUsMoreSummary(lead: ForthLead) {
-  if (lead.paymentStruggleDuration) {
-    return lead.paymentStruggleDuration;
-  }
-
-  return [
-    "Website survey summary",
-    `Debt amount: ${lead.debtAmount}`,
-    `State of residence: ${lead.stateOfResidence}`,
-    `Wants to combine debt into one payment: ${lead.combineDebt}`,
-    `Monthly take-home pay: ${lead.monthlyTakeHomePay}`,
-    ...(lead.tellUsMore ? [`Visitor note: ${lead.tellUsMore}`] : []),
   ].join("\n");
 }
 
@@ -226,11 +152,11 @@ function optionalCustom(fieldId: string, value: string | undefined) {
   return { field_id: fieldId, value: [cleanValue] };
 }
 
-function stateAbbreviation(state: string) {
-  return stateAbbreviations[state] ?? state;
-}
+function debtAmountEstimate(debtAmount: string | undefined) {
+  if (!debtAmount) {
+    return null;
+  }
 
-function debtAmountEstimate(debtAmount: string) {
   if (debtAmount.includes("$30,000") && debtAmount.includes("$50,000")) {
     return 40_000;
   }
@@ -248,22 +174,6 @@ function debtAmountEstimate(debtAmount: string) {
   return Number.isFinite(parsedAmount) && parsedAmount > 0
     ? parsedAmount
     : null;
-}
-
-function estimatedDebtOption(debtAmount: string) {
-  if (debtAmount.includes("$30,000") && debtAmount.includes("$50,000")) {
-    return "$30,000 - $40,000";
-  }
-
-  if (debtAmount.includes("$0") && debtAmount.includes("$30,000")) {
-    return "$20,000 - $30,000";
-  }
-
-  if (debtAmount.includes("$50,000")) {
-    return "$50,000 - $60,000";
-  }
-
-  return "";
 }
 
 function debtTypeId(debtType: string | undefined) {
@@ -301,33 +211,15 @@ function websiteIntakeCreditorId() {
 }
 
 function contactCustoms(lead: ForthLead) {
-  const totalCreditCardDebt =
-    lead.totalCreditCardDebt ||
-    (lead.debtType === "Credit Card Debt" ? lead.debtAmount : "");
-
   return [
-    optionalCustom(
-      forthFields.estimatedDebt,
-      estimatedDebtOption(lead.debtAmount),
-    ),
     optionalCustom(forthFields.totalDebt, lead.debtAmount),
-    optionalCustom(forthFields.balanceOfUnsecuredAccounts, lead.debtAmount),
-    optionalCustom(forthFields.totalCreditCardDebt, totalCreditCardDebt),
     optionalCustom(forthFields.netIncome, lead.monthlyTakeHomePay),
     optionalCustom(forthFields.monthlyPayment, lead.monthlyPayment),
     optionalCustom(forthFields.creditRating, lead.creditRating),
     optionalCustom(forthFields.creditRatingSelect, lead.creditRating),
-    optionalCustom(forthFields.tellUsMore, tellUsMoreSummary(lead)),
-    optionalCustom(forthFields.leadType, "debt-consolidation-intake"),
-    optionalCustom(forthFields.leadSource, "Website"),
-    optionalCustom(forthFields.strugglingToMakePayments, "Yes"),
     optionalCustom(
-      forthFields.originalDataSource,
-      process.env.FORTH_LEAD_SOURCE ?? "River Relief Website",
-    ),
-    optionalCustom(
-      forthFields.utmCampaign,
-      process.env.FORTH_LEAD_CAMPAIGN ?? "Website Leads",
+      forthFields.tellUsMore,
+      lead.tellUsMore || lead.paymentStruggleDuration,
     ),
   ].filter((custom) => custom !== null);
 }
@@ -351,10 +243,18 @@ async function createForthDebt(
     current_debt_amount: estimatedAmount,
     notes: [
       `Debt Type: ${debtTypeLabel(lead.debtType)}`,
-      `Website selected debt amount: ${lead.debtAmount}`,
-      `State of residence: ${lead.stateOfResidence}`,
-      `Combine debt into one payment: ${lead.combineDebt}`,
-      `Monthly take-home pay: ${lead.monthlyTakeHomePay}`,
+      ...(lead.debtAmount
+        ? [`Website selected debt amount: ${lead.debtAmount}`]
+        : []),
+      ...(lead.stateOfResidence
+        ? [`State of residence: ${lead.stateOfResidence}`]
+        : []),
+      ...(lead.combineDebt
+        ? [`Combine debt into one payment: ${lead.combineDebt}`]
+        : []),
+      ...(lead.monthlyTakeHomePay
+        ? [`Monthly take-home pay: ${lead.monthlyTakeHomePay}`]
+        : []),
     ].join("\n"),
   };
 
@@ -377,25 +277,13 @@ async function createForthDebt(
 
 export async function createForthLead(lead: ForthLead) {
   const apiKey = await getForthAccessToken();
-  const estimatedDebtAmount = debtAmountEstimate(lead.debtAmount);
   const payload = {
     first_name: lead.firstName,
     last_name: lead.lastName,
     email: lead.email,
     phone_number: lead.phone,
-    state: lead.stateOfResidence,
-    address: {
-      address1: "-",
-      address2: "",
-      address3: "",
-      city: "-",
-      state: stateAbbreviation(lead.stateOfResidence),
-      zip: "00000",
-    },
+    ...(lead.stateOfResidence ? { state: lead.stateOfResidence } : {}),
     data_source_id: contactDataSourceId(lead.landingPage),
-    ...(estimatedDebtAmount ? { total_debt: estimatedDebtAmount } : {}),
-    source: process.env.FORTH_LEAD_SOURCE ?? "River Relief Website",
-    campaign: process.env.FORTH_LEAD_CAMPAIGN ?? "Website Leads",
     ...(process.env.FORTH_CAMPAIGN_ID
       ? { campaign_id: process.env.FORTH_CAMPAIGN_ID }
       : {}),
