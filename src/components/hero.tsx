@@ -26,7 +26,7 @@ export function Hero() {
             <p className="text-sm leading-6">“{hero.testimonial.quote}”</p>
           </div>
           <h1 className="max-w-3xl text-5xl leading-tight font-semibold text-balance sm:text-6xl">
-            {hero.heading}
+            <HeroHeading heading={hero.heading} />
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/80">
             {hero.subheading}
@@ -86,6 +86,28 @@ export function Hero() {
       </div>
     </section>
   );
+}
+
+function HeroHeading({ heading }: { heading: string }) {
+  return heading.split("\n").map((line) => {
+    const [firstWord, ...rest] = line.split(" ");
+    const shouldUnderline =
+      firstWord.toLowerCase() === "relief" ||
+      firstWord.toLowerCase() === "solutions";
+
+    return (
+      <span key={line} className="block">
+        {shouldUnderline ? (
+          <span className="underline decoration-white/70 decoration-2 underline-offset-6">
+            {firstWord}
+          </span>
+        ) : (
+          firstWord
+        )}
+        {rest.length > 0 ? ` ${rest.join(" ")}` : null}
+      </span>
+    );
+  });
 }
 
 function HeroHighlights({

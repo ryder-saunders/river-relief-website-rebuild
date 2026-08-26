@@ -144,7 +144,7 @@ export const siteConfig = {
 
   hero: {
     eyebrow: "Faith based debt help",
-    heading: "A path out of credit card debt.",
+    heading: "Relief you can trust.\nSolutions you can believe in.",
     subheading:
       "Private Financial Stewardship for lowering payment pressure and finding the next right step.",
     backgroundImage: {
@@ -152,7 +152,7 @@ export const siteConfig = {
       position: "center",
     },
     primaryCta: { label: "Qualify For Debt Relief", href: "/qualify" },
-    headerCta: { label: "Qualify Today", href: "/qualify" },
+    headerCta: { label: "Book a Call", href: "/book-consultation" },
     secondaryCta: { label: "Talk With Us", href: "/contact" },
     trustLine: "Free review. No pressure. Promise over profit.",
     testimonial: {
@@ -252,7 +252,7 @@ export const siteConfig = {
       },
       {
         title: "Talk through options",
-        description: "A lending manager explains the path clearly.",
+        description: "A Senior Financial Consultant explains the path clearly.",
         note: "You can call first if you would rather talk.",
       },
     ],
@@ -287,7 +287,7 @@ export const siteConfig = {
       },
       {
         title: "Call first",
-        description: "Speak with a lending manager.",
+        description: "Speak with a Senior Financial Consultant.",
         supportText:
           "Ask practical questions first, then decide if the online review feels like the right next step.",
         cta: { label: "Call Now", href: "tel:8005201758" },
