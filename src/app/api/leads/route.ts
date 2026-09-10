@@ -1,3 +1,4 @@
+import { track } from "@vercel/analytics/server";
 import { createForthLead } from "@/lib/forth";
 
 export const runtime = "nodejs";
@@ -33,6 +34,33 @@ function isEmail(value: string) {
 
 function normalizePhone(value: string) {
   return value.replace(/[^\d+]/g, "");
+}
+
+async function trackLeadSubmission({
+  formType,
+  landingPage,
+  request,
+}: {
+  formType: string;
+  landingPage: string;
+  request: Request;
+}) {
+  try {
+    await track(
+      "Lead Form Submitted",
+      {
+        form_type: formType,
+        landing_page: landingPage,
+      },
+      {
+        request: {
+          headers: request.headers,
+        },
+      },
+    );
+  } catch (error) {
+    console.warn("Unable to track lead submission", error);
+  }
 }
 
 export async function POST(request: Request) {
@@ -124,6 +152,12 @@ export async function POST(request: Request) {
       { status: 502 },
     );
   }
+
+  await trackLeadSubmission({
+    formType: isContactForm ? "contact" : "survey",
+    landingPage,
+    request,
+  });
 
   return contentType.includes("application/json")
     ? Response.json({ ok: true })

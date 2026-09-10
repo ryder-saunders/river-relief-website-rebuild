@@ -5,6 +5,7 @@ import {
   PhoneIcon,
   ShieldCheckIcon,
 } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
 import { siteConfig } from "@/lib/site-config";
 
 type LegalPageContent =
@@ -38,13 +39,15 @@ export function LegalPage({ content }: { content: LegalPageContent }) {
               Review the basics, then call River Relief if you prefer a person
               before sharing details online.
             </p>
-            <a
+            <TrackedLink
               href={content.cta.href}
+              conversionType="call"
+              location="legal_page_hero"
               className="glow-cta text-brand-blue mt-5 inline-flex w-full items-center justify-center rounded-md bg-white px-5 py-3 text-center text-sm font-bold"
             >
               <PhoneIcon className="mr-2 h-4 w-4" />
               {content.cta.label}
-            </a>
+            </TrackedLink>
           </div>
         </div>
       </section>
@@ -86,13 +89,15 @@ export function LegalPage({ content }: { content: LegalPageContent }) {
                 ),
               )}
             </ul>
-            <a
+            <TrackedLink
               href={content.cta.href}
+              conversionType="call"
+              location="legal_page_aside"
               className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue mt-5 inline-flex w-full items-center justify-center rounded-md px-5 py-3 text-center text-sm font-bold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               {content.cta.label}
               <ArrowRightIcon className="ml-2 h-4 w-4" />
-            </a>
+            </TrackedLink>
             <div className="relative mt-5 min-h-56 overflow-hidden rounded-lg shadow-lg">
               <Image
                 src="/brand/generated/v006/resources-guidance-compact-hero-v006.png"

@@ -9,6 +9,7 @@ import {
   RotateCcwIcon,
   UserIcon,
 } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
 import { siteConfig } from "@/lib/site-config";
 
 const chatContent = siteConfig.demoComponents.specialistChat;
@@ -226,13 +227,15 @@ export function SpecialistChatDemo() {
                         {chatContent.nextStepBody}
                       </p>
                       <div className="mt-5 flex flex-col gap-2 sm:flex-row">
-                        <a
+                        <TrackedLink
                           href={chatContent.qualifyCta.href}
+                          conversionType="qualify"
+                          location="specialist_chat_demo"
                           className="bg-brand-blue inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5"
                         >
                           {chatContent.qualifyCta.label}
                           <ArrowRightIcon className="h-4 w-4" />
-                        </a>
+                        </TrackedLink>
                         <button
                           type="button"
                           onClick={resetChat}

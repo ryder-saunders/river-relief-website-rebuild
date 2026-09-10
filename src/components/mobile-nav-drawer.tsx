@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowRightIcon, MenuIcon, PhoneIcon, XIcon } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
 import { siteConfig } from "@/lib/site-config";
 
 export function MobileNavDrawer() {
@@ -78,21 +79,25 @@ export function MobileNavDrawer() {
           </nav>
 
           <div className="mt-8 grid gap-3">
-            <a
+            <TrackedLink
               href={siteConfig.contact.callCta.href}
+              conversionType="call"
+              location="mobile_drawer"
               onClick={close}
               className="border-brand-blue/20 text-brand-blue inline-flex items-center justify-center rounded-md border bg-white px-5 py-3 text-sm font-bold"
             >
               <PhoneIcon className="mr-2 h-4 w-4" />
               {siteConfig.contact.phone}
-            </a>
-            <a
+            </TrackedLink>
+            <TrackedLink
               href={siteConfig.hero.headerCta.href}
+              conversionType="book_call"
+              location="mobile_drawer"
               onClick={close}
               className="bg-brand-blue inline-flex items-center justify-center rounded-md px-5 py-3 text-sm font-bold text-white"
             >
               {siteConfig.hero.headerCta.label}
-            </a>
+            </TrackedLink>
           </div>
         </aside>
       )}

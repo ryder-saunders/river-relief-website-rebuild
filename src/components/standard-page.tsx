@@ -7,6 +7,8 @@ import {
   ShieldCheckIcon,
 } from "@/components/icons";
 import { TrustBadges } from "@/components/trust-badges";
+import { TrackedLink } from "@/components/tracked-link";
+import { conversionTypeForHref } from "@/lib/analytics-events";
 import { siteConfig } from "@/lib/site-config";
 
 type StandardPageContent =
@@ -425,12 +427,14 @@ function FaqAnswer({ answer }: { answer: string }) {
   return (
     <p className="text-brand-grey-mid mt-2 leading-7">
       {before}
-      <a
+      <TrackedLink
         href="tel:8005201758"
+        conversionType="call"
+        location="standard_page_faq_answer"
         className="text-brand-blue font-semibold hover:underline"
       >
         {phone}
-      </a>
+      </TrackedLink>
       {after}
     </p>
   );
@@ -456,13 +460,15 @@ function PageCta({
   }[variant];
 
   return (
-    <a
+    <TrackedLink
       href={cta.href}
+      conversionType={conversionTypeForHref(cta.href)}
+      location="standard_page_cta"
       className={`${classes} inline-flex items-center justify-center rounded-md px-6 py-3 text-center text-base font-bold transition focus-visible:outline-2 focus-visible:outline-offset-2`}
     >
       {isPhone && <PhoneIcon className="mr-2 h-4 w-4" />}
       {cta.label}
       {!isPhone && <ArrowRightIcon className="ml-2 h-4 w-4" />}
-    </a>
+    </TrackedLink>
   );
 }

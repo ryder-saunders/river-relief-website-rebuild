@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRightIcon, CheckIcon, PhoneIcon } from "@/components/icons";
 import { TrustBadges } from "@/components/trust-badges";
+import { TrackedLink } from "@/components/tracked-link";
 import { WebPageStructuredData } from "@/components/structured-data";
 import { siteConfig } from "@/lib/site-config";
 import { metadataForPath } from "@/lib/seo";
@@ -37,13 +38,15 @@ export default function ReviewCompletePage() {
             </span>
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <a
+            <TrackedLink
               href={completion.callCta.href}
+              conversionType="call"
+              location="review_complete_page"
               className="text-brand-blue inline-flex items-center justify-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-bold transition-transform hover:-translate-y-0.5"
             >
               <PhoneIcon className="h-4 w-4" />
               {completion.callCta.label}
-            </a>
+            </TrackedLink>
             <Link
               href={completion.primaryCta.href}
               className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-white/10"

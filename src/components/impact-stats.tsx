@@ -1,4 +1,5 @@
 import { ArrowRightIcon } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
 import { siteConfig } from "@/lib/site-config";
 
 export function ImpactStats() {
@@ -35,13 +36,15 @@ export function ImpactStats() {
         <p className="text-brand-grey-mid mt-4 max-w-3xl text-xs leading-6">
           {impact.note}
         </p>
-        <a
+        <TrackedLink
           href={impact.cta.href}
+          conversionType="qualify"
+          location="impact_section"
           className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue mt-5 inline-flex items-center justify-center rounded-md px-6 py-3 text-base font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           {impact.cta.label}
           <ArrowRightIcon className="ml-2 h-4 w-4" />
-        </a>
+        </TrackedLink>
         <p className="text-brand-grey-mid mt-4 max-w-lg text-sm leading-6">
           {siteConfig.scriptureLines.impact.text}{" "}
           <span className="text-brand-grey-dark font-semibold">

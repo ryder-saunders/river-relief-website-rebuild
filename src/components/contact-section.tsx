@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { HandHeartIcon, PhoneIcon, ShieldCheckIcon } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
 import { TrustBadges } from "@/components/trust-badges";
 import { siteConfig } from "@/lib/site-config";
 
@@ -78,19 +79,23 @@ export function ContactSection() {
             </div>
           </div>
           <div className="mt-6 grid gap-3">
-            <a
+            <TrackedLink
               href={contact.callCta.href}
+              conversionType="call"
+              location="contact_section"
               className="glow-cta border-brand-accent/35 text-brand-blue focus-visible:outline-brand-blue inline-flex items-center justify-center rounded-md border bg-white px-6 py-3 text-base font-bold transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               <PhoneIcon className="mr-2 h-4 w-4" />
               {contact.phone}
-            </a>
-            <a
+            </TrackedLink>
+            <TrackedLink
               href={contact.cta.href}
+              conversionType="qualify"
+              location="contact_section"
               className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue inline-flex items-center justify-center rounded-md px-6 py-3 text-base font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               {contact.cta.label}
-            </a>
+            </TrackedLink>
           </div>
           <div className="mt-6">
             <TrustBadges compact />

@@ -5,6 +5,8 @@ import {
   PhoneIcon,
   ShieldCheckIcon,
 } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
+import { conversionTypeForHref } from "@/lib/analytics-events";
 import { siteConfig } from "@/lib/site-config";
 
 const actionIcons = [ShieldCheckIcon, PhoneIcon, HandHeartIcon];
@@ -52,13 +54,15 @@ export function GetInvolvedSection() {
                     </p>
                   </div>
                 </div>
-                <a
+                <TrackedLink
                   href={action.cta.href}
+                  conversionType={conversionTypeForHref(action.cta.href)}
+                  location={`get_involved_${action.title.toLowerCase().replace(/\W+/g, "_")}`}
                   className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue border-brand-accent/35 mt-6 inline-flex items-center justify-center rounded-md border px-5 py-2.5 text-center text-sm font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
                   {action.cta.label}
                   <ArrowRightIcon className="ml-2 h-4 w-4" />
-                </a>
+                </TrackedLink>
                 <p className="text-brand-grey-mid mt-5 text-sm leading-6">
                   {action.supportText}
                 </p>

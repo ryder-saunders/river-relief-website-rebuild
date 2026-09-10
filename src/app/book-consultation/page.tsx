@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { CalendlyAnalytics } from "@/components/calendly-analytics";
 import {
   CalendarIcon,
   CheckIcon,
@@ -6,6 +7,7 @@ import {
   PhoneIcon,
   ShieldCheckIcon,
 } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
 import { TrustBadges } from "@/components/trust-badges";
 import { WebPageStructuredData } from "@/components/structured-data";
 import { siteConfig } from "@/lib/site-config";
@@ -54,6 +56,7 @@ export default function BookConsultationPage() {
                   data-url={booking.calendlyUrl}
                   style={{ height: 760 }}
                 />
+                <CalendlyAnalytics location="book_consultation_page" />
                 <Script
                   src={booking.calendlyScriptSrc}
                   strategy="afterInteractive"
@@ -82,8 +85,10 @@ export default function BookConsultationPage() {
             )}
 
             <div className="flex justify-center">
-              <a
+              <TrackedLink
                 href={booking.callCta.href}
+                conversionType="call"
+                location="book_consultation_page"
                 className="text-brand-blue inline-flex flex-col items-center justify-center rounded-md bg-white px-6 py-4 text-center transition-transform hover:-translate-y-0.5"
               >
                 <span className="text-brand-grey-mid text-xs font-bold tracking-wide uppercase">
@@ -93,7 +98,7 @@ export default function BookConsultationPage() {
                   <PhoneIcon className="h-4 w-4" />
                   {booking.callCta.label}
                 </span>
-              </a>
+              </TrackedLink>
             </div>
           </div>
         </div>

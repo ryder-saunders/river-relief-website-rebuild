@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { CalendarIcon } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
 import { TrustBadges } from "@/components/trust-badges";
 import { siteConfig } from "@/lib/site-config";
 
@@ -33,13 +34,15 @@ export function SiteFooter() {
               ))}
             </div>
           )}
-          <a
+          <TrackedLink
             href={siteConfig.hero.headerCta.href}
+            conversionType="book_call"
+            location="footer"
             className="text-brand-blue border-brand-accent/30 inline-flex items-center justify-center gap-2 rounded-md border bg-white px-5 py-3 text-sm font-bold transition-transform hover:-translate-y-0.5"
           >
             <CalendarIcon className="h-4 w-4" />
             {siteConfig.hero.headerCta.label}
-          </a>
+          </TrackedLink>
         </div>
         <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <TrustBadges theme="dark" compact />

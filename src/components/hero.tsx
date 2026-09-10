@@ -1,6 +1,7 @@
 import { CheckIcon, QuoteIcon, ShieldCheckIcon } from "@/components/icons";
 import { SbsSurvey } from "@/components/sbs-survey";
 import { TrustBadges } from "@/components/trust-badges";
+import { TrackedLink } from "@/components/tracked-link";
 import { siteConfig } from "@/lib/site-config";
 
 export function Hero() {
@@ -32,18 +33,22 @@ export function Hero() {
             {hero.subheading}
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <a
+            <TrackedLink
               href={hero.primaryCta.href}
+              conversionType="qualify"
+              location="hero_primary"
               className="glow-cta text-brand-blue border-brand-accent/35 inline-flex items-center justify-center rounded-md border bg-white px-6 py-3 text-base font-bold transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               {hero.primaryCta.label}
-            </a>
-            <a
+            </TrackedLink>
+            <TrackedLink
               href={hero.secondaryCta.href}
+              conversionType="contact"
+              location="hero_secondary"
               className="inline-flex items-center justify-center rounded-md border border-white/20 bg-white/10 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               {hero.secondaryCta.label}
-            </a>
+            </TrackedLink>
           </div>
           <p className="mt-5 flex items-center gap-2 text-sm text-white/75">
             <ShieldCheckIcon className="text-brand-tan h-4 w-4 shrink-0" />

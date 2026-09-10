@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronDownIcon, PhoneIcon } from "@/components/icons";
 import { MobileNavDrawer } from "@/components/mobile-nav-drawer";
+import { TrackedLink } from "@/components/tracked-link";
 import { siteConfig } from "@/lib/site-config";
 
 export function SiteHeader() {
@@ -50,19 +51,23 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex shrink-0 items-center gap-2">
-          <a
+          <TrackedLink
             href={siteConfig.contact.callCta.href}
+            conversionType="call"
+            location="desktop_header"
             className="hidden items-center gap-2 rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-white/90 transition-colors hover:bg-white/10 sm:inline-flex"
           >
             <PhoneIcon className="h-4 w-4" />
             {siteConfig.contact.phone}
-          </a>
-          <a
+          </TrackedLink>
+          <TrackedLink
             href={siteConfig.hero.headerCta.href}
+            conversionType="book_call"
+            location="desktop_header"
             className="glow-cta text-brand-blue border-brand-accent/30 inline-flex rounded-md border bg-white px-4 py-2.5 text-sm font-bold transition-transform hover:-translate-y-0.5 sm:px-5"
           >
             {siteConfig.hero.headerCta.label}
-          </a>
+          </TrackedLink>
           <MobileNavDrawer />
         </div>
       </div>

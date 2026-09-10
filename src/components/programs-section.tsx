@@ -4,6 +4,7 @@ import {
   LandmarkIcon,
   ShieldCheckIcon,
 } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
 import { siteConfig } from "@/lib/site-config";
 
 const stepIcons = [HandHeartIcon, ShieldCheckIcon, LandmarkIcon];
@@ -26,13 +27,15 @@ export function ProgramsSection() {
               {programs.body}
             </p>
           </div>
-          <a
+          <TrackedLink
             href={programs.cta.href}
+            conversionType="qualify"
+            location="programs_section"
             className="glow-cta text-brand-blue inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-bold transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {programs.cta.label}
             <ArrowRightIcon className="ml-2 h-4 w-4" />
-          </a>
+          </TrackedLink>
         </div>
         <div className="mt-10 grid gap-8 sm:grid-cols-3">
           {programs.items.map((program, index) => (

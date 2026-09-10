@@ -1,4 +1,5 @@
 import { CheckIcon, PhoneIcon } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
 import { siteConfig } from "@/lib/site-config";
 
 export function FitSection() {
@@ -25,19 +26,23 @@ export function FitSection() {
               {fit.body}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
+              <TrackedLink
                 href={fit.cta.href}
+                conversionType="qualify"
+                location="fit_section_primary"
                 className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue inline-flex items-center justify-center rounded-md px-6 py-3 text-base font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
               >
                 {fit.cta.label}
-              </a>
-              <a
+              </TrackedLink>
+              <TrackedLink
                 href={fit.secondaryCta.href}
+                conversionType="contact"
+                location="fit_section_secondary"
                 className="border-brand-accent/35 text-brand-blue hover:border-brand-accent focus-visible:outline-brand-blue inline-flex items-center justify-center rounded-md border bg-white px-6 py-3 text-base font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
               >
                 <PhoneIcon className="mr-2 h-4 w-4" />
                 {fit.secondaryCta.label}
-              </a>
+              </TrackedLink>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3 sm:gap-5">

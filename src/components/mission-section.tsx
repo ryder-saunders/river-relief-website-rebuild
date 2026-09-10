@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { CheckIcon, UserIcon } from "@/components/icons";
+import { TrackedLink } from "@/components/tracked-link";
 import { siteConfig } from "@/lib/site-config";
 
 export function MissionSection() {
@@ -18,8 +19,10 @@ export function MissionSection() {
             <h2 className="text-brand-grey-dark max-w-xl text-3xl leading-tight font-semibold text-balance sm:text-4xl">
               {mission.heading}
             </h2>
-            <a
+            <TrackedLink
               href={mission.cta.href}
+              conversionType="qualify"
+              location="mission_section"
               className="bg-brand-blue hover:bg-brand-blue/90 focus-visible:outline-brand-blue border-brand-accent/35 mt-6 inline-flex items-center justify-center rounded-md border px-4 py-3 text-center text-sm font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-6 sm:text-base lg:mt-8"
             >
               <span className="flex flex-col items-center leading-tight">
@@ -28,7 +31,7 @@ export function MissionSection() {
                   {mission.cta.sublabel}
                 </span>
               </span>
-            </a>
+            </TrackedLink>
           </div>
           <div className="shadow-brand-blue/10 relative aspect-[3/4] overflow-hidden rounded-lg shadow-xl lg:mt-8 lg:aspect-[4/3]">
             <Image
